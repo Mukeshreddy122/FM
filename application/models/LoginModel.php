@@ -23,10 +23,10 @@ class LoginModel extends CI_Model
     // return $this->apiresponse->getApiResponse($response->status_code, $response->body);
     return $this->apiresponse->getLoginApiResponse($response);
   }
-  // public function getSettings($param)
-  // {
-  //   $response = WpOrg\Requests\Requests::GET($this->url . "settings", array(), $param, $this->apirequests->auth());
-
-  //   return $this->apiresponse->getApiResponse($response);
-  // }
+  public function getSettings($param)
+  {
+    $response = WpOrg\Requests\Requests::GET($this->url . "settings", $this->headers, $this->apirequests->auth());
+// print_r($response->body);die;
+    return $this->apiresponse->getApiResponse($response->status_code, $response->body);
+  }
 }

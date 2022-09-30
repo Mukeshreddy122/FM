@@ -20,7 +20,7 @@
                                 <th>No. of Employees</th>
                                 <!-- <th>VAT Number</th> -->
                                 <th>Visit Address</th>
-                               
+
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -44,10 +44,12 @@
                                 // } else {
                                 //     echo "<td class='custType'>NA</td>";
                                 // }
-                                if (array_key_exists('CustomerIndustry', $customer)) {
-                                    echo "<td class='custIndustry'>{$customer['CustomerIndustry']}</td>";
-                                } else {
-                                    echo "<td class='custIndustry'>NA</td>";
+                                if ($_SESSION['customerIndustry'] == 1) {
+                                    if (array_key_exists('CustomerIndustry', $customer)) {
+                                        echo "<td class='custIndustry'>{$customer['CustomerIndustry']}</td>";
+                                    } else {
+                                        echo "<td class='custIndustry'>NA</td>";
+                                    }
                                 }
                                 if (array_key_exists('No. of Employees', $customer)) {
                                     echo "<td class='custEmployees'>{$customer['No. of Employees']}</td>";
@@ -135,48 +137,69 @@
                                         </div>
                                     </div>
                                     -->
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label">Type of company</label>
-                                        <input type="text" placeholder="Type of company" id="typeOfCompany" name="typeOfCompany" required class="form-control" />
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label">Industry</label>
-                                        <input type="text" placeholder="Industry" id="industry" name="industry" required class="form-control" />
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label">No. of Employees</label>
-                                        <input type="number" placeholder="No. of Employees" id="numberOfEmployees" name="numberOfEmployees" required class="form-control" />
-                                    </div>
+                                    <?php if ($_SESSION['customerTypeOfCompany']) { ?>
+
+                                        <div class="col-sm-3">
+                                            <label class="form-control-label">Type of company</label>
+                                            <input type="text" placeholder="Type of company" id="typeOfCompany" name="typeOfCompany" required class="form-control" />
+                                        </div>
+                                    <?php } ?>
+
+                                    <?php if ($_SESSION['customerIndustry']) { ?>
+                                        <div class="col-sm-3">
+                                            <label class="form-control-label">Industry</label>
+                                            <input type="text" placeholder="Industry" id="industry" name="industry" required class="form-control" />
+                                        </div>
+                                    <?php } ?>
+
+                                    <?php if ($_SESSION['customerNumOfEmployees']) { ?>
+                                        <div class="col-sm-3">
+                                            <label class="form-control-label">No. of Employees</label>
+                                            <input type="number" placeholder="No. of Employees" id="numberOfEmployees" name="numberOfEmployees" required class="form-control" />
+                                        </div>
+                                    <?php } ?>
+
                                 </div>
                                 <div class="row form-group">
+                                    <?php if ($_SESSION['customerVATNumber']) { ?>
 
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label">VAT Numbers</label>
-                                        <input type="text" placeholder="VAT Numbers" id="vatNumber" name="vatNumber" required class="form-control" />
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label">Visit Address</label>
-                                        <input type="text" placeholder="Visit Address" id="visitAddress" name="visitAddress" required class="form-control" />
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label">Post Address</label>
-                                        <input type="text" placeholder="Post address" id="postAddress" name="postAddress" required class="form-control" />
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label">Sister Companies</label>
-                                        <div class="form-select">
-                                            <select id="sisterCompanies" name="sisterCompanies" class="custom-select">
-                                                echo "<option value='' selected></option>";
-                                                <?php foreach ($sisterCompanies as $key => $company) {
-                                                    echo "<option value='{$company}'>{$company}</option>";
-                                                } ?>
-                                            </select>
+                                        <div class="col-sm-3">
+                                            <label class="form-control-label">VAT Numbers</label>
+                                            <input type="text" placeholder="VAT Numbers" id="vatNumber" name="vatNumber" required class="form-control" />
                                         </div>
-                                    </div>
+                                    <?php } ?>
+
+                                    <?php if ($_SESSION['customerVisitAddress']) { ?>
+                                        <div class="col-sm-3">
+                                            <label class="form-control-label">Visit Address</label>
+                                            <input type="text" placeholder="Visit Address" id="visitAddress" name="visitAddress" required class="form-control" />
+                                        </div>
+                                    <?php } ?>
+
+                                    <?php if ($_SESSION['customerPostAddress']) { ?>
+                                        <div class="col-sm-3">
+                                            <label class="form-control-label">Post Address</label>
+                                            <input type="text" placeholder="Post address" id="postAddress" name="postAddress" required class="form-control" />
+                                        </div>
+                                    <?php } ?>
+
+                                    <?php if ($_SESSION['customerSisterCompanies']) { ?>
+                                        <div class="col-sm-3">
+                                            <label class="form-control-label">Sister Companies</label>
+                                            <div class="form-select">
+                                                <select id="sisterCompanies" name="sisterCompanies" class="custom-select">
+                                                    echo "<option value='' selected></option>";
+                                                    <?php foreach ($sisterCompanies as $key => $company) {
+                                                        echo "<option value='{$company}'>{$company}</option>";
+                                                    } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-sm-9 invisible-section">
-                                        <label class="form-control-label">Create a manager user account</label>
+                                        <label class="form-control-label"><font color='red'>*</font>Create a manager user account</label>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -184,22 +207,30 @@
                                         <label class="form-control-label">Employee Name</label>
                                         <input type="text" placeholder="employee Name" id="employeeName" name="employeeName" required class="form-control" />
                                     </div>
-                                    <div class="col-sm-3 invisible-section">
-                                        <label class="form-control-label">Mail Address</label>
-                                        <input type="text" placeholder="Mail Address" id="mailAddress" name="mailAddress" required class="form-control" />
-                                    </div>
-                                    <div class="col-sm-3 invisible-section">
-                                        <label class="form-control-label">Company Role</label>
-                                        <input type="text" placeholder="Company Role" id="companyRole" name="companyRole" required class="form-control" />
-                                    </div>
-                                    <div class="col-sm-3 invisible-section">
-                                        <label class="form-control-label">External Company</label>
 
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="externalCompany">
-                                            <label class="custom-control-label" for="externalCompany"></label>
+                                    <?php if ($_SESSION['employeeMailAddress']) { ?>
+
+                                        <div class="col-sm-3 invisible-section">
+                                            <label class="form-control-label">Mail Address</label>
+                                            <input type="text" placeholder="Mail Address" id="mailAddress" name="mailAddress" required class="form-control" />
                                         </div>
-                                    </div>
+                                    <?php } ?>
+                                    <?php if ($_SESSION['employeeCompanyRole']) { ?>
+                                        <div class="col-sm-3 invisible-section">
+                                            <label class="form-control-label">Company Role</label>
+                                            <input type="text" placeholder="Company Role" id="companyRole" name="companyRole" required class="form-control" />
+                                        </div>
+                                    <?php } ?>
+                                    <?php if ($_SESSION['employeeExternalCompany']) { ?>
+                                        <div class="col-sm-3 invisible-section">
+                                            <label class="form-control-label">External Company</label>
+
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="externalCompany">
+                                                <label class="custom-control-label" for="externalCompany"></label>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                                 <div class="row form-group">
 

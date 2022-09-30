@@ -1,6 +1,4 @@
 <section class="content">
-
-    <!-- /.row -->
     <!-- Main row -->
     <div class="row">
         <!-- Left col -->
@@ -13,7 +11,7 @@
                     <input type="hidden" id="gpsLat">
                     <input type="hidden" id="gpsLon">
                     <div class="box-body">
-                        <div id="map" style="height: 550px; width: 100%;"></div>
+                        <div id="map" style="height: 560px; width: 100%;"></div>
                     </div>
                 </div>
                 <!-- /.box -->
@@ -22,7 +20,7 @@
         <section class="col-med-2 connectedSortable">
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3><?php echo $customerCount ?></h3>
+                    <h4><?php echo $customerCount ?></h4>
 
                     <p>Customers</p>
                 </div>
@@ -33,18 +31,18 @@
             </div>
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3><?php echo $projectCount ?></h3>
+                    <h4><?php echo $projectCount ?></h4>
 
                     <p>Open Projects</p>
                 </div>
-                <div class="icon">
+                <div class="icon ">
                     <i class="fas fa-project-diagram"></i>
                 </div>
                 <a href="Project" class="small-box-footer">Project Details <i class="fa fa-arrow-circle-right"></i></a>
             </div>
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3><?php echo $fleetCount ?></h3>
+                    <h4><?php echo $fleetCount ?></h4>
 
                     <p>Fleet items on the road</p>
                 </div>
@@ -55,7 +53,7 @@
             </div>
             <div class="small-box bg-red collapsed-box">
                 <div class="inner">
-                    <h3><?php echo $employeeCount ?></h3>
+                    <h4><?php echo $employeeCount ?></h4>
 
                     <p>Users</p>
                 </div>
@@ -87,20 +85,17 @@
         attribution: '© OpenStreetMap'
     }).addTo(map);
     mapCaller()
-    var result,data
+    var result, data
+
     function mapCaller() {
         // var arr = {"USER_API_TOKEN":"9e90b62c-b640-420c-a5c9-b79c831705b0"};
-         result = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/location", "GET", "","9e90b62c-b640-420c-a5c9-b79c831705b0");
-         data=(result.responsedata.responseJSON)
+        result = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/location", "GET", "", "9e90b62c-b640-420c-a5c9-b79c831705b0");
+        data = (result.responsedata.responseJSON)
     }
-   for(let i=0;i<data.length;i++){
-    var marker = L.marker([data[i].latitude, data[i].longitude]).addTo(map);
-    marker.bindPopup(`<b>${data[i].deviceName}</b><br>at ${data[i].locationTime}`).openPopup();
-    marker.bindTooltip(data[i].deviceName ).openTooltip();
-    map.on('click', onMapClick);
-   }
-
-
-
-    
+    for (let i = 0; i < data.length; i++) {
+        var marker = L.marker([data[i].latitude, data[i].longitude]).addTo(map);
+        marker.bindPopup(`<b>${data[i].deviceName}</b><br>at ${data[i].locationTime}`).openPopup();
+        marker.bindTooltip(data[i].deviceName).openTooltip();
+        map.on('click', onMapClick);
+    }
 </script>
