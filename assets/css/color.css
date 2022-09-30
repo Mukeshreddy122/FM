@@ -1,0 +1,897 @@
+.color-AliceBlue{
+color:#F0F8FF;
+}
+ .color-AntiqueWhite{
+color:#FAEBD7;
+}
+ .color-Aqua{
+color:#00FFFF;
+}
+ .color-Aquamarine{
+color:#7FFFD4;
+}
+ .color-Azure{
+color:#F0FFFF;
+}
+ .color-Beige{
+color:#F5F5DC;
+}
+ .color-Bisque{
+color:#FFE4C4;
+}
+ .color-Black{
+color:#000000;
+}
+ .color-BlanchedAlmond{
+color:#FFEBCD;
+}
+ .color-Blue{
+color:#0000FF;
+}
+ .color-BlueViolet{
+color:#8A2BE2;
+}
+ .color-Brown{
+color:#A52A2A;
+}
+ .color-BurlyWood{
+color:#DEB887;
+}
+ .color-CadetBlue{
+color:#5F9EA0;
+}
+ .color-Chartreuse{
+color:#7FFF00;
+}
+ .color-Chocolate{
+color:#D2691E;
+}
+ .color-Coral{
+color:#FF7F50;
+}
+ .color-CornflowerBlue{
+color:#6495ED;
+}
+ .color-Cornsilk{
+color:#FFF8DC;
+}
+ .color-Crimson{
+color:#DC143C;
+}
+ .color-Cyan{
+color:#00FFFF;
+}
+ .color-DarkBlue{
+color:#00008B;
+}
+ .color-DarkCyan{
+color:#008B8B;
+}
+ .color-DarkGoldenRod{
+color:#B8860B;
+}
+ .color-DarkGray{
+color:#A9A9A9;
+}
+ .color-DarkGrey{
+color:#A9A9A9;
+}
+ .color-DarkGreen{
+color:#006400;
+}
+ .color-DarkKhaki{
+color:#BDB76B;
+}
+ .color-DarkMagenta{
+color:#8B008B;
+}
+ .color-DarkOliveGreen{
+color:#556B2F;
+}
+ .color-DarkOrange{
+color:#FF8C00;
+}
+ .color-DarkOrchid{
+color:#9932CC;
+}
+ .color-DarkRed{
+color:#8B0000;
+}
+ .color-DarkSalmon{
+color:#E9967A;
+}
+ .color-DarkSeaGreen{
+color:#8FBC8F;
+}
+ .color-DarkSlateBlue{
+color:#483D8B;
+}
+ .color-DarkSlateGray{
+color:#2F4F4F;
+}
+ .color-DarkSlateGrey{
+color:#2F4F4F;
+}
+ .color-DarkTurquoise{
+color:#00CED1;
+}
+ .color-DarkViolet{
+color:#9400D3;
+}
+ .color-DeepPink{
+color:#FF1493;
+}
+ .color-DeepSkyBlue{
+color:#00BFFF;
+}
+ .color-DimGray{
+color:#696969;
+}
+ .color-DimGrey{
+color:#696969;
+}
+ .color-DodgerBlue{
+color:#1E90FF;
+}
+ .color-FireBrick{
+color:#B22222;
+}
+ .color-FloralWhite{
+color:#FFFAF0;
+}
+ .color-ForestGreen{
+color:#228B22;
+}
+ .color-Fuchsia{
+color:#FF00FF;
+}
+ .color-Gainsboro{
+color:#DCDCDC;
+}
+ .color-GhostWhite{
+color:#F8F8FF;
+}
+ .color-Gold{
+color:#FFD700;
+}
+ .color-GoldenRod{
+color:#DAA520;
+}
+ .color-Gray{
+color:#808080;
+}
+ .color-Grey{
+color:#808080;
+}
+ .color-Green{
+color:#008000;
+}
+ .color-GreenYellow{
+color:#ADFF2F;
+}
+ .color-HoneyDew{
+color:#F0FFF0;
+}
+ .color-HotPink{
+color:#FF69B4;
+}
+ .color-IndianRed{
+color:#CD5C5C;
+}
+ .color-Indigo{
+color:#4B0082;
+}
+ .color-Ivory{
+color:#FFFFF0;
+}
+ .color-Khaki{
+color:#F0E68C;
+}
+ .color-Lavender{
+color:#E6E6FA;
+}
+ .color-LavenderBlush{
+color:#FFF0F5;
+}
+ .color-LawnGreen{
+color:#7CFC00;
+}
+ .color-LemonChiffon{
+color:#FFFACD;
+}
+ .color-LightBlue{
+color:#ADD8E6;
+}
+ .color-LightCoral{
+color:#F08080;
+}
+ .color-LightCyan{
+color:#E0FFFF;
+}
+ .color-LightGoldenRodYellow{
+color:#FAFAD2;
+}
+ .color-LightGray{
+color:#D3D3D3;
+}
+ .color-LightGrey{
+color:#D3D3D3;
+}
+ .color-LightGreen{
+color:#90EE90;
+}
+ .color-LightPink{
+color:#FFB6C1;
+}
+ .color-LightSalmon{
+color:#FFA07A;
+}
+ .color-LightSeaGreen{
+color:#20B2AA;
+}
+ .color-LightSkyBlue{
+color:#87CEFA;
+}
+ .color-LightSlateGray{
+color:#778899;
+}
+ .color-LightSlateGrey{
+color:#778899;
+}
+ .color-LightSteelBlue{
+color:#B0C4DE;
+}
+ .color-LightYellow{
+color:#FFFFE0;
+}
+ .color-Lime{
+color:#00FF00;
+}
+ .color-LimeGreen{
+color:#32CD32;
+}
+ .color-Linen{
+color:#FAF0E6;
+}
+ .color-Magenta{
+color:#FF00FF;
+}
+ .color-Maroon{
+color:#800000;
+}
+ .color-MediumAquaMarine{
+color:#66CDAA;
+}
+ .color-MediumBlue{
+color:#0000CD;
+}
+ .color-MediumOrchid{
+color:#BA55D3;
+}
+ .color-MediumPurple{
+color:#9370DB;
+}
+ .color-MediumSeaGreen{
+color:#3CB371;
+}
+ .color-MediumSlateBlue{
+color:#7B68EE;
+}
+ .color-MediumSpringGreen{
+color:#00FA9A;
+}
+ .color-MediumTurquoise{
+color:#48D1CC;
+}
+ .color-MediumVioletRed{
+color:#C71585;
+}
+ .color-MidnightBlue{
+color:#191970;
+}
+ .color-MintCream{
+color:#F5FFFA;
+}
+ .color-MistyRose{
+color:#FFE4E1;
+}
+ .color-Moccasin{
+color:#FFE4B5;
+}
+ .color-NavajoWhite{
+color:#FFDEAD;
+}
+ .color-Navy{
+color:#000080;
+}
+ .color-OldLace{
+color:#FDF5E6;
+}
+ .color-Olive{
+color:#808000;
+}
+ .color-OliveDrab{
+color:#6B8E23;
+}
+ .color-Orange{
+color:#FFA500;
+}
+ .color-OrangeRed{
+color:#FF4500;
+}
+ .color-Orchid{
+color:#DA70D6;
+}
+ .color-PaleGoldenRod{
+color:#EEE8AA;
+}
+ .color-PaleGreen{
+color:#98FB98;
+}
+ .color-PaleTurquoise{
+color:#AFEEEE;
+}
+ .color-PaleVioletRed{
+color:#DB7093;
+}
+ .color-PapayaWhip{
+color:#FFEFD5;
+}
+ .color-PeachPuff{
+color:#FFDAB9;
+}
+ .color-Peru{
+color:#CD853F;
+}
+ .color-Pink{
+color:#FFC0CB;
+}
+ .color-Plum{
+color:#DDA0DD;
+}
+ .color-PowderBlue{
+color:#B0E0E6;
+}
+ .color-Purple{
+color:#800080;
+}
+ .color-RebeccaPurple{
+color:#663399;
+}
+ .color-Red{
+color:#FF0000;
+}
+ .color-RosyBrown{
+color:#BC8F8F;
+}
+ .color-RoyalBlue{
+color:#4169E1;
+}
+ .color-SaddleBrown{
+color:#8B4513;
+}
+ .color-Salmon{
+color:#FA8072;
+}
+ .color-SandyBrown{
+color:#F4A460;
+}
+ .color-SeaGreen{
+color:#2E8B57;
+}
+ .color-SeaShell{
+color:#FFF5EE;
+}
+ .color-Sienna{
+color:#A0522D;
+}
+ .color-Silver{
+color:#C0C0C0;
+}
+ .color-SkyBlue{
+color:#87CEEB;
+}
+ .color-SlateBlue{
+color:#6A5ACD;
+}
+ .color-SlateGray{
+color:#708090;
+}
+ .color-SlateGrey{
+color:#708090;
+}
+ .color-Snow{
+color:#FFFAFA;
+}
+ .color-SpringGreen{
+color:#00FF7F;
+}
+ .color-SteelBlue{
+color:#4682B4;
+}
+ .color-Tan{
+color:#D2B48C;
+}
+ .color-Teal{
+color:#008080;
+}
+ .color-Thistle{
+color:#D8BFD8;
+}
+ .color-Tomato{
+color:#FF6347;
+}
+ .color-Turquoise{
+color:#40E0D0;
+}
+ .color-Violet{
+color:#EE82EE;
+}
+ .color-Wheat{
+color:#F5DEB3;
+}
+ .color-White{
+color:#FFFFFF;
+}
+ .color-WhiteSmoke{
+color:#F5F5F5;
+}
+ .color-Yellow{
+color:#FFFF00;
+}
+ .color-YellowGreen{
+color:#9ACD32;
+ }
+ .bg-AliceBlue{
+background-color:#F0F8FF;
+}
+ .bg-AntiqueWhite{
+background-color:#FAEBD7;
+}
+ .bg-Aqua{
+background-color:#00FFFF;
+}
+ .bg-Aquamarine{
+background-color:#7FFFD4;
+}
+ .bg-Azure{
+background-color:#F0FFFF;
+}
+ .bg-Beige{
+background-color:#F5F5DC;
+}
+ .bg-Bisque{
+background-color:#FFE4C4;
+}
+ .bg-Black{
+background-color:#000000;
+}
+ .bg-BlanchedAlmond{
+background-color:#FFEBCD;
+}
+ .bg-Blue{
+background-color:#0000FF;
+}
+ .bg-BlueViolet{
+background-color:#8A2BE2;
+}
+ .bg-Brown{
+background-color:#A52A2A;
+}
+ .bg-BurlyWood{
+background-color:#DEB887;
+}
+ .bg-CadetBlue{
+background-color:#5F9EA0;
+}
+ .bg-Chartreuse{
+background-color:#7FFF00;
+}
+ .bg-Chocolate{
+background-color:#D2691E;
+}
+ .bg-Coral{
+background-color:#FF7F50;
+}
+ .bg-CornflowerBlue{
+background-color:#6495ED;
+}
+ .bg-Cornsilk{
+background-color:#FFF8DC;
+}
+ .bg-Crimson{
+background-color:#DC143C;
+}
+ .bg-Cyan{
+background-color:#00FFFF;
+}
+ .bg-DarkBlue{
+background-color:#00008B;
+}
+ .bg-DarkCyan{
+background-color:#008B8B;
+}
+ .bg-DarkGoldenRod{
+background-color:#B8860B;
+}
+ .bg-DarkGray{
+background-color:#A9A9A9;
+}
+ .bg-DarkGrey{
+background-color:#A9A9A9;
+}
+ .bg-DarkGreen{
+background-color:#006400;
+}
+ .bg-DarkKhaki{
+background-color:#BDB76B;
+}
+ .bg-DarkMagenta{
+background-color:#8B008B;
+}
+ .bg-DarkOliveGreen{
+background-color:#556B2F;
+}
+ .bg-DarkOrange{
+background-color:#FF8C00;
+}
+ .bg-DarkOrchid{
+background-color:#9932CC;
+}
+ .bg-DarkRed{
+background-color:#8B0000;
+}
+ .bg-DarkSalmon{
+background-color:#E9967A;
+}
+ .bg-DarkSeaGreen{
+background-color:#8FBC8F;
+}
+ .bg-DarkSlateBlue{
+background-color:#483D8B;
+}
+ .bg-DarkSlateGray{
+background-color:#2F4F4F;
+}
+ .bg-DarkSlateGrey{
+background-color:#2F4F4F;
+}
+ .bg-DarkTurquoise{
+background-color:#00CED1;
+}
+ .bg-DarkViolet{
+background-color:#9400D3;
+}
+ .bg-DeepPink{
+background-color:#FF1493;
+}
+ .bg-DeepSkyBlue{
+background-color:#00BFFF;
+}
+ .bg-DimGray{
+background-color:#696969;
+}
+ .bg-DimGrey{
+background-color:#696969;
+}
+ .bg-DodgerBlue{
+background-color:#1E90FF;
+}
+ .bg-FireBrick{
+background-color:#B22222;
+}
+ .bg-FloralWhite{
+background-color:#FFFAF0;
+}
+ .bg-ForestGreen{
+background-color:#228B22;
+}
+ .bg-Fuchsia{
+background-color:#FF00FF;
+}
+ .bg-Gainsboro{
+background-color:#DCDCDC;
+}
+ .bg-GhostWhite{
+background-color:#F8F8FF;
+}
+ .bg-Gold{
+background-color:#FFD700;
+}
+ .bg-GoldenRod{
+background-color:#DAA520;
+}
+ .bg-Gray{
+background-color:#808080;
+}
+ .bg-Grey{
+background-color:#808080;
+}
+ .bg-Green{
+background-color:#008000;
+}
+ .bg-GreenYellow{
+background-color:#ADFF2F;
+}
+ .bg-HoneyDew{
+background-color:#F0FFF0;
+}
+ .bg-HotPink{
+background-color:#FF69B4;
+}
+ .bg-IndianRed{
+background-color:#CD5C5C;
+}
+ .bg-Indigo{
+background-color:#4B0082;
+}
+ .bg-Ivory{
+background-color:#FFFFF0;
+}
+ .bg-Khaki{
+background-color:#F0E68C;
+}
+ .bg-Lavender{
+background-color:#E6E6FA;
+}
+ .bg-LavenderBlush{
+background-color:#FFF0F5;
+}
+ .bg-LawnGreen{
+background-color:#7CFC00;
+}
+ .bg-LemonChiffon{
+background-color:#FFFACD;
+}
+ .bg-LightBlue{
+background-color:#ADD8E6;
+}
+ .bg-LightCoral{
+background-color:#F08080;
+}
+ .bg-LightCyan{
+background-color:#E0FFFF;
+}
+ .bg-LightGoldenRodYellow{
+background-color:#FAFAD2;
+}
+ .bg-LightGray{
+background-color:#D3D3D3;
+}
+ .bg-LightGrey{
+background-color:#D3D3D3;
+}
+ .bg-LightGreen{
+background-color:#90EE90;
+}
+ .bg-LightPink{
+background-color:#FFB6C1;
+}
+ .bg-LightSalmon{
+background-color:#FFA07A;
+}
+ .bg-LightSeaGreen{
+background-color:#20B2AA;
+}
+ .bg-LightSkyBlue{
+background-color:#87CEFA;
+}
+ .bg-LightSlateGray{
+background-color:#778899;
+}
+ .bg-LightSlateGrey{
+background-color:#778899;
+}
+ .bg-LightSteelBlue{
+background-color:#B0C4DE;
+}
+ .bg-LightYellow{
+background-color:#FFFFE0;
+}
+ .bg-Lime{
+background-color:#00FF00;
+}
+ .bg-LimeGreen{
+background-color:#32CD32;
+}
+ .bg-Linen{
+background-color:#FAF0E6;
+}
+ .bg-Magenta{
+background-color:#FF00FF;
+}
+ .bg-Maroon{
+background-color:#800000;
+}
+ .bg-MediumAquaMarine{
+background-color:#66CDAA;
+}
+ .bg-MediumBlue{
+background-color:#0000CD;
+}
+ .bg-MediumOrchid{
+background-color:#BA55D3;
+}
+ .bg-MediumPurple{
+background-color:#9370DB;
+}
+ .bg-MediumSeaGreen{
+background-color:#3CB371;
+}
+ .bg-MediumSlateBlue{
+background-color:#7B68EE;
+}
+ .bg-MediumSpringGreen{
+background-color:#00FA9A;
+}
+ .bg-MediumTurquoise{
+background-color:#48D1CC;
+}
+ .bg-MediumVioletRed{
+background-color:#C71585;
+}
+ .bg-MidnightBlue{
+background-color:#191970;
+}
+ .bg-MintCream{
+background-color:#F5FFFA;
+}
+ .bg-MistyRose{
+background-color:#FFE4E1;
+}
+ .bg-Moccasin{
+background-color:#FFE4B5;
+}
+ .bg-NavajoWhite{
+background-color:#FFDEAD;
+}
+ .bg-Navy{
+background-color:#000080;
+}
+ .bg-OldLace{
+background-color:#FDF5E6;
+}
+ .bg-Olive{
+background-color:#808000;
+}
+ .bg-OliveDrab{
+background-color:#6B8E23;
+}
+ .bg-Orange{
+background-color:#FFA500;
+}
+ .bg-OrangeRed{
+background-color:#FF4500;
+}
+ .bg-Orchid{
+background-color:#DA70D6;
+}
+ .bg-PaleGoldenRod{
+background-color:#EEE8AA;
+}
+ .bg-PaleGreen{
+background-color:#98FB98;
+}
+ .bg-PaleTurquoise{
+background-color:#AFEEEE;
+}
+ .bg-PaleVioletRed{
+background-color:#DB7093;
+}
+ .bg-PapayaWhip{
+background-color:#FFEFD5;
+}
+ .bg-PeachPuff{
+background-color:#FFDAB9;
+}
+ .bg-Peru{
+background-color:#CD853F;
+}
+ .bg-Pink{
+background-color:#FFC0CB;
+}
+ .bg-Plum{
+background-color:#DDA0DD;
+}
+ .bg-PowderBlue{
+background-color:#B0E0E6;
+}
+ .bg-Purple{
+background-color:#800080;
+}
+ .bg-RebeccaPurple{
+background-color:#663399;
+}
+ .bg-Red{
+background-color:#FF0000;
+}
+ .bg-RosyBrown{
+background-color:#BC8F8F;
+}
+ .bg-RoyalBlue{
+background-color:#4169E1;
+}
+ .bg-SaddleBrown{
+background-color:#8B4513;
+}
+ .bg-Salmon{
+background-color:#FA8072;
+}
+ .bg-SandyBrown{
+background-color:#F4A460;
+}
+ .bg-SeaGreen{
+background-color:#2E8B57;
+}
+ .bg-SeaShell{
+background-color:#FFF5EE;
+}
+ .bg-Sienna{
+background-color:#A0522D;
+}
+ .bg-Silver{
+background-color:#C0C0C0;
+}
+ .bg-SkyBlue{
+background-color:#87CEEB;
+}
+ .bg-SlateBlue{
+background-color:#6A5ACD;
+}
+ .bg-SlateGray{
+background-color:#708090;
+}
+ .bg-SlateGrey{
+background-color:#708090;
+}
+ .bg-Snow{
+background-color:#FFFAFA;
+}
+ .bg-SpringGreen{
+background-color:#00FF7F;
+}
+ .bg-SteelBlue{
+background-color:#4682B4;
+}
+ .bg-Tan{
+background-color:#D2B48C;
+}
+ .bg-Teal{
+background-color:#008080;
+}
+ .bg-Thistle{
+background-color:#D8BFD8;
+}
+ .bg-Tomato{
+background-color:#FF6347;
+}
+ .bg-Turquoise{
+background-color:#40E0D0;
+}
+ .bg-Violet{
+background-color:#EE82EE;
+}
+ .bg-Wheat{
+background-color:#F5DEB3;
+}
+ .bg-White{
+background-color:#FFFFFF;
+}
+ .bg-WhiteSmoke{
+background-color:#F5F5F5;
+}
+ .bg-Yellow{
+background-color:#FFFF00;
+}
+ .bg-YellowGreen{
+background-color:#9ACD32;
+ }
+ .bg-header{
+     background-color: #000000;
+ }
+ .bg-zofTech{
+    background-color: #13cda8;
+ }
+ .color-zofTech{
+     color: #13cda8;
+ }

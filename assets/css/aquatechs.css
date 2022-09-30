@@ -1,0 +1,50 @@
+.ok-button {
+    background-color: #13cda8;
+    /* #65C18C; */
+    color: white;
+}
+
+.cancel-button {
+    background-color: #FF7BA9;
+    color: white;
+}
+
+.header-color {
+    background-color: #222D32;
+}
+
+.body-bg-color {
+    background-color: #454D55;
+    /* silver / grey: c4c4c4*/
+}
+
+.sidebar-bg-color {
+    background-color: #343A40;
+}
+
+.new-button {
+    background-color: rgb(242, 143, 72);
+    color: white;
+}
+
+table {
+    color: white;
+}
+
+testing {
+    background-color: #7e0404;
+}
+
+.active-aqua {
+    background-color: #17A2B8;
+}
+
+/*
+table#customerRecords tbody tr:hover {
+    background-color: rgb(242, 143, 72);
+}
+
+table#customerRecords.dataTable tbody tr:hover>.sorting_1 {
+    background-color: rgb(242, 143, 72);
+}
+*/
