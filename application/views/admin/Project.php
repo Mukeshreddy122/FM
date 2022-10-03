@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body">
                     <table id="projectRecords" class="table  table-hover table-sm">
-                        <thead class="bg-info" style="font-family: 'Source Sans Pro', sans-serif;">
+                        <thead class="bg-info" >
                             <tr>
                                 <td>Project ID</td>
                                 <td>Customer Name</td>

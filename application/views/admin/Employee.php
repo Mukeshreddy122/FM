@@ -89,8 +89,9 @@
                                     if ($email == "admin") {
                                         if ($employee['name'] == "admin") {
                                             echo "<td>&nbsp;</td></tr>";
-                                        } else {
-                                            echo "<td><a href='#' ><p class='fas fa-edit bg-info editEmployee' aria-hidden='true'></p></a>&nbsp;&nbsp;&nbsp;";
+                                        } else 
+                                        {
+                                            echo "<td><a href='#' ><p class='fas fa-edit bg-info editDevice' aria-hidden='true'></p></a>&nbsp;&nbsp;&nbsp;";
                                             echo "<a href='{$deleteUrl}' ><p class='fa fa-trash bg-info' aria-hidden='true'></p></a></td></tr>";
                                             // echo "<td><a href='{$deleteUrl}' class='color-Red'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
                                         }
