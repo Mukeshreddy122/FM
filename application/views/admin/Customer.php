@@ -127,7 +127,9 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-sm-9 invisible-section">
-                                        <label class="form-control-label"><font color='red'>*</font>Create a manager user account</label>
+                                        <label class="form-control-label">
+                                            <font color='red'>*</font>Create a manager user account
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -195,23 +197,23 @@
 
             <script>
                 function deleteCustomer(cust_id) {
-                        // perform AJAX delete
-                        var cust_result = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/customer/${cust_id}`, "DELETE", "", document.getElementById("session_token").value);
-                        console.log(cust_id)
-                        $('#customerList').DataTable().clear();
-                        // loadTableData();
+                    // perform AJAX delete
+                    var cust_result = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/customer/${cust_id}`, "DELETE", "", document.getElementById("session_token").value);
+                    console.log(cust_id)
+                    $('#customerList').DataTable().clear();
+                    // loadTableData();
 
-                    }
-                    function editCustomer(cust_id)
-                    {
-                        var cust_result = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/customer/${cust_id}`, "DELETE", "", document.getElementById("session_token").value);
+                }
 
-                    }
+                function editCustomer(cust_id) {
+                    var cust_result = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/customer/${cust_id}`, "DELETE", "", document.getElementById("session_token").value);
+
+                }
             </script>
             <script>
                 $(function() {
 
-            
+
                     $('#customerList').DataTable({
                         "paging": true,
                         "lengthChange": false,
@@ -251,7 +253,7 @@
                     $(document).ready(
                         loadTableData()
                     );
-                    
+
 
                     function loadTableData() {
 
@@ -261,15 +263,8 @@
                         console.log(cust_result)
                         var cust_res = cust_result.responsedata.responseJSON
                         var permission = "<?php echo $_SESSION['permission'] ?>"
+                        console.log(permission)
 
-                        // if (permission == "ADMIN" || permission == "MANAGER") {
-                        //              "<td><a href='{$editUrl}' ><p class='fas fa-edit bg-info editCustomer' aria-hidden='true'></p></a>&nbsp;&nbsp;&nbsp;";
-                        //              "<a href='javascript:noReload()'><p class='fa fa-trash bg-info' id={$c_id} onclick='deleteCustomer($c_id)' aria-hidden='true'  ></p></a></td></tr>";
-
-
-                        //         } else {
-                        //              "<td>&nbsp;</td></tr>";
-                        //         }
 
 
                         if (cust_res.length > 0) {
@@ -277,18 +272,25 @@
 
                             for (let i = 0; i < cust_res.length; i++) {
 
-                                $('#tableData').append(`<tr id=${cust_res[i].id}>
-                            <td id=td.${cust_res[i].id}>${cust_res[i].id}</td>
-                            <td>${cust_res[i].name}</td>
-                            <td>${cust_res[i]['No. of Employees']}</td>
-                            <td> ${cust_res[i].CustomerIndustry}</td>
-    
-                            <td><a href='#' ><p class='fas fa-edit bg-info editCustomer' aria-hidden='true'onclick='editCustomer(${cust_res[i].id})'></p></a>&nbsp;&nbsp;&nbsp;
-                            <i class='fa fa-trash '  aria-hidden='true' onclick='deleteCustomer(${cust_res[i].id})' ></i></td>
-                            
-                            </tr>`);
+                                var linedata = '';
+                                linedata = `<tr id=${cust_res[i].id}>`;
+                                linedata += `                   <td id=td.${cust_res[i].id}>${cust_res[i].id}</td>`;
+                                linedata += `          <td>${cust_res[i].name}</td>`;
+                                linedata += `          <td>${cust_res[i]['No. of Employees']}</td>`;
+                                linedata += `          <td> ${cust_res[i].CustomerIndustry}</td>`;
 
+                                if (permission === "ADMIN" || permission === "MANAGER") {
+                                    linedata += `<td><a href='{$editUrl}' ><p class='fas fa-edit bg-info editCustomer' aria-hidden='true'></p></a>&nbsp;&nbsp;&nbsp;`;
+                                    linedata += `<a href='javascript:noReload()'><p class='fa fa-trash bg-info' id={$c_id} onclick='deleteCustomer($c_id)' aria-hidden='true'  ></p></a></td></tr>`;
+                                } else {
+                                    linedata += `<td>&nbsp;</td></tr>`;
+                                }
+                                linedata += `<td><a href='#' ><p class='fas fa-edit bg-info editCustomer' aria-hidden='true'onclick='editCustomer(${cust_res[i].id})'></p></a>&nbsp;&nbsp;&nbsp`;
+                                linedata += `<i class='fa fa-trash '  aria-hidden='true' onclick='deleteCustomer(${cust_res[i].id})' ></i></td>`;
 
+                                linedata += `</tr>`;
+
+                                $('#tableData').append(linedata);
                             }
                         } else {
                             toastr.error('Error Occured!Try later')
