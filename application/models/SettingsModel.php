@@ -20,8 +20,8 @@ class SettingsModel extends CI_Model
   public function getSettings()
   {
     $options['settingId'] = $this->session->userdata('email');
-    $response = WpOrg\Requests\Requests::GET($this->url.'server', $this->headers, $this->apirequests->auth());
-   // print_r($response->body);die;
+    $response = WpOrg\Requests\Requests::GET($this->url . 'settings', $this->headers, $this->apirequests->auth());
+    // print_r($response->body);die;
     return $this->apiresponse->getApiResponse($response->status_code, $response->body);
   }
 
@@ -35,7 +35,8 @@ class SettingsModel extends CI_Model
   #update
   public function updateSettings($id, $param)
   {
-    $response = \WpOrg\Requests\Requests::PUT($this->url."server", $this->headers, $param, $this->apirequests->auth());
+    $response = \WpOrg\Requests\Requests::PUT($this->url . "settings", $this->headers, $param, $this->apirequests->auth());
+  
     return $this->apiresponse->getApiResponse($response->status_code, $response->body);
   }
 

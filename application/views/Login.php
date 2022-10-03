@@ -73,6 +73,7 @@
         </div>
         <div class="input-group mb-3">
           <input type="password" class="form-control bg-white" id="password" name="password" placeholder="Password">
+          <input type="hidden" class="form-control bg-white" id="ddetails" name="ddetails" value="abcd1234">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>

@@ -25,6 +25,7 @@ class Settings extends CI_Controller
 	{
 		$data['test'] = "Settings";
 		$Settings = $this->apiresponse->convertData($this->SettingsModel->getSettings());
+		// print_r($Settings);die;
 		$SettingsName = [];
 		foreach ($Settings as $key => $Settings) {
 			foreach ($Settings as $key => $custValue)

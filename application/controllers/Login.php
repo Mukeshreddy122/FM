@@ -36,8 +36,6 @@ class Login extends CI_Controller
             //print_r($loginArray);
             if (!empty($loginArray)) {
                 $logininfo = $this->apiresponse->convertSingleData($loginArray);
-                // $settingsArray = $this->LoginModel->getSettings(json_encode($cred));
-                // $settingsInfo = $this->apiresponse->convertSingleData($settingsArray);
 
                 $uId = $logininfo['id'];
                 $name = $logininfo['name'];
@@ -50,7 +48,7 @@ class Login extends CI_Controller
                 $CompanyRole = (array_key_exists('Company Role', $logininfo)) ? $logininfo['Company Role'] : "";
                 $ExternalCompany = (array_key_exists('External Company', $logininfo)) ? $logininfo['External Company'] : "";
                 $ProjectConnection = (array_key_exists('Project Connection', $logininfo)) ? $logininfo['Project Connection'] : "";
-                
+
                 // $settings_customerName = 'true';
                 // $settings_customerTypeOfCompany = $settingsInfo['customerTypeOfCompany'];
                 $session_data = array(
@@ -70,6 +68,11 @@ class Login extends CI_Controller
 
                 $this->session->set_userdata($session_data);
                 $sessionId = session_id();
+
+                $settingsArray = $this->LoginModel->getSettings(json_encode($cred));
+                // print_r(json_encode($settingsArray));
+                // die;
+                $this->session->set_userdata($settingsArray);
                 echo $sessionId;
                 $this->load->helper('cookie');
                 $session_id = get_cookie('ci_session');
