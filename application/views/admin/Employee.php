@@ -86,7 +86,7 @@
                                     $deleteUrl = base_url() . 'employee/delete?id=' . $employee['id'];
                                     $editUrl = base_url() . 'employee/edit?id=' . $employee['id'];
                                     // echo "<td><a href='{$viewUrl}' class='btn btn-sm btn-info p-1 m-0 Editemployee'>View</a> &#160; <a href='{$deleteUrl}' class='color-Red'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
-                                    if ($email == "admin") {
+                                    if ($_SESSION["permission"]=="ADMIN"||$_SESSION["permission"]=="MANAGER") {
                                         if ($employee['name'] == "admin") {
                                             echo "<td>&nbsp;</td></tr>";
                                         } else 

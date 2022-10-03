@@ -4,6 +4,7 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">
+                        <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
                         <?php if ($_SESSION['permission'] == "ADMIN") {; ?>
                             <a rel="nofollow" id="NewCustomer" href="#NewCustomerModel" data-toggle="modal" class="btn btn-block bg-info" onclick="resetCustomerFormData()">Add <?php echo $title; ?> <i class="fa fa-plus"></i></a>
                         <?php } ?>
@@ -16,7 +17,7 @@
                                 <th>#</th>
                                 <th>Customer Name</th>
                                 <!-- <th>Type of company</th> -->
-                                <th>Industry</th>
+                                <!-- <th>Industry</th> -->
                                 <th>No. of Employees</th>
                                 <!-- <th>VAT Number</th> -->
                                 <th>Visit Address</th>
@@ -24,81 +25,8 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php $index = 0;
+                        <tbody id="tableData">
 
-                            foreach ($customerInfo as $key => $customer) {
-                                // echo "<pre>";
-                                // print_r($customer);
-                                $index++;
-                                echo "<tr id='{$customer['id']}'>";
-                                //echo "<td> <i class='fa fa-plus'></i> {$index}</td>";
-                                echo "<td> <i id='rowid.{$customer['id']}' class='fa fa-plus exp'></i>&nbsp; {$customer['id']}</td>";
-                                if (array_key_exists('name', $customer)) {
-                                    echo "<td class='custName'>{$customer['name']}</td>";
-                                } else {
-                                    echo "<td class='custName'>NA</td>";
-                                }
-                                // if (array_key_exists('Customer Type', $customer)) {
-                                //     echo "<td class='custType'>{$customer['Customer Type']}</td>";
-                                // } else {
-                                //     echo "<td class='custType'>NA</td>";
-                                // }
-                                if ($_SESSION['customerIndustry'] == 1) {
-                                    if (array_key_exists('CustomerIndustry', $customer)) {
-                                        echo "<td class='custIndustry'>{$customer['CustomerIndustry']}</td>";
-                                    } else {
-                                        echo "<td class='custIndustry'>NA</td>";
-                                    }
-                                }
-                                if (array_key_exists('No. of Employees', $customer)) {
-                                    echo "<td class='custEmployees'>{$customer['No. of Employees']}</td>";
-                                } else {
-                                    echo "<td class='custEmployees'>NA</td>";
-                                }
-
-                                // if (array_key_exists('VAT Number', $customer)) {
-                                //     echo "<td class='custVatNumber' style='display:none;'>{$customer['VAT Number']}</td>";
-                                // } else {
-                                //     echo "<td class='custVatNumber' style='display:none;'>NA</td>";
-                                // }
-
-                                if (array_key_exists('Visit Address', $customer)) {
-                                    echo "<td class='custVisitAddress'>{$customer['Visit Address']}</td>";
-                                } else {
-                                    echo "<td class='custVisitAddress'>NA</td>";
-                                }
-
-                                // if (array_key_exists('Post Address', $customer)) {
-                                //     echo "<td class='custPostAddress' style='display:none;'>{$customer['Post Address']}</td>";
-                                // } else {
-                                //     echo "<td class='custPostAddress' style='display:none;'>NA</td>";
-                                // }
-
-
-                                // if (array_key_exists('Sister Companies', $customer)) {
-                                //     echo "<td class='custSisterCompanies' style='display:none;'>{$customer['Sister Companies']}</td>";
-                                // } else {
-                                //     echo "<td class='custSisterCompanies' style='display:none;'>NA</td>";
-                                // }
-
-                                // if (array_key_exists('Customer Type', $customer)) {
-                                //     echo "<td class='custType'>{$customer['Customer Type']}</td>";
-                                // } else {
-                                //     echo "<td class='custType'>NA</td>";
-                                // }
-                                $deleteUrl = base_url() . 'Customer/delete?id=' . $customer['id'];
-                                $editUrl = base_url() . 'Customer/edit?id=' . $customer['id'];
-                                // echo "<td><a href='{$editUrl}' ><i class='fas fa-edit bg-info' id='editCustomer' name='editCustomer' aria-hidden='true'></i></a>&nbsp;&nbsp;";
-                                if ($_SESSION['permission'] == "ADMIN" || $_SESSION['permission'] == "MANAGER") {
-                                    $c_id = $customer['id'];
-                                    echo "<td><a href='#' ><p class='fas fa-edit bg-info editCustomer' aria-hidden='true'></p></a>&nbsp;&nbsp;&nbsp;";
-                                    echo "<a href='{$deleteUrl}' ><p class='fa fa-trash bg-info' aria-hidden='true'></p></a></td></tr>";
-                                    echo "<a href='#' ><p class='fa fa-trash bg-info' aria-hidden='true' onclick='deleteCustomer($c_id)'></p></a></td></tr>";
-                                } else {
-                                    echo "<td>&nbsp;</td></tr>";
-                                }
-                            } ?>
                         </tbody>
                     </table>
                 </div>
@@ -266,130 +194,38 @@
             </div>
 
             <script>
-                $("#saveCustomer").click(function(event) {
-                    event.preventDefault();
-                    $("#newCustomerForm").submit(event);
-                });
+                function deleteCustomer(cust_id) {
+                        // perform AJAX delete
+                        var cust_result = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/customer/${cust_id}`, "DELETE", "", document.getElementById("session_token").value);
+                        console.log(cust_id)
+                        $('#customerList').DataTable().clear();
+                        // loadTableData();
 
-                function deleteCustomer(c_id) {
-                    var cust_result = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + c_id, "DELETE", "", "");
-
-                    if (cust_result == "") {
-                        toastr.success('Successfully deleted Customer');
-                        window.location.reload(true);
-                    } else {
-                        toastr.error('Unable to delete Customer');
                     }
-                    // $("#customerList").DataTable().ajax.reload();
-                }
-            </script>
-            <script>
-                function ManageCustomer(customerId) {
-                    let cust_map = new Map();
+                    function editCustomer(cust_id)
+                    {
+                        var cust_result = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/customer/${cust_id}`, "DELETE", "", document.getElementById("session_token").value);
 
-                    cust_map.set("name", document.getElementById("customerName").value)
-                        .set("Customer Type", document.getElementById("industry").value)
-                        .set("CustomerIndustry", document.getElementById("industry").value)
-                        .set("No. of Employees", document.getElementById("numberOfEmployees").value)
-                        .set("VAT Number", document.getElementById("vatNumber").value)
-                        .set("Visit Address", document.getElementById("visitAddress").value)
-                        .set("Post Address", document.getElementById("postAddress").value)
-                        .set("customerStatus", 0)
-                        .set("sisterCompanies", [])
-                        .set("employeesList", [])
-                        .set("devicesList", [])
-                        .set("projectList", [])
-                        .set("createdDate", "");
-
-                    console.log("CustomerId: " + customerId);
-                    if (customerId == "-1") {
-                        // Create Customer
-                        var temp = [];
-
-                        cust_map.set("id", -1);
-                        var cust_json = Object.fromEntries(cust_map);
-
-                        var cust_result = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "POST", JSON.stringify(cust_json), "");
-                        var cust_id = JSON.parse(cust_result)["id"].toString();
-
-                        if (parseInt(cust_id) > 0) {
-                            let emp_map = new Map();
-                            emp_map.set("id", -1)
-                                .set("name", document.getElementById("employeeName").value)
-                                .set("Mail Address", document.getElementById("mailAddress").value)
-                                .set("Company Role", document.getElementById("companyRole").value)
-                                .set("employeeStatus", 0)
-                                .set("email", document.getElementById("emailId").value)
-                                .set("password", md5(document.getElementById("password").value))
-                                .set("permission", "MANAGER")
-                                .set("countrycode", "")
-                                .set("phone", "")
-                                .set("Projects List", [])
-                                .set("devices list", [])
-                                .set("customerId", parseInt(cust_id));
-                            if (document.getElementById("externalCompany").checked == true) {
-                                emp_map.set("External Company", true);
-                            } else {
-                                emp_map.set("External Company", false);
-                            }
-                            var emp_json = Object.fromEntries(emp_map);
-                            var emp_result = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "POST", JSON.stringify(emp_json), "");
-
-                            if (emp_result.includes("Email already exists")) {
-                                toastr.error('Email already in use. Please use another email address');
-                            } else {
-                                try {
-                                    var emp_id = JSON.parse(emp_result)["id"].toString();
-                                    console.log("Employee ID: " + emp_id);
-
-                                    if (parseInt(emp_id) > 0) {
-                                        toastr.success('Successfully created Customer');
-                                        $("#NewCustomerModel").modal("hide");
-                                        setTimeout(() => {
-                                            document.location.reload();
-                                        }, 1500);
-                                    } else {
-                                        toastr.error('Unable to create Customer');
-                                    }
-                                } catch (e) {
-                                    toastr.error('Unable to create Customer');
-                                }
-                            }
-                        } // END IF
-                    } else {
-                        // Update customer
-
-                        cust_map.set("id", customerId);
-                        var cust_json = Object.fromEntries(cust_map);
-
-                        var cust_result = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + customerId, "PUT", JSON.stringify(cust_json), "");
-                        try {
-                            if (JSON.parse(cust_result)["id"].toString() != "-1") {
-                                toastr.success('Successfully updated Customer');
-                                $("#NewCustomerModel").modal("hide");
-                            } else {
-                                toastr.error('Unable to update Customer');
-                            }
-                        } catch (ex) {
-                            toastr.error('Unable to update customer');
-                        }
                     }
-                }
             </script>
             <script>
                 $(function() {
+
+            
                     $('#customerList').DataTable({
                         "paging": true,
                         "lengthChange": false,
                         "searching": true,
                         "ordering": true,
-                        "info": true,
+                        "info": false,
                         "autoWidth": false,
                         "responsive": false,
                         order: [
                             [1, 'desc']
                         ]
                     });
+                    $(".dataTables_empty").empty();
+
                     var table = $('#customerList').DataTable();
                     $('#customerList tbody tr td').on('click', 'i', function() {
                         var tr = $(this).closest('tr');
@@ -411,134 +247,80 @@
                             $('#' + row.id() + ' td i').addClass('fa-minus');
                         }
                     });
-                    // $('#customerProjectList').DataTable({
-                    //     "paging": true,
-                    //     "lengthChange": false,
-                    //     "searching": true,
-                    //     "ordering": true,
-                    //     "info": true,
-                    //     "autoWidth": false,
-                    //     "responsive": false,
-                    // });
-                });
 
-                function showCustomerProjects(row_data) {
-                    console.log(row_data.id());
+                    $(document).ready(
+                        loadTableData()
+                    );
+                    
 
-                    var row_details = "<table id='customerProjectList' class='table' width='80%' cellpadding='2' cellspacing='2'>";
-                    row_details += "<thead class='bg-info'>";
-                    row_details += "<td>Project ID</td>";
-                    row_details += "<td>Project Name</td>";
-                    row_details += "<td>Project Cost</td>";
-                    row_details += "<td>Fleet</td>";
-                    row_details += "<td>Manpower</td>";
-                    row_details += "<td>Project Time</td>";
-                    row_details += "<td>Income</td>";
-                    row_details += "<td>Cost</td>" + "</thead>";
+                    function loadTableData() {
 
-                    var project_data = GetProjectsForCustomer(row_data.id());
-                    console.log(project_data);
-                    if (!(project_data == null) && project_data.length > 0) {
-                        for (let pi = 0; pi < project_data.length; pi++) {
-                            var project_json = JSON.parse(project_data[pi]);
+                        var cust_result = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer ", "GET", "", document.getElementById("session_token").value);
+                        console.log(cust_result.responsedata.responseJSON)
+                        var status = cust_result.status
+                        console.log(cust_result)
+                        var cust_res = cust_result.responsedata.responseJSON
+                        var permission = "<?php echo $_SESSION['permission'] ?>"
 
-                            var row_data = "<tr>";
-                            row_data += "<td>" + project_json["id"] + "</td>";
-                            row_data += "<td>" + project_json["name"] + "</td>";
-                            row_data += "<td>" + project_json["projectCost"] + "</td>";
-                            row_data += "<td>" + project_json["deviceCount"] + "</td>";
-                            row_data += "<td>" + project_json["manpower"] + "</td>";
-                            row_data += "<td>" + project_json["projectStartDate"] + " - " + project_json["projectEndDate"] + "</td>";
-                            row_data += "<td>" + project_json["projectIncome"] + "</td>";
-                            row_data += "<td>" + project_json["projectProfit"] + "</td>";
-                            row_data += "</tr>";
+                        // if (permission == "ADMIN" || permission == "MANAGER") {
+                        //              "<td><a href='{$editUrl}' ><p class='fas fa-edit bg-info editCustomer' aria-hidden='true'></p></a>&nbsp;&nbsp;&nbsp;";
+                        //              "<a href='javascript:noReload()'><p class='fa fa-trash bg-info' id={$c_id} onclick='deleteCustomer($c_id)' aria-hidden='true'  ></p></a></td></tr>";
 
-                            row_details += row_data;
+
+                        //         } else {
+                        //              "<td>&nbsp;</td></tr>";
+                        //         }
+
+
+                        if (cust_res.length > 0) {
+                            toastr.success('Data Loaded Successfully!');
+
+                            for (let i = 0; i < cust_res.length; i++) {
+
+                                $('#tableData').append(`<tr id=${cust_res[i].id}>
+                            <td id=td.${cust_res[i].id}>${cust_res[i].id}</td>
+                            <td>${cust_res[i].name}</td>
+                            <td>${cust_res[i]['No. of Employees']}</td>
+                            <td> ${cust_res[i].CustomerIndustry}</td>
+    
+                            <td><a href='#' ><p class='fas fa-edit bg-info editCustomer' aria-hidden='true'onclick='editCustomer(${cust_res[i].id})'></p></a>&nbsp;&nbsp;&nbsp;
+                            <i class='fa fa-trash '  aria-hidden='true' onclick='deleteCustomer(${cust_res[i].id})' ></i></td>
+                            
+                            </tr>`);
+
+
+                            }
+                        } else {
+                            toastr.error('Error Occured!Try later')
                         }
-                    } else {
-                        row_details += "<tr><td colspan='8' align='center'>No Open Projects</td></tr>";
+
+
                     }
-                    row_details += "</tr>";
-                    return row_details;
-                }
+                });
             </script>
-        </div>
-    </div>
 
-    <!-- On click of Customer, show all open projects -->
-    <div class="modal fade" tabindex="-1" id="projectProjects">
-        <div class="modal-dialog modal-lg" id="projectProjectsDiv">
-            <div class="col-12" id="projectProjectsCol">
-                <div class="modal-content">
-                    <div class="modal-header bg-info">
-                        <h4 class="modal-title">Customer Projects</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-bordered table-hover" id="projectProjectsTable">
-                            <thead class="bg-info">
-                                <tr>
-                                    <td>Project ID</td>
-                                    <td>Project Name</td>
-                                    <td>Project Cost</td>
-                                    <td>Fleet</td>
-                                    <td>Manpower</td>
-                                    <td>Project Time</td>
-                                    <td>Income</td>
-                                    <td>Cost</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Nordic Constructions</td>
-                                    <td>$ 100, 000</td>
-                                    <td>6</td>
-                                    <td>3</td>
-                                    <td>01/01/2022 - 31/05/2022</td>
-                                    <td>$ 12,000</td>
-                                    <td>$ 88,000</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-                        <!-- <button type="submit" class="btn bg-info">Save changes</button> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- When Project is clicked, show list of all fleet objects linked to it -->
-    <div class="card" id="fleetDataForProject">
 
-    </div>
-</section>
+            <!-- DataTables -->
+            <link rel="stylesheet" href="assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+            <link rel="stylesheet" href="assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+            <link rel="stylesheet" href="assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+            <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
+            <link rel="stylesheet" href="assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 
-<!-- DataTables -->
-<link rel="stylesheet" href="assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-<link rel="stylesheet" href="assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-<link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
-<link rel="stylesheet" href="assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-
-<!-- DataTables  & Plugins -->
-<script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="assets/plugins/jszip/jszip.min.js"></script>
-<script src="assets/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="assets/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<script src="assets/plugins/select2/js/select2.full.min.js"></script>
-<script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/plugins/intl-tel-input/js/utils.js"></script>
+            <!-- DataTables  & Plugins -->
+            <script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
+            <script src="assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+            <script src="assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+            <script src="assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+            <script src="assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+            <script src="assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+            <script src="assets/plugins/jszip/jszip.min.js"></script>
+            <script src="assets/plugins/pdfmake/pdfmake.min.js"></script>
+            <script src="assets/plugins/pdfmake/vfs_fonts.js"></script>
+            <script src="assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+            <script src="assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+            <script src="assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+            <script src="assets/plugins/select2/js/select2.full.min.js"></script>
+            <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="assets/plugins/intl-tel-input/js/utils.js"></script>

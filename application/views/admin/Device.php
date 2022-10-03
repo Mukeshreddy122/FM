@@ -8,11 +8,11 @@
                     </h4>
                 </div>
                 <div class="card-body">
-                    <table id="deviceRecords" class="table table-sm table-hover">
-                        <thead class="bg-info">
+                    <table id="deviceRecords" class="table table-sm table-hover ">
+                        <thead class="bg-info font-weight-bold">
                             <tr>
                                 <td>#</td>
-                                <td>Name of Tool / Container</td>
+                                <td>Fleet Name</td>
                                 <td>Fleet Website</td>
                                 <td>Serial Number</td>
                                 <td>Sender Number</td>

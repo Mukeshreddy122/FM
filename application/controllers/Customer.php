@@ -106,8 +106,11 @@ class Customer extends CI_Controller
 	public function delete()
 	{
 		$success = $this->CustomerModel->deleteCustomer($this->input->get('id'));
+		// print_r($success);die;
 		if ($success == 204) {
 			redirect(base_url() . 'Customer', "refresh");
+		} else {
+			$this->session->set_flashdata("error", "Permission denied");
 		}
 	}
 }

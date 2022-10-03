@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body">
                     <table id="projectRecords" class="table  table-hover table-sm">
-                        <thead class="bg-info" >
+                        <thead class="bg-info font-weight-bold" >
                             <tr>
                                 <td>Project ID</td>
                                 <td>Customer Name</td>
@@ -23,6 +23,8 @@
                                 <td>Project Time</td>
                                 <td>Income</td>
                                 <td>Report</td>
+                                <td>Actions</td>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -39,6 +41,19 @@
                                 echo "<td class='projectTime'>{$project['projectStartDate']} - {$project['projectEndDate']}</td>";
                                 echo "<td class='projectIncome'>{$project['projectIncome']}</td>";
                                 echo "<td class='projectReport'><a href='#'>Report</a></td>";
+                                $deleteUrl = base_url() . 'Customer/delete?id=' . $project['id'];
+                                $editUrl = base_url() . 'Customer/edit?id=' . $project['id'];
+                                // echo "<td><a href='{$editUrl}' ><i class='fas fa-edit bg-info' id='editCustomer' name='editCustomer' aria-hidden='true'></i></a>&nbsp;&nbsp;";
+                                if ($_SESSION['permission'] == "ADMIN" || $_SESSION['permission'] == "MANAGER") {
+                                    $c_id = $project['id'];
+                                    echo "<td><a href='#' ><p class='fas fa-edit bg-info editCustomer' aria-hidden='true'></p></a>&nbsp;&nbsp;&nbsp;";
+                                    echo "<a href='{$deleteUrl}' ><p class='fa fa-trash bg-info' aria-hidden='true'></p></a></td></tr>";
+                                    // echo "<a href='#' ><p class='fa fa-trash bg-info' aria-hidden='true' onclick='deleteCustomer($c_id)'></p></a></td></tr>";
+                                } else {
+                                    echo "<td>&nbsp;</td></tr>";
+                                }
+                               
+                                
                             }
 
                             ?>
