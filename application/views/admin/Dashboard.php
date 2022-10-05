@@ -11,7 +11,7 @@
                     <input type="hidden" id="gpsLat">
                     <input type="hidden" id="gpsLon">
                     <div class="box-body">
-                        <div id="map" style="height: 560px; width: 100%;"></div>
+                        <div id="map" style="height: 550px; width: 100%;"></div>
                     </div>
                 </div>
                 <!-- /.box -->

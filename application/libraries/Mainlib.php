@@ -42,7 +42,7 @@ class Mainlib
     public function getUserTypes()
     {
         return array(
-            'Administrator', 'Manager', 'User', 'Read Only'
+            'Administrator', 'Manager', 'User'
         );
     }
     #list of devices

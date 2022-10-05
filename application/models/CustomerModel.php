@@ -25,6 +25,14 @@ class CustomerModel extends CI_Model
     return $this->apiresponse->getApiResponse($response->status_code, $response->body);
   }
 
+  #Select
+  public function getCustomer($customerId)
+  {
+    $options['userId'] = $this->session->userdata('email');
+    $response = WpOrg\Requests\Requests::GET($this->url . 'customer/' . $customerId, $this->headers, $this->apirequests->auth());
+    return $this->apiresponse->getApiResponse($response->status_code, $response->body);
+  }
+
   #Insert
   public function postCustomer($param)
   {
