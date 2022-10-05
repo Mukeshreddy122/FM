@@ -4,10 +4,10 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">
-                    <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
+                        <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
 
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
-                            <a rel="nofollow" id="NewProject" href="#NewProjectModel" data-toggle="modal" class="btn btn-block bg-info" onclick="resetFormData()">Add <?php echo $title; ?> <i class="fa fa-plus"></i></a>
+                            <a rel="nofollow" id="NewProject" href="#showProjectDetails" data-toggle="modal" class="btn btn-block bg-info" onclick="resetFormData()">Add <?php echo $title; ?> <i class="fa fa-plus"></i></a>
                         <?php } ?>
                     </h4>
                 </div>
@@ -54,205 +54,178 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php $index = 0;
-                            foreach ($projectInfo as $key => $project) {
-                                $index++;
-                                echo "<tr id='{$project['id']}'>";
-                                echo "<td class='projectId'>{$project['id']}</td>";
-                                echo "<td class='customerName'>{$this->CustomerModel->getCustomer($project['customerId'])['name']}</td>";
-                                // echo "<td class='customerName'>{$project['customerId']}</td>";
-                                echo "<td class='projectName'>{$project['name']}";
-                                echo "<br/><small><b>Date: </b>{$project['projectStartDate']} - {$project['projectEndDate']}</small></td>";
-                                echo "<td class='projectName'>{$project['deviceCount']}</td>";
-                                echo "<td class='projectName'>{$project['manpower']}</td>";
-                                // echo "<td class='projectTime'>{$project['projectStartDate']} - {$project['projectEndDate']}</td>";
-                                echo "<td class='projectCost'>$ {$project['projectCost']}</td>";
-                                echo "<td class='projectIncome'>$ {$project['projectIncome']}</td>";
-                                // echo "<td class='projectReport'><a href='#'>Report</a></td>";
-                                if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
-                                    echo "<td class='project-actions text-right'>";
-                                    echo "<a rel='nofollow' data-toggle='modal' href='#showProjectDetails'><i class='fas fa-folder text-info'></i></a>&nbsp;&nbsp;&nbsp;";
-                                    echo "<i class='fas fa-pencil-alt text-info'></i>&nbsp;&nbsp;&nbsp;";
-                                    if ($project['projectIsCompleted']) {
-                                        echo "<i class='fas fa-check text-green'></i></td>";
-                                    } else {
-                                        echo "<i class='fas fa-trash text-red'></i></td>";
-                                    }
-                                } else {
-                                    echo "<td><a href='#showProjectDetails'><i class='fas fa-folder text-info'></i></a>";
-                                    echo "<i class='fas fa-folder text-info'></i>&nbsp;&nbsp;&nbsp;";
-                                    echo "&nbsp;&nbsp;&nbsp;</td>";
-                                }
-                            }
+                        <tbody id="projectTableData">
+                            <?php
+                            $index = 0;
+
                             ?>
                         </tbody>
                     </table>
                 </div>
                 <script>
-                function deleteProject(project_id) {
-                   
-                    varfleet = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/project/${project_id}`, "DELETE", "", document.getElementById("session_token").value);
-                    console.log(project_id)
-                    $('#projectRecords').DataTable().clear();
-                  
+                    function deleteProject(project_id) {
 
-                }
-
-               
-            </script>
-            <script>
-                $(function() {
-
-
-                    $('#projectRecords').DataTable({
-                        "paging": true,
-                        "lengthChange": false,
-                        "searching": true,
-                        "ordering": true,
-                        "info": true,
-                        "autoWidth": false,
-                        "responsive": false,
-                        "order": [
-                            [1, 'desc']
-                        ]
-                    });
-                    
-
-                    var table = $('#projectRecords').DataTable();
-                    $('#projectRecords tbody tr td').on('click', 'i', function() {
-                        var tr = $(this).closest('tr');
-                        var row = table.row(tr);
-
-                        if (row.child.isShown()) {
-                            // This row is already open - close it
-                            row.child.hide();
-                            tr.removeClass('shown');
-                            $('#' + row.id() + ' td i').removeClass('fa-minus');
-                            $('#' + row.id() + ' td i').addClass('fa-plus');
-                        } else {
-                            // Open this row
-                            // row.child(showCustomerProjects(row.data())).show();
-                            row.child(showCustomerProjects(row)).show();
-
-                            tr.addClass('shown');
-                            $('#' + row.id() + ' td i').removeClass('fa-plus');
-                            $('#' + row.id() + ' td i').addClass('fa-minus');
-                        }
-                    });
-                    // dropdown
-                    function showCustomerProjects(row_data) {
-                    console.log(row_data.id());
-
-                    var row_details = "<table id='customerProjectList' class='table' width='80%' cellpadding='2' cellspacing='2'>";
-                    row_details += "<thead class='bg-info'>";
-                    row_details += "<td>Project ID</td>";
-                    row_details += "<td>Project Name</td>";
-                    row_details += "<td>Project Cost</td>";
-                    row_details += "<td>Fleet</td>";
-                    row_details += "<td>Manpower</td>";
-                    row_details += "<td>Project Time</td>";
-                    row_details += "<td>Income</td>";
-                    row_details += "<td>Cost</td>" + "</thead>";
-
-                    var project_data = GetProjectsForCustomer(row_data.id());
-                    console.log(project_data);
-                    if (!(project_data == null) && project_data.length > 0) {
-                        for (let pi = 0; pi < project_data.length; pi++) {
-                            var project_json = JSON.parse(project_data[pi]);
-
-                            var row_data = "<tr>";
-                            row_data += "<td>" + project_json["id"] + "</td>";
-                            row_data += "<td>" + project_json["name"] + "</td>";
-                            row_data += "<td>" + project_json["projectCost"] + "</td>";
-                            row_data += "<td>" + project_json["deviceCount"] + "</td>";
-                            row_data += "<td>" + project_json["manpower"] + "</td>";
-                            row_data += "<td>" + project_json["projectStartDate"] + " - " + project_json["projectEndDate"] + "</td>";
-                            row_data += "<td>" + project_json["projectIncome"] + "</td>";
-                            row_data += "<td>" + project_json["projectProfit"] + "</td>";
-                            row_data += "</tr>";
-
-                            row_details += row_data;
-                        }
-                    } else {
-                        row_details += "<tr><td colspan='8' align='center'>No Open Projects</td></tr>";
+                        varfleet = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/project/${project_id}`, "DELETE", "", document.getElementById("session_token").value);
+                        console.log(project_id)
+                        $('#projectRecords').DataTable().clear();
                     }
-                    row_details += "</tr>";
-                    return row_details;
-                }
-                    $(document).ready(
-                        loadTableData()
-                    );
+                </script>
+                <script>
+                    $(function() {
+                        $('#projectRecords').DataTable({
+                            "paging": true,
+                            "lengthChange": false,
+                            "searching": true,
+                            "ordering": true,
+                            "info": true,
+                            "autoWidth": false,
+                            "responsive": false,
+                            "order": [
+                                [1, 'desc']
+                            ]
+                        });
 
+                        // var table = $('#projectRecords').DataTable();
+                        $('#projectRecords tbody tr td').on('click', 'i', function() {
+                            var tr = $(this).closest('tr');
+                            var row = table.row(tr);
 
-                    function loadTableData() {
-                       
-                        var project_result = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project", "GET", " ", document.getElementById("session_token").value);
-                        console.log(project_result.responsedata.responseJSON)
-                        var status =project_result.status
-                        console.log(status)
-                        var project_res =project_result.responsedata.responseJSON
-                        var permission = "<?php echo $_SESSION['permission'] ?>"
-                        console.log(permission)
-                        $(".dataTables_empty").empty();
+                            if (row.child.isShown()) {
+                                // This row is already open - close it
+                                row.child.hide();
+                                tr.removeClass('shown');
+                                $('#' + row.id() + ' td i').removeClass('fa-minus');
+                                $('#' + row.id() + ' td i').addClass('fa-plus');
+                            } else {
+                                // Open this row
+                                // row.child(showCustomerProjects(row.data())).show();
+                                row.child(showCustomerProjects(row)).show();
 
-
-                        if (project_res.length > 0) {
-                            toastr.success(`Data Loaded!`);
-
-                            for (let i = 0; i < project_res.length; i++) {
-
-                                var linedata = '';
-                                linedata = `<tr id=${project_res[i].id}>`;
-                                linedata += `<td><i id=${project_res[i].id} class="fa fa-plus" exp></i>&nbsp;${project_res[i].id}</td>`;
-                                linedata += `<td>${project_res[i].name}</td>`;
-                                linedata += `<td> ${project_res[i].projectCost}</td>`;
-                                linedata += `<td> ${project_res[i].manpower}</td>`;
-                                linedata += `<td> ${project_res[i].projectIncome}</td>`;
-                                linedata += `<td> ${project_res[i].projectProfit}</td>`;
-                                linedata += `<td>${project_res[i].projectStartDate}</td>`;
-                                linedata += `<td>${project_res[i].projectEndDate}</td>`;
-
-                                if (permission === "ADMIN" || permission === "MANAGER") {
-                                    linedata += `<td><a href='{$editUrl}' ><p class='fas fa-edit bg-info editCustomer' aria-hidden='true'></p></a>&nbsp;&nbsp;&nbsp;`;
-                                    linedata += `<a href='#'><p class='fa fa-trash '  onclick='deleteProject(${project_res[i].id})' aria-hidden='true'  ></p></a></td></tr>`;
-                                } 
-                               
-
-                                linedata += `</tr>`;
-
-                                $('#projectRecords').append(linedata);
+                                tr.addClass('shown');
+                                $('#' + row.id() + ' td i').removeClass('fa-plus');
+                                $('#' + row.id() + ' td i').addClass('fa-minus');
                             }
-                        } else {
-                            
-                            toastr.error('Sorry Try Later!')
+                        });
+                        // dropdown
+                        function showCustomerProjects(row_data) {
+                            console.log(row_data.id());
+
+                            var row_details = "<table id='customerProjectList' class='table' width='80%' cellpadding='2' cellspacing='2'>";
+                            row_details += "<thead class='bg-info'>";
+                            row_details += "<td>Project ID</td>";
+                            row_details += "<td>Project Name</td>";
+                            row_details += "<td>Project Cost</td>";
+                            row_details += "<td>Fleet</td>";
+                            row_details += "<td>Manpower</td>";
+                            row_details += "<td>Project Time</td>";
+                            row_details += "<td>Income</td>";
+                            row_details += "<td>Cost</td>" + "</thead>";
+
+                            var project_data = GetProjectsForCustomer(row_data.id());
+                            console.log(project_data);
+                            if (!(project_data == null) && project_data.length > 0) {
+                                for (let pi = 0; pi < project_data.length; pi++) {
+                                    var project_json = JSON.parse(project_data[pi]);
+
+                                    var row_data = "<tr>";
+                                    row_data += "<td>" + project_json["id"] + "</td>";
+                                    row_data += "<td>" + project_json["name"] + "</td>";
+                                    row_data += "<td>" + project_json["projectCost"] + "</td>";
+                                    row_data += "<td>" + project_json["deviceCount"] + "</td>";
+                                    row_data += "<td>" + project_json["manpower"] + "</td>";
+                                    row_data += "<td>" + project_json["projectStartDate"] + " - " + project_json["projectEndDate"] + "</td>";
+                                    row_data += "<td>" + project_json["projectIncome"] + "</td>";
+                                    row_data += "<td>" + project_json["projectProfit"] + "</td>";
+                                    row_data += "</tr>";
+
+                                    row_details += row_data;
+                                }
+                            } else {
+                                row_details += "<tr><td colspan='8' align='center'>No Open Projects</td></tr>";
+                            }
+                            row_details += "</tr>";
+                            return row_details;
                         }
-                       
-                        
+                        $(document).ready(
+                            loadTableData()
+                        );
 
+                        function loadTableData() {
+                            $(".dataTables_empty").empty();
+                            var project_json = "";
+                            <?php
+                            if (sizeof($projectInfo) > 0) {
+                                // echo "toastr.success('Data Loaded!');";
+                                $project_row_data = "";
+                                foreach ($projectInfo as $key => $project) {
+                                    $index++;
 
-
-                    }
-                });
-            </script>
+                                    // $project_row_data = "";
+                                    $project_row_data = $project_row_data . "<tr id='{$project['id']}'>";
+                                    $project_row_data = $project_row_data . "<td class='projectId'>{$project['id']}</td>";
+                                    $project_row_data = $project_row_data . "<td class='customerName'>{$this->CustomerModel->getCustomer($project['customerId'])['name']}</td>";
+                                    // echo "<td class='customerName'>{$project['customerId']}</td>";
+                                    $project_row_data = $project_row_data . "<td class='projectName'>{$project['name']}";
+                                    $project_row_data = $project_row_data . "<br/><small><b>Date: </b>{$project['projectStartDate']} - {$project['projectEndDate']}</small></td>";
+                                    $project_row_data = $project_row_data . "<td class='projectName'>{$project['deviceCount']}</td>";
+                                    $project_row_data = $project_row_data . "<td class='projectName'>{$project['manpower']}</td>";
+                                    // echo "<td class='projectTime'>{$project['projectStartDate']} - {$project['projectEndDate']}</td>";
+                                    $project_row_data = $project_row_data . "<td class='projectCost'>$ {$project['projectCost']}</td>";
+                                    $project_row_data = $project_row_data . "<td class='projectIncome'>$ {$project['projectIncome']}</td>";
+                                    // echo "<td class='projectReport'><a href='#'>Report</a></td>";
+                                    if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
+                                        $project_row_data = $project_row_data . "<td class='project-actions text-right'>";
+                                        if ($project['projectIsCompleted']) {
+                                            $project_row_data = $project_row_data . "<i class='fas fa-eye text-info' onclick='showProjectDetails({$project['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                                            $project_row_data = $project_row_data . "<i class='fas fa-pencil-alt text-gray disabled'></i>&nbsp;&nbsp;&nbsp;";
+                                            $project_row_data = $project_row_data . "<i class='fas fa-check text-green'></i></td>";
+                                        } else {
+                                            $project_row_data = $project_row_data . "<i class='fas fa-eye text-info' onclick='showProjectDetails({$project['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                                            $project_row_data = $project_row_data . "<i class='fas fa-pencil-alt text-orange' onclick='editProject({$project['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                                            $project_row_data = $project_row_data . "<i class='fas fa-trash text-danger outline'></i></td>";
+                                        }
+                                    } else {
+                                        $project_row_data = $project_row_data . "<td><a href='#showProjectDetails'><i class='fas fa-folder text-info'></i></a>";
+                                        $project_row_data = $project_row_data . "<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;";
+                                        $project_row_data = $project_row_data . "&nbsp;&nbsp;&nbsp;</td>";
+                                    }
+                                    $project_row_data = $project_row_data . "</tr>";
+                                }
+                                echo "$('#projectRecords').DataTable().destroy();";
+                                echo "$('#projectRecords').find('tbody').append(\"$project_row_data\");";
+                                echo "$('#projectRecords').DataTable().draw();";
+                            } else {
+                                echo "toastr.error('Unable to get data!')";
+                            }
+                            ?>
+                        }
+                    });
+                </script>
             </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="addEditProjectModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-info">
+                        <h4 class="modal-title">Project Details</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card card-primary">
+                                    <div class="card-header">
+                                        <h3 class="card-title">General</h3>
 
-            <!-- When Project is clicked, show list of all fleet objects linked to it -->
-
-            <!-- New Project Modal -->
-            <div class="modal fade" tabindex="-1" id="NewProjectModel">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-info" id="addProject">
-                            <h4 class="modal-title">New Project</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form class="form" role="form" method="post" action="<?php echo base_url() ?>Project/manageProject">
-                                <div class="row">
-                                    <div class="col-md-6">
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
                                         <div class="row">
                                             <div class="hidden-fields">
                                                 <input type="hidden" id="projectId" name="projectId" />
@@ -279,7 +252,22 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card ">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Budget</h3>
+
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <label class="form-control-label">Project Cost</label>
@@ -324,21 +312,23 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- /.card-body -->
                                 </div>
-                                <span style="color:red"><?php echo $this->session->flashdata('info') ?></span>
-                                <span style="color:red"><?php echo $this->session->flashdata('error') ?></span>
+                                <!-- /.card -->
+                            </div>
                         </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn bg-info">Save changes</button>
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                                <input type="submit" value="Save" id="btnSaveProject" class="btn btn-success float-right">
+                            </div>
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="moda fade" tabindex="-1" id="showProjectDetails">
-            <div class="moda-dialog modal-lg">
+        <div class="modal fade" tabindex="-1" id="showProjectDetails">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header bg-info">
                         <h4 class="modal-title">Project Details</h4>
@@ -347,72 +337,147 @@
                         </button>
                     </div>
                     <div class="modal-body">
+
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="card card-primary">
-                                    <div class="card-header">
-                                        <h3 class="card-title">General</h3>
-
-                                        <div class="card-tools">
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
+                            <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1">
+                                <div class="row">
+                                    <div class="col-12 col-sm-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Cost</span>
+                                                <span class="info-box-number text-center text-muted mb-0" id="roProjectCost"></span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <label for="inputName">Project Name</label>
-                                            <input type="text" id="inputName" class="form-control">
+                                    <div class="col-12 col-sm-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Income</span>
+                                                <span class="info-box-number text-center text-muted mb-0" id="roProjectIncome"></span>
+                                            </div>
                                         </div>
-
                                     </div>
-                                    <!-- /.card-body -->
+                                    <div class="col-12 col-sm-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Fleet</span>
+                                                <span class="info-box-number text-center text-muted mb-0" id="roProjectFleet"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Manpower</span>
+                                                <span class="info-box-number text-center text-muted mb-0" id="roProjectManpower"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-2">
+                                        <h3 class="text-orange center"><i class="fas fa-wrench"></i> Fleet</h3>
+                                    </div>
                                 </div>
-                                <!-- /.card -->
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card card-secondary">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Budget</h3>
-
-                                        <div class="card-tools">
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <label for="inputEstimatedBudget">Estimated budget</label>
-                                            <input type="number" id="inputEstimatedBudget" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputSpentBudget">Total amount spent</label>
-                                            <input type="number" id="inputSpentBudget" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputEstimatedDuration">Estimated project duration</label>
-                                            <input type="number" id="inputEstimatedDuration" class="form-control">
-                                        </div>
-                                    </div>
-                                    <!-- /.card-body -->
-                                </div>
-                                <!-- /.card -->
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-12">
-                                <a href="#" class="btn btn-secondary">Cancel</a>
-                                <input type="submit" value="Create new Project" class="btn btn-success float-right">
+                            <div class="col-12 col-md-8 col-lg-8 order-1 order-md-1">
+                                <div class="text-muted">
+                                    <p class="text-sm">Customer Name
+                                        <b class="d-block" id="roCustomerName">Deveint Inc</b>
+                                    </p>
+                                    <p class="text-sm">Project Name
+                                        <b class="d-block" id="roProjectName">Tony Chicken</b>
+                                    </p>
+                                    <p class="text-sm">Start Date
+                                        <b class="d-block" id="roStartDate">Tony Chicken</b>
+                                    </p>
+                                    <p class="text-sm">End Date
+                                        <b class="d-block" id="roEndDate">Tony Chicken</b>
+                                    </p>
+                                </div>
+
+                            </div>
+                            <div class="col-12 col-md-4 col-lg-4 order-2 order-md-2">
+                                <div id="roFleetList">
+
+                                </div>
+                            </div>
+                            <div class="row" id="roEmployeeList">
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
 </section>
 
+<script type="text/javascript">
+    function editProject(projectid) {
+        permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
+        customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + <?php echo $_SESSION['customerId'] ?>, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+
+        // alert(customer['name']);
+
+        if (permission == "ADMIN") {
+            // change customername textbox to search & select
+        } else {
+            // pre-populate customer details from session information
+            document.getElementById('customerName').value = customer['name'];
+            document.getElementById('customerName').classList.add('disabled');
+            document.getElementById('customerName').setAttribute('readonly', 'readonly');
+        }
+        if (projectid == -1) {
+            // all fields blank
+
+        } else {
+            var project_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projectid, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+            // Mukesh Work
+            // pull field names from #addEditProjectModal MODAL section 
+            // and populate data for each field from project_json 
+            document.getElementById('projectName').value = project_json['name'];
+        }
+        $('#addEditProjectModal').modal('show');
+    }
+
+    function showProjectDetails(projectid) {
+        // this is read only view of the project details section
+        // shown only to user. admin & manager wil see the editProject / addEditProjectModal section
+        var project_response = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projectid, "GET", "", document.getElementById("session_token").value).responsedata.responseText;
+        var project_json = JSON.parse(project_response);
+        // alert(device_list['projectCost']);
+        // Mukesh to add all other values
+        $('#roProjectCost').html(project_json['projectCost']);
+        $('#roProjectIncome').html(project_json['projectIncome']);
+
+        var device_array = [];
+
+        device_array = project_json['devicesList'];
+        var device_div = "";
+        device_array.forEach(element => {
+            var device_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + element, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+            var device_img = performAPIAJAXCallGeneric("http://vghar.ddns.net:6060/ZFMS/fleet/" + element + "/image", "GET", "", document.getElementById("session_token").value).responsedata.responseText;
+            device_div += "<div class='post'>";
+            device_div += "<div class='user-block'>";
+            device_div += "<img class='img-circle img-bordered-sm' src='data:image/png;base64, " + device_img + "' alt=''>";
+            device_div += "<span class='username'><p>" + device_json['name'] + "</p></span>";
+            if (device_json['deviceOnline']) {
+                device_div += "<span class='description'><i class='fa fa-map-marker text-green'></i>&nbsp;Online";
+            } else {
+                device_div += "<span class='description'><i class='fa fa-map-marker text-red'></i>&nbsp;Offline";
+            }
+            device_div += "<p>Last Online Time: " + device_json['lastOnlineTime'] + "</p></span>";
+            device_div += "<p>Notes: " + device_json['notes'] + "</p>";
+            if (device_json['underMaintenance']) {
+                device_div += "<p>Maintenance: <i class='fa fa-wrench text-red'></i>" + "</p>";
+            } else {
+                device_div += "<p>Maintenance: <i class='fa fa-check text-green'></i>" + "</p>";
+            }
+            device_div += "</div>";
+        });
+        $('#roFleetList').html(device_div);
+        $('#showProjectDetails').modal('show');
+    }
+</script>
 <!-- DataTables -->
 <link rel="stylesheet" href="assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">

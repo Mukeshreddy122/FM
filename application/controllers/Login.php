@@ -48,7 +48,7 @@ class Login extends CI_Controller
                 $CompanyRole = (array_key_exists('Company Role', $logininfo)) ? $logininfo['Company Role'] : "";
                 $ExternalCompany = (array_key_exists('External Company', $logininfo)) ? $logininfo['External Company'] : "";
                 $ProjectConnection = (array_key_exists('Project Connection', $logininfo)) ? $logininfo['Project Connection'] : "";
-
+                $customerId = $logininfo['customerId'];
                 // $settings_customerName = 'true';
                 // $settings_customerTypeOfCompany = $settingsInfo['customerTypeOfCompany'];
                 $session_data = array(
@@ -63,6 +63,7 @@ class Login extends CI_Controller
                     'Project Connection' => $ProjectConnection,
                     'permission' => $permission,
                     'USER_API_TOKEN' => $user_api_token,
+                    'customerId' => $customerId
                     // 'settings_customerName' => $settings_customerName,
                 );
 

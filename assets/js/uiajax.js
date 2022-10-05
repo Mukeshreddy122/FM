@@ -213,6 +213,38 @@ function performAPIAJAXCall(base_url, request_type, req_body, headers) {
 	return response_text;
 }
 
+function performAPIAJAXCallGeneric(base_url, request_type, req_body, headers) {
+	// console.log("Req body: " + req_body);
+	var response_text = "";
+	var ajax_call = $.ajax({
+		type: request_type,
+		url: base_url,
+		data: req_body,
+		// dataType: "json",
+		crossDomain: true,
+		async: false,
+		headers: {
+			// 'Accept': 'application/json',
+			// 'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': '*',
+			"USER_API_TOKEN": headers
+		}
+	});
+	ajax_call.done(function (req, status, resultData) {
+		response_text={
+			"status":status,
+			"responsedata":resultData
+		}
+	});
+	ajax_call.fail(function (req, status, errorData) {
+		response_text={
+			"status":status,
+			"responsedata":errorData
+		}
+	});
+	return response_text;
+}
+
 function createCustomer() {
 	var cust = document.getElementById("newCustomerForm");
 	// cust.
