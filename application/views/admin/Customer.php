@@ -196,109 +196,53 @@
             </div>
 
             <script>
-                function deleteCustomer(cust_id) {
-                    // perform AJAX delete
-                    var cust_result = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/customer/${cust_id}`, "DELETE", "", document.getElementById("session_token").value);
-                    console.log(cust_id)
-                    $('#customerList').DataTable().clear();
-                    // loadTableData();
-
-                }
-
-                function editCustomer(cust_id) {
-                    var cust_result = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/customer/${cust_id}`, "DELETE", "", document.getElementById("session_token").value);
-
-                }
-            </script>
-            <script>
-                $(function() {
-
-
-                    $('#customerList').DataTable({
-                        "paging": true,
-                        "lengthChange": false,
-                        "searching": true,
-                        "ordering": true,
-                        "info": false,
-                        "autoWidth": false,
-                        "responsive": false,
-                        order: [
-                            [1, 'desc']
-                        ]
-                    });
-                    $(".dataTables_empty").empty();
-
-                    var table = $('#customerList').DataTable();
-                    $('#customerList tbody tr td').on('click', 'i', function() {
-                        var tr = $(this).closest('tr');
-                        var row = table.row(tr);
-
-                        if (row.child.isShown()) {
-                            // This row is already open - close it
-                            row.child.hide();
-                            tr.removeClass('shown');
-                            $('#' + row.id() + ' td i').removeClass('fa-minus');
-                            $('#' + row.id() + ' td i').addClass('fa-plus');
-                        } else {
-                            // Open this row
-                            // row.child(showCustomerProjects(row.data())).show();
-                            row.child(showCustomerProjects(row)).show();
-
-                            tr.addClass('shown');
-                            $('#' + row.id() + ' td i').removeClass('fa-plus');
-                            $('#' + row.id() + ' td i').addClass('fa-minus');
-                        }
-                    });
-
-                    $(document).ready(
-                        loadTableData()
-                    );
-
-
-                    function loadTableData() {
-
-                        var cust_result = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer ", "GET", "", document.getElementById("session_token").value);
-                        console.log(cust_result.responsedata.responseJSON)
-                        var status = cust_result.status
-                        console.log(cust_result)
-                        var cust_res = cust_result.responsedata.responseJSON
-                        var permission = "<?php echo $_SESSION['permission'] ?>"
-                        console.log(permission)
-
-
-
-                        if (cust_res.length > 0) {
-                            toastr.success('Data Loaded Successfully!');
-
-                            for (let i = 0; i < cust_res.length; i++) {
-
-                                var linedata = '';
-                                linedata = `<tr id=${cust_res[i].id}>`;
-                                linedata += `                   <td id=td.${cust_res[i].id}>${cust_res[i].id}</td>`;
-                                linedata += `          <td>${cust_res[i].name}</td>`;
-                                linedata += `          <td>${cust_res[i]['No. of Employees']}</td>`;
-                                linedata += `          <td> ${cust_res[i].CustomerIndustry}</td>`;
-
-                                if (permission === "ADMIN" || permission === "MANAGER") {
-                                    linedata += `<td><a href='{$editUrl}' ><p class='fas fa-edit bg-info editCustomer' aria-hidden='true'></p></a>&nbsp;&nbsp;&nbsp;`;
-                                    linedata += `<a href='javascript:noReload()'><p class='fa fa-trash bg-info' id={$c_id} onclick='deleteCustomer($c_id)' aria-hidden='true'  ></p></a></td></tr>`;
-                                } else {
-                                    linedata += `<td>&nbsp;</td></tr>`;
-                                }
-                                linedata += `<td><a href='#' ><p class='fas fa-edit bg-info editCustomer' aria-hidden='true'onclick='editCustomer(${cust_res[i].id})'></p></a>&nbsp;&nbsp;&nbsp`;
-                                linedata += `<i class='fa fa-trash '  aria-hidden='true' onclick='deleteCustomer(${cust_res[i].id})' ></i></td>`;
-
-                                linedata += `</tr>`;
-
-                                $('#tableData').append(linedata);
-                            }
-                        } else {
-                            toastr.error('Error Occured!Try later')
-                        }
-
-
-                    }
-                });
+                    $(document).ready(function(){
+                    // loadTableData()
+            var customerData = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer ", "GET", "", document.getElementById("session_token").value)
+            var cust_result=customerData.responsedata.responseJSON
+            console.log(cust_result)
+             $('#customerList').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": false,
+            data: cust_result,
+            order: [
+                [1, 'desc']
+                ]   ,
+            columns: [{
+                data: "id",
+                defaultContent:"<i class='fas fa-plus' />",
+                orderable: false
+            },
+            {
+                data: "name"
+            },
+            {
+                data:["No. of Employees"]
+            },
+            {
+                data:"Visit Address"
+            },
+            {
+                data: null,
+                defaultContent: '<i class="fas fa-edit "/>'+"   "+"  "+'<i class="fa fa-trash delete "/>',
+                orderable: false
+            },
+            
+        
+            ],
+           
+            });
+        })
+          
+  
+ 
+             
+                
             </script>
 
 
