@@ -4,6 +4,8 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">
+                    <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
+
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
                             <a rel="nofollow" id="NewProject" href="#NewProjectModel" data-toggle="modal" class="btn btn-block bg-info" onclick="resetFormData()">Add <?php echo $title; ?> <i class="fa fa-plus"></i></a>
                         <?php } ?>
@@ -88,18 +90,151 @@
                     </table>
                 </div>
                 <script>
-                    $(function() {
-                        $('#projectRecords').DataTable({
-                            "paging": true,
-                            "lengthChange": false,
-                            "searching": true,
-                            "ordering": true,
-                            "info": true,
-                            "autoWidth": false,
-                            "responsive": true,
-                        });
+                function deleteProject(project_id) {
+                   
+                    varfleet = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/project/${project_id}`, "DELETE", "", document.getElementById("session_token").value);
+                    console.log(project_id)
+                    $('#projectRecords').DataTable().clear();
+                  
+
+                }
+
+               
+            </script>
+            <script>
+                $(function() {
+
+
+                    $('#projectRecords').DataTable({
+                        "paging": true,
+                        "lengthChange": false,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": false,
+                        "responsive": false,
+                        "order": [
+                            [1, 'desc']
+                        ]
                     });
-                </script>
+                    
+
+                    var table = $('#projectRecords').DataTable();
+                    $('#projectRecords tbody tr td').on('click', 'i', function() {
+                        var tr = $(this).closest('tr');
+                        var row = table.row(tr);
+
+                        if (row.child.isShown()) {
+                            // This row is already open - close it
+                            row.child.hide();
+                            tr.removeClass('shown');
+                            $('#' + row.id() + ' td i').removeClass('fa-minus');
+                            $('#' + row.id() + ' td i').addClass('fa-plus');
+                        } else {
+                            // Open this row
+                            // row.child(showCustomerProjects(row.data())).show();
+                            row.child(showCustomerProjects(row)).show();
+
+                            tr.addClass('shown');
+                            $('#' + row.id() + ' td i').removeClass('fa-plus');
+                            $('#' + row.id() + ' td i').addClass('fa-minus');
+                        }
+                    });
+                    // dropdown
+                    function showCustomerProjects(row_data) {
+                    console.log(row_data.id());
+
+                    var row_details = "<table id='customerProjectList' class='table' width='80%' cellpadding='2' cellspacing='2'>";
+                    row_details += "<thead class='bg-info'>";
+                    row_details += "<td>Project ID</td>";
+                    row_details += "<td>Project Name</td>";
+                    row_details += "<td>Project Cost</td>";
+                    row_details += "<td>Fleet</td>";
+                    row_details += "<td>Manpower</td>";
+                    row_details += "<td>Project Time</td>";
+                    row_details += "<td>Income</td>";
+                    row_details += "<td>Cost</td>" + "</thead>";
+
+                    var project_data = GetProjectsForCustomer(row_data.id());
+                    console.log(project_data);
+                    if (!(project_data == null) && project_data.length > 0) {
+                        for (let pi = 0; pi < project_data.length; pi++) {
+                            var project_json = JSON.parse(project_data[pi]);
+
+                            var row_data = "<tr>";
+                            row_data += "<td>" + project_json["id"] + "</td>";
+                            row_data += "<td>" + project_json["name"] + "</td>";
+                            row_data += "<td>" + project_json["projectCost"] + "</td>";
+                            row_data += "<td>" + project_json["deviceCount"] + "</td>";
+                            row_data += "<td>" + project_json["manpower"] + "</td>";
+                            row_data += "<td>" + project_json["projectStartDate"] + " - " + project_json["projectEndDate"] + "</td>";
+                            row_data += "<td>" + project_json["projectIncome"] + "</td>";
+                            row_data += "<td>" + project_json["projectProfit"] + "</td>";
+                            row_data += "</tr>";
+
+                            row_details += row_data;
+                        }
+                    } else {
+                        row_details += "<tr><td colspan='8' align='center'>No Open Projects</td></tr>";
+                    }
+                    row_details += "</tr>";
+                    return row_details;
+                }
+                    $(document).ready(
+                        loadTableData()
+                    );
+
+
+                    function loadTableData() {
+                       
+                        var project_result = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project", "GET", " ", document.getElementById("session_token").value);
+                        console.log(project_result.responsedata.responseJSON)
+                        var status =project_result.status
+                        console.log(status)
+                        var project_res =project_result.responsedata.responseJSON
+                        var permission = "<?php echo $_SESSION['permission'] ?>"
+                        console.log(permission)
+                        $(".dataTables_empty").empty();
+
+
+                        if (project_res.length > 0) {
+                            toastr.success(`Data Loaded!`);
+
+                            for (let i = 0; i < project_res.length; i++) {
+
+                                var linedata = '';
+                                linedata = `<tr id=${project_res[i].id}>`;
+                                linedata += `<td><i id=${project_res[i].id} class="fa fa-plus" exp></i>&nbsp;${project_res[i].id}</td>`;
+                                linedata += `<td>${project_res[i].name}</td>`;
+                                linedata += `<td> ${project_res[i].projectCost}</td>`;
+                                linedata += `<td> ${project_res[i].manpower}</td>`;
+                                linedata += `<td> ${project_res[i].projectIncome}</td>`;
+                                linedata += `<td> ${project_res[i].projectProfit}</td>`;
+                                linedata += `<td>${project_res[i].projectStartDate}</td>`;
+                                linedata += `<td>${project_res[i].projectEndDate}</td>`;
+
+                                if (permission === "ADMIN" || permission === "MANAGER") {
+                                    linedata += `<td><a href='{$editUrl}' ><p class='fas fa-edit bg-info editCustomer' aria-hidden='true'></p></a>&nbsp;&nbsp;&nbsp;`;
+                                    linedata += `<a href='#'><p class='fa fa-trash '  onclick='deleteProject(${project_res[i].id})' aria-hidden='true'  ></p></a></td></tr>`;
+                                } 
+                               
+
+                                linedata += `</tr>`;
+
+                                $('#projectRecords').append(linedata);
+                            }
+                        } else {
+                            
+                            toastr.error('Sorry Try Later!')
+                        }
+                       
+                        
+
+
+
+                    }
+                });
+            </script>
             </div>
 
             <!-- When Project is clicked, show list of all fleet objects linked to it -->
@@ -108,7 +243,7 @@
             <div class="modal fade" tabindex="-1" id="NewProjectModel">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <div class="modal-header bg-info">
+                        <div class="modal-header bg-info" id="addProject">
                             <h4 class="modal-title">New Project</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>

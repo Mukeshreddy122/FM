@@ -78,7 +78,7 @@
 
 <script>
     var zoom = 16;
-    // setInterval(mapCaller, 1000)
+    setInterval(mapCaller, 1000)
     var map = L.map('map').setView([20.5937, 78.9629], 5);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -98,4 +98,5 @@
         marker.bindTooltip(data[i].deviceName).openTooltip();
         map.on('click', onMapClick);
     }
+    result=""
 </script>
