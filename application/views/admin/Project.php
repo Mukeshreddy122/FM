@@ -7,7 +7,7 @@
                         <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
 
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
-                            <a rel="nofollow" id="NewProject" href="#showProjectDetails" data-toggle="modal" class="btn btn-block bg-info" onclick="resetFormData()">Add <?php echo $title; ?> <i class="fa fa-plus"></i></a>
+                            <button id="NewProject" data-toggle="modal" class="btn btn-block bg-info" onclick="editProject(-1)">Add <?php echo $title; ?> <i class="fa fa-plus"></i></button>
                         <?php } ?>
                     </h4>
                 </div>
@@ -64,7 +64,6 @@
                 </div>
                 <script>
                     function deleteProject(project_id) {
-
                         varfleet = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/project/${project_id}`, "DELETE", "", document.getElementById("session_token").value);
                         console.log(project_id)
                         $('#projectRecords').DataTable().clear();
@@ -72,6 +71,11 @@
                 </script>
                 <script>
                     $(function() {
+                        $('#selEmpList').select2();
+                        $('#newCustomerName').select2();
+                        $('#selFleetList').select2();
+    
+
                         $('#projectRecords').DataTable({
                             "paging": true,
                             "lengthChange": false,
@@ -203,7 +207,7 @@
                 </script>
             </div>
         </div>
-        <div class="modal fade" tabindex="-1" id="addEditProjectModal">
+        <div class="modal fade" id="addEditProjectModal">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header bg-info">
@@ -215,7 +219,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="card card-primary">
+                                <div class="card card-light">
                                     <div class="card-header">
                                         <h3 class="card-title">General</h3>
 
@@ -231,9 +235,24 @@
                                                 <input type="hidden" id="projectId" name="projectId" />
                                             </div>
                                             <div class="col-sm-12">
-                                                <label class="form-control-label">Customer Name</label>
-                                                <input type="text" placeholder="Customer Name" id="customerName" name="customerName" required class="form-control" />
+                                                <!-- <label class="form-control-label">Customer Name</label>
+                                                <input type="text" placeholder="Customer Name" id="customerName" name="customerName" required class="form-control" /> -->
+                                              <div class="form-group"><label>Minimal</label>
+                                                <select class="form-control select2 " id="newCustomerName" style="width: 100%;" >
+                                                    <option selected="selected">Alabama</option>
+                                                    <option>Alaska</option>
+
+
+
+
+                                                    <option>California</option>
+                                                    <option>Delaware</option>
+                                                    <option>Tennessee</option>
+                                                    <option>Texas</option>
+                                                    <option>Washington</option>
+                                                </select> </div>  
                                             </div>
+
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12">
@@ -257,7 +276,7 @@
                                 <!-- /.card -->
                             </div>
                             <div class="col-md-6">
-                                <div class="card ">
+                                <div class="card card-light ">
                                     <div class="card-header">
                                         <h3 class="card-title">Budget</h3>
 
@@ -285,28 +304,26 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <label class="form-control-label">Fleet</label>
-                                                <input type="text" placeholder="Manpower" id="projectFleet" name="projectFleet" required class="form-control" />
+                                                <input type="text" placeholder="Fleet" id="projectFleet" name="projectFleet" required class="form-control" />
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-sm-6">
-                                                <label class="form-control-label">People on Project</label>
-                                                <div class="form-select">
-                                                    <select id="peopleonProject" multiple name="peopleonProject" class="custom-select">
-                                                        <?php
-                                                        echo "<option value=''></option>";
-                                                        ?>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group select2-info">
+                                                    <label>Employees</label>
+                                                    <select id="selEmpList" class="select2" multiple="multiple" data-placeholder="Select a Employee" data-dropdown-css-class="select2-info" style="width: 100%;">
+
+
                                                     </select>
                                                 </div>
                                             </div>
 
                                             <div class="col-sm-6">
-                                                <label class="form-control-label">Fleet</label>
-                                                <div class="form-select">
-                                                    <select id="devices" multiple name="devices" class="custom-select">
-                                                        <?php
-                                                        echo "<option value=''></option>";
-                                                        ?>
+                                                <label class="form-control-label ">Fleet</label>
+                                                <div class="form-select select2-info">
+                                                    <select id="selFleetList" class="select2" data-dropdown-css-class="select2-info" multiple name="devices" data-dropdown-css-class="select2-info" class="custom-select">
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -319,8 +336,8 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-                                <input type="submit" value="Save" id="btnSaveProject" class="btn btn-success float-right">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <input type="submit" value="Save" id="btnSaveProject" onclick="saveProject()" class="btn bg-olive float-right">
                             </div>
                         </div>
                     </div>
@@ -373,9 +390,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-2">
-                                        <h3 class="text-orange center"><i class="fas fa-wrench"></i> Fleet</h3>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -383,28 +398,34 @@
                             <div class="col-12 col-md-8 col-lg-8 order-1 order-md-1">
                                 <div class="text-muted">
                                     <p class="text-sm">Customer Name
-                                        <b class="d-block" id="roCustomerName">Deveint Inc</b>
+                                        <b class="d-block" id="roCustomerName"></b>
                                     </p>
                                     <p class="text-sm">Project Name
-                                        <b class="d-block" id="roProjectName">Tony Chicken</b>
+                                        <b class="d-block" id="roProjectName"></b>
                                     </p>
                                     <p class="text-sm">Start Date
-                                        <b class="d-block" id="roStartDate">Tony Chicken</b>
+                                        <b class="d-block" id="roStartDate"></b>
                                     </p>
                                     <p class="text-sm">End Date
-                                        <b class="d-block" id="roEndDate">Tony Chicken</b>
+                                        <b class="d-block" id="roEndDate"></b>
                                     </p>
                                 </div>
 
                             </div>
                             <div class="col-12 col-md-4 col-lg-4 order-2 order-md-2">
+                                <!-- <div class="col-12 col-sm-2">
+                                    <h3 class="text-orange center"><i class="fas fa-wrench"></i> Fleet</h3>
+                                </div> -->
+
                                 <div id="roFleetList">
 
                                 </div>
-                            </div>
-                            <div class="row" id="roEmployeeList">
 
                             </div>
+
+                        </div>
+                        <div class="row " data-spy="scroll" id="roEmployeeList">
+
                         </div>
                     </div>
                 </div>
@@ -412,11 +433,54 @@
 </section>
 
 <script type="text/javascript">
+    function saveProject() {
+        // show hide fields based on settings 
+        // perform validation for each field display toaster alert 
+        // call POST for create new project 
+        // call PUT for update
+
+        var empOptions = $('#selEmpList').select2('val')
+        var fleetOptions = $('#selFleetList').select2('val')
+        console.log(fleetOptions.length)
+        if (empOptions.length > document.getElementById("projectManpower").value) {
+            toastr.error("Man power exceeded!")
+        }
+        if (fleetOptions.length > document.getElementById("projectFleet").value) {
+            toastr.error("Fleet Count exceeded!")
+        }
+        
+
+    }
+
     function editProject(projectid) {
+
+
         permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
         customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + <?php echo $_SESSION['customerId'] ?>, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
 
-        // alert(customer['name']);
+        // select options
+        var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+        var fleet_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+        var customer_data=performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+        var div_data = ""
+        // var fleet_div=""
+        for (let i = 0; i < emp_data.length; i++) {
+            div_data += `<option value=${emp_data[i]['id']}> ${emp_data[i]['name']} </option>`
+        }
+
+        $('#selEmpList').html(div_data);
+
+        div_data = "";
+        for (let i = 0; i < fleet_data.length; i++) {
+            div_data += `<option value=${fleet_data[i]['id']}> ${fleet_data[i]['name']} </option>`
+        }
+        $('#selFleetList').html(div_data);
+        div_data=""
+        for (let i = 0; i < customer_data.length; i++) {
+            div_data += `<option value=${customer_data[i]['id']}> ${customer_data[i]['name']} </option>`
+        }
+
+        $('#newCustomerName').html(div_data);
 
         if (permission == "ADMIN") {
             // change customername textbox to search & select
@@ -432,8 +496,19 @@
         } else {
             var project_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projectid, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
             // Mukesh Work
+            customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + project_json['customerId'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+
+            // console.log(customer)
             // pull field names from #addEditProjectModal MODAL section 
             // and populate data for each field from project_json 
+            // document.getElementById('projectName').value = project_json['name'];
+            document.getElementById('startDate').value = project_json['projectStartDate'];
+            document.getElementById('endDate').value = project_json['projectEndDate'];
+            document.getElementById('customerName').value = customer['name'];
+            document.getElementById('projectCost').value = project_json['projectCost'];
+            document.getElementById('projectIncome').value = project_json['projectIncome'];
+            document.getElementById('projectManpower').value = project_json['manpower'];
+            document.getElementById('projectFleet').value = project_json['id'];
             document.getElementById('projectName').value = project_json['name'];
         }
         $('#addEditProjectModal').modal('show');
@@ -444,10 +519,21 @@
         // shown only to user. admin & manager wil see the editProject / addEditProjectModal section
         var project_response = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projectid, "GET", "", document.getElementById("session_token").value).responsedata.responseText;
         var project_json = JSON.parse(project_response);
+        console.log(project_json)
+        customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + project_json['customerId'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+        console.log(customer)
         // alert(device_list['projectCost']);
         // Mukesh to add all other values
         $('#roProjectCost').html(project_json['projectCost']);
         $('#roProjectIncome').html(project_json['projectIncome']);
+        $('#roProjectFleet').html(project_json['deviceCount']);
+        $('#roProjectManpower').html(project_json['manpower']);
+        $('#roCustomerName').html(customer['name']);
+        $('#roProjectManpower').html(project_json['manpower']);
+        $('#roStartDate').html(project_json['projectStartDate']);
+        $('#roEndDate').html(project_json['projectEndDate']);
+        $('#roProjectName').html(project_json['name']);
+
 
         var device_array = [];
 
@@ -459,22 +545,47 @@
             device_div += "<div class='post'>";
             device_div += "<div class='user-block'>";
             device_div += "<img class='img-circle img-bordered-sm' src='data:image/png;base64, " + device_img + "' alt=''>";
-            device_div += "<span class='username'><p>" + device_json['name'] + "</p></span>";
+            if (device_json['underMaintenance']) {
+                device_div += "<span class='username'><p>" + device_json['name'];
+                device_div += " <i class='fa fa-solid fa-toolbox text-red'></i>" + "</p></span>";
+            } else {
+                device_div += "<span class='username'><p>" + device_json['name'];
+
+                device_div += " <i class='fa fa-solid fa-toolbox text-green'></i>" + "</p></span>";
+            }
             if (device_json['deviceOnline']) {
                 device_div += "<span class='description'><i class='fa fa-map-marker text-green'></i>&nbsp;Online";
             } else {
                 device_div += "<span class='description'><i class='fa fa-map-marker text-red'></i>&nbsp;Offline";
             }
             device_div += "<p>Last Online Time: " + device_json['lastOnlineTime'] + "</p></span>";
-            device_div += "<p>Notes: " + device_json['notes'] + "</p>";
-            if (device_json['underMaintenance']) {
-                device_div += "<p>Maintenance: <i class='fa fa-wrench text-red'></i>" + "</p>";
-            } else {
-                device_div += "<p>Maintenance: <i class='fa fa-check text-green'></i>" + "</p>";
-            }
+            // device_div += "<p>Notes: " + device_json['notes'] + "</p>";
+
             device_div += "</div>";
         });
         $('#roFleetList').html(device_div);
+
+        // adding the employee details
+        var employees_array = [];
+        employees_array = project_json['employeesList'];
+        var employee_div = "";
+        employees_array.forEach(emp => {
+            var employee_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + emp, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+            var employee_img = performAPIAJAXCallGeneric("http://vghar.ddns.net:6060/ZFMS/employee/" + emp + "/image", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+            // console.log("Employee json" + JSON.stringify(employee_json))
+            employee_div += "<div class='class='col-3 col-md-3 col-sm'>"
+            employee_div += "<ul class='users-list clearfix'>"
+            employee_div += "<li>"
+            employee_div += "<i class='fas fa-user' alt='User Image'></i>"
+            employee_div += employee_json['name']
+            employee_div += "<span class='users-list-date'>Employee</span>"
+            employee_div += "</li>"
+            employee_div += "</ul>"
+            employee_div += "</div>"
+
+        });
+        $("#roEmployeeList").html(employee_div)
+
         $('#showProjectDetails').modal('show');
     }
 </script>
@@ -484,6 +595,7 @@
 <link rel="stylesheet" href="assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<link rel="stylesheet" href="assets/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
 
 <!-- DataTables  & Plugins -->
 <script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -499,5 +611,6 @@
 <script src="assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="assets/plugins/select2/js/select2.full.min.js"></script>
+<script src="assets/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
 <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/plugins/intl-tel-input/js/utils.js"></script>

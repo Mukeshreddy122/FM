@@ -98,6 +98,19 @@ $(document).ready(function () {
 		$("#newDeviceModal").modal("show");
 	});
 });
+function resetProjectFormData()
+	{
+		$("startDate").val("-1");
+		$("endDate").val("-1");
+		$("customerName").val("-1");
+		$("projectCost").val("-1");
+		$("projectIncome").val("-1");
+		$("projectManpower").val("-1");
+		$("projectFleet").val("-1");
+		$("projectName").val("-1");
+
+	}
+
 
 function resetCustomerFormData() {
 	$("#customerId").val("-1");
@@ -180,7 +193,8 @@ function performAPIAJAXCall(base_url, request_type, req_body, headers) {
 		data: req_body,
 		dataType: "json",
 		crossDomain: true,
-		async: false,
+		async: false
+		,
 		headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json',
@@ -265,3 +279,11 @@ function renameKey(obj, oldKey, newKey) {
 	obj[newKey] = obj[oldKey];
 	delete obj[oldKey];
 }
+
+
+
+
+
+
+
+
