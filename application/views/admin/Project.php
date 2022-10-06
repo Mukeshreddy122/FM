@@ -5,6 +5,7 @@
                 <div class="card-header">
                     <h4 class="card-title">
                         <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
+                        <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" />
 
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
                             <button id="NewProject" data-toggle="modal" class="btn btn-block bg-info" onclick="editProject(-1)">Add <?php echo $title; ?> <i class="fa fa-plus"></i></button>
@@ -71,10 +72,9 @@
                 </script>
                 <script>
                     $(function() {
+                        $('#customerName').select2();
                         $('#selEmpList').select2();
-                        $('#newCustomerName').select2();
                         $('#selFleetList').select2();
-    
 
                         $('#projectRecords').DataTable({
                             "paging": true,
@@ -237,20 +237,10 @@
                                             <div class="col-sm-12">
                                                 <!-- <label class="form-control-label">Customer Name</label>
                                                 <input type="text" placeholder="Customer Name" id="customerName" name="customerName" required class="form-control" /> -->
-                                              <div class="form-group"><label>Minimal</label>
-                                                <select class="form-control select2 " id="newCustomerName" style="width: 100%;" >
-                                                    <option selected="selected">Alabama</option>
-                                                    <option>Alaska</option>
-
-
-
-
-                                                    <option>California</option>
-                                                    <option>Delaware</option>
-                                                    <option>Tennessee</option>
-                                                    <option>Texas</option>
-                                                    <option>Washington</option>
-                                                </select> </div>  
+                                                <div class="form-group"><label class="form-control-label">Customer Name</label>
+                                                    <select class="form-control select2 " id="customerName" style="width: 100%;" required>
+                                                    </select>
+                                                </div>
                                             </div>
 
                                         </div>
@@ -448,26 +438,20 @@
         if (fleetOptions.length > document.getElementById("projectFleet").value) {
             toastr.error("Fleet Count exceeded!")
         }
-        
+
 
     }
 
     function editProject(projectid) {
-
-
         permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
-        customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + <?php echo $_SESSION['customerId'] ?>, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
 
         // select options
         var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
         var fleet_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-        var customer_data=performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
         var div_data = ""
-        // var fleet_div=""
         for (let i = 0; i < emp_data.length; i++) {
             div_data += `<option value=${emp_data[i]['id']}> ${emp_data[i]['name']} </option>`
         }
-
         $('#selEmpList').html(div_data);
 
         div_data = "";
@@ -475,20 +459,22 @@
             div_data += `<option value=${fleet_data[i]['id']}> ${fleet_data[i]['name']} </option>`
         }
         $('#selFleetList').html(div_data);
-        div_data=""
-        for (let i = 0; i < customer_data.length; i++) {
-            div_data += `<option value=${customer_data[i]['id']}> ${customer_data[i]['name']} </option>`
-        }
-
-        $('#newCustomerName').html(div_data);
 
         if (permission == "ADMIN") {
             // change customername textbox to search & select
+            var customer_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+            div_data = "";
+            for (let i = 0; i < customer_data.length; i++) {
+                div_data += `<option value=${customer_data[i]['id']}> ${customer_data[i]['name']} </option>`;
+            }
+            $('#customerName').html(div_data);
         } else {
             // pre-populate customer details from session information
-            document.getElementById('customerName').value = customer['name'];
+
+            $('#customerName').html("<option value='" + <?php echo $_SESSION['customerId'] ?> + "' selected='selected'>" + document.getElementById('cname').value + "</option>");
+            $('#customerName').select2().prop('disabled', true);
             document.getElementById('customerName').classList.add('disabled');
-            document.getElementById('customerName').setAttribute('readonly', 'readonly');
+            // document.getElementById('customerName').setAttribute('readonly', 'readonly');
         }
         if (projectid == -1) {
             // all fields blank
@@ -498,6 +484,9 @@
             // Mukesh Work
             customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + project_json['customerId'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
 
+            $('#customerName').html("<option value='" + customer['id'] + "' selected='selected'>" + customer['name'] + "</option>");
+            $('#customerName').select2().prop('disabled', true);
+            document.getElementById('customerName').classList.add('disabled');
             // console.log(customer)
             // pull field names from #addEditProjectModal MODAL section 
             // and populate data for each field from project_json 
@@ -528,12 +517,11 @@
         $('#roProjectIncome').html(project_json['projectIncome']);
         $('#roProjectFleet').html(project_json['deviceCount']);
         $('#roProjectManpower').html(project_json['manpower']);
-        $('#roCustomerName').html(customer['name']);
+        $('#roCustomerName').html(document.getElementById('cname').value);
         $('#roProjectManpower').html(project_json['manpower']);
         $('#roStartDate').html(project_json['projectStartDate']);
         $('#roEndDate').html(project_json['projectEndDate']);
         $('#roProjectName').html(project_json['name']);
-
 
         var device_array = [];
 

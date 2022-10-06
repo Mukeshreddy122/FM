@@ -20,6 +20,7 @@ class SettingsModel extends CI_Model
   public function getSettings()
   {
     $options['settingId'] = $this->session->userdata('email');
+    print_r($this->headers);
     $response = WpOrg\Requests\Requests::GET($this->url . 'settings', $this->headers, $this->apirequests->auth());
     // print_r($response->body);die;
     return $this->apiresponse->getApiResponse($response->status_code, $response->body);

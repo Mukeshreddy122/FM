@@ -43,6 +43,14 @@ class Login extends CI_Controller
                 $phone = $logininfo['phone'];
                 $permission = $logininfo['permission'];
                 $user_api_token = $logininfo['USER_API_TOKEN'];
+                $myCustomerName = $logininfo['customerName'];
+
+                $arr = array(
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'USER_API_TOKEN' => $user_api_token
+                );
+
                 $MailAddress = (array_key_exists('Mail Address', $logininfo)) ? $logininfo['Mail Address'] : "";
                 $PhoneNumber = (array_key_exists('Phone Number', $logininfo)) ? $logininfo['Phone Number'] : "";
                 $CompanyRole = (array_key_exists('Company Role', $logininfo)) ? $logininfo['Company Role'] : "";
@@ -63,22 +71,34 @@ class Login extends CI_Controller
                     'Project Connection' => $ProjectConnection,
                     'permission' => $permission,
                     'USER_API_TOKEN' => $user_api_token,
-                    'customerId' => $customerId
+                    'customerId' => $customerId,
+                    'myCustomerName' => $myCustomerName
                     // 'settings_customerName' => $settings_customerName,
                 );
 
                 $this->session->set_userdata($session_data);
                 $sessionId = session_id();
 
-                $settingsArray = $this->LoginModel->getSettings(json_encode($cred));
-                // print_r(json_encode($settingsArray));
-                // die;
+
+                $settingsArray = $this->LoginModel->getSettings($arr);
                 $this->session->set_userdata($settingsArray);
                 echo $sessionId;
+
+                // if ($permission == "ADMIN") {
+                //     $customer = array(
+                //         'name' => 'ADMIN'
+                //     );
+                // } else {
+                //     $customer = $this->CustomerModel->getCustomer($logininfo['customerId']);
+                // }
+
+                // $customerArray = array(
+                //     'myCustomerName' => $customer['name']
+                // );
+                // $this->session->set_userdata($customerArray);
                 $this->load->helper('cookie');
                 $session_id = get_cookie('ci_session');
                 echo $session_id;
-
 
                 redirect(base_url() . 'PM');
             } else {
