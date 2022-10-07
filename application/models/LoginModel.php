@@ -25,7 +25,7 @@ class LoginModel extends CI_Model
   }
   public function getSettings($param)
   {
-    $response = WpOrg\Requests\Requests::GET($this->url . "settings", $this->headers, $this->apirequests->auth());
+    $response = WpOrg\Requests\Requests::GET($this->url . "settings", $param, $this->apirequests->auth());
 // print_r($response->body);die;
     return $this->apiresponse->getApiResponse($response->status_code, $response->body);
   }

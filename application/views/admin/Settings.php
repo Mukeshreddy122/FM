@@ -1,4 +1,11 @@
 <section class="content">
+    <?php
+    if ($_SESSION['permission'] != "ADMIN") {
+        redirect(base_url() . 'PM');
+    }
+    print_r($_SESSION['systemLanguageOptions']);
+    // die;
+    ?>
     <div class="row">
         <div class="col-12">
             <div class="card card-primary card-tabs">
@@ -29,7 +36,7 @@
                                             <label class="custom-control-label" for="customerNameSwitch">Customer Name</label>
                                         </div>
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['customerTypeOfCompany'] == 1) {
+                                            <?php if ($_SESSION['customerTypeOfCompany'] == 1) {
                                                 echo '<input type="checkbox" checked class="custom-control-input" id="customerTypeOfCompanySwitch">';
                                                 echo '<label class="custom-control-label" for="customerTypeOfCompanySwitch">Type of Company</label>';
                                             } else {
@@ -38,7 +45,7 @@
                                             } ?>
                                         </div>
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['customerIndustry'] == 1) {
+                                            <?php if ($_SESSION['customerIndustry'] == 1) {
                                                 echo '';
                                                 echo '';
                                             } else {
@@ -49,7 +56,7 @@
                                             <label class="custom-control-label" for="customerIndustrySwitch">Industry</label>
                                         </div>
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['customerNumOfEmployees'] == 1) {
+                                            <?php if ($_SESSION['customerNumOfEmployees'] == 1) {
                                                 echo '';
                                                 echo '';
                                             } else {
@@ -65,7 +72,7 @@
                                     <div class="form-group">
                                         <div class="custom-control custom-switch custom-switch-on-info">
                                             <?php
-                                            if ($SettingsInfo['customerVATNumber'] == 1) {
+                                            if ($_SESSION['customerVATNumber'] == 1) {
                                                 echo '<input type="checkbox" checked class="custom-control-input" id="customerVATNumberSwitch">';
                                                 echo '<label class="custom-control-label" for="customerVATNumberSwitch">VAT Number</label>';
                                             } else {
@@ -74,7 +81,7 @@
                                             } ?>
                                         </div>
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['customerVisitAddress'] == 1) {
+                                            <?php if ($_SESSION['customerVisitAddress'] == 1) {
                                                 echo '';
                                                 echo '';
                                             } else {
@@ -85,7 +92,7 @@
                                             <label class="custom-control-label" for="customerVisitAddressSwitch">Visit Address</label>
                                         </div>
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['customerPostAddress'] == 1) {
+                                            <?php if ($_SESSION['customerPostAddress'] == 1) {
                                                 echo '';
                                                 echo '';
                                             } else {
@@ -96,7 +103,7 @@
                                             <label class="custom-control-label" for="customerPostAddressSwitch">Post Address</label>
                                         </div>
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['customerSisterCompanies'] == 1) {
+                                            <?php if ($_SESSION['customerSisterCompanies'] == 1) {
                                                 echo '';
                                                 echo '';
                                             } else {
@@ -118,7 +125,7 @@
                                         <label class="custom-control-label" for="userNameSwitch">Employee Name</label>
                                     </div>
                                     <div class="custom-control custom-switch custom-switch-on-info">
-                                        <?php if ($SettingsInfo['employeeMailAddress'] == 1) {
+                                        <?php if ($_SESSION['employeeMailAddress'] == 1) {
                                             echo '';
                                             echo '';
                                         } else {
@@ -129,7 +136,7 @@
                                         <label class="custom-control-label" for="userMailingAddressSwitch">Mailing Address</label>
                                     </div>
                                     <div class="custom-control custom-switch custom-switch-on-info">
-                                        <?php if ($SettingsInfo['employeePhoneNumber'] == 1) {
+                                        <?php if ($_SESSION['employeePhoneNumber'] == 1) {
                                             echo '';
                                             echo '';
                                         } else {
@@ -140,7 +147,7 @@
                                         <label class="custom-control-label" for="userPhoneNumberSwitch">Phone Number</label>
                                     </div>
                                     <div class="custom-control custom-switch custom-switch-on-info">
-                                        <?php if ($SettingsInfo['employeeCompanyRole'] == 1) {
+                                        <?php if ($_SESSION['employeeCompanyRole'] == 1) {
                                             echo '';
                                             echo '';
                                         } else {
@@ -153,7 +160,7 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="custom-control custom-switch custom-switch-on-info">
-                                        <?php if ($SettingsInfo['employeeExternalCompany'] == 1) {
+                                        <?php if ($_SESSION['employeeExternalCompany'] == 1) {
                                             echo '';
                                             echo '';
                                         } else {
@@ -164,7 +171,7 @@
                                         <label class="custom-control-label" for="userExternalCompanySwitch">External Company</label>
                                     </div>
                                     <div class="custom-control custom-switch custom-switch-on-info">
-                                        <?php if ($SettingsInfo['employeeExternalCompany'] == 1) {
+                                        <?php if ($_SESSION['employeeExternalCompany'] == 1) {
                                             echo '';
                                             echo '';
                                         } else {
@@ -175,7 +182,7 @@
                                         <label class="custom-control-label" for="userEmailAddressSwitch">Email</label>
                                     </div>
                                     <div class="custom-control custom-switch custom-switch-on-info">
-                                        <?php if ($SettingsInfo['employeeExternalCompany'] == 1) {
+                                        <?php if ($_SESSION['employeeExternalCompany'] == 1) {
                                             echo '';
                                             echo '';
                                         } else {
@@ -186,7 +193,7 @@
                                         <label class="custom-control-label" for="userPostAddressSwitch">Password</label>
                                     </div>
                                     <div class="custom-control custom-switch custom-switch-on-info">
-                                        <?php if ($SettingsInfo['customerName'] == 1) {
+                                        <?php if ($_SESSION['customerName'] == 1) {
                                             echo '';
                                             echo '';
                                         } else {
@@ -210,7 +217,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['deviceWebsite'] == 1) {
+                                            <?php if ($_SESSION['deviceWebsite'] == 1) {
                                                 echo '<input type="checkbox" checked class="custom-control-input" id="deviceWebsiteSwitch">';
                                                 echo '<label class="custom-control-label" for="deviceWebsiteSwitch">Fleet Website</label>';
                                             } else {
@@ -221,7 +228,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['deviceSerialNumber'] == 1) {
+                                            <?php if ($_SESSION['deviceSerialNumber'] == 1) {
                                                 echo '<input type="checkbox" checked class="custom-control-input" id="deviceSerialNumberSwitch">';
                                                 echo '<label class="custom-control-label" for="deviceSerialNumberSwitch">Serial Number</label>';
                                             } else {
@@ -232,7 +239,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['deviceSenderNumber'] == 1) {
+                                            <?php if ($_SESSION['deviceSenderNumber'] == 1) {
                                                 echo '<input type="checkbox" checked class="custom-control-input" id="deviceSenderNumberSwitch">';
                                                 echo '<label class="custom-control-label" for="deviceSenderNumberSwitch">Sender Number</label>';
                                             } else {
@@ -246,7 +253,7 @@
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['deviceCategory'] == 1) {
+                                            <?php if ($_SESSION['deviceCategory'] == 1) {
                                                 echo '<input type="checkbox" checked class="custom-control-input" id="deviceCategorySwitch">';
                                                 echo '<label class="custom-control-label" for="deviceCategorySwitch">Category</label>';
                                             } else {
@@ -257,7 +264,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['deviceCategory'] == 1) {
+                                            <?php if ($_SESSION['deviceCategory'] == 1) {
                                                 echo '<input type="checkbox" checked class="custom-control-input" id="deviceFabricationSwitch">';
                                                 echo '<label class="custom-control-label" for="deviceFabricationSwitch">Fabrication</label>';
                                             } else {
@@ -268,7 +275,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['deviceCategory'] == 1) {
+                                            <?php if ($_SESSION['deviceCategory'] == 1) {
                                                 echo '<input type="checkbox" checked class="custom-control-input" id="deviceContainerNameSwitch">';
                                                 echo ' <label class="custom-control-label" for="deviceContainerNameSwitch">Container</label>';
                                             } else {
@@ -279,7 +286,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['deviceServiceLog'] == 1) {
+                                            <?php if ($_SESSION['deviceServiceLog'] == 1) {
                                                 echo '<input type="checkbox" checked class="custom-control-input" id="deviceServiceLogSwitch">';
                                                 echo ' <label class="custom-control-label" for="deviceServiceLogSwitch">Service Log</label>';
                                             } else {
@@ -292,7 +299,7 @@
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['deviceServiceLog'] == 1) {
+                                            <?php if ($_SESSION['deviceServiceLog'] == 1) {
                                                 echo '<input type="checkbox" checked class="custom-control-input" id="deviceNotesSwitch">';
                                                 echo '<label class="custom-control-label" for="deviceNotesSwitch">Notes</label>';
                                             } else {
@@ -303,7 +310,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-switch custom-switch-on-info">
-                                            <?php if ($SettingsInfo['deviceServiceLog'] == 1) {
+                                            <?php if ($_SESSION['deviceServiceLog'] == 1) {
                                                 echo '<input type="checkbox" checked class="custom-control-input" id="devicePictureSwitch">';
                                                 echo '<label class="custom-control-label" for="devicePictureSwitch">Picture</label>';
                                             } else {
@@ -317,29 +324,31 @@
                         </div>
                         <div class="tab-pane fade" id="generalSettings" role="tabpanel" aria-labelledby="generalSettings-tab">
                             <div class="row">
-                                <div class="col-lg-3">
+                                <div class="col-md-4">
                                     <p>Language</p>
-                                    <select id="language" class="custom-select form-control-border">
+                                    <select id="language" class="form-control select2">
                                         <?php
-                                        $languageList = explode(",", $SettingsInfo['systemLanguageOptions']);
-                                        $selectedLanguage = $SettingsInfo['systemLanguage'];
+                                        $languageList = explode(",", $_SESSION['systemLanguageOptions']);
+                                        $selectedLanguage = $_SESSION['systemLanguage'];
 
+                                        $lang_select = "";
                                         foreach ($languageList as $lang) {
                                             if ($lang == $selectedLanguage) {
-                                                echo '<option id="' . $lang . '" selected>' . $lang . '</option>';
+                                                $lang_select += "<option value='" . $lang . "' selected='selected'>" . $lang . "</option>";
                                             } else {
-                                                echo '<option id="' . $lang . '" >' . $lang . '</option>';
+                                                $lang_select +=  "<option value='" . $lang . "' >" . $lang . "</option>";
                                             }
                                         }
+                                        echo $lang_select;
                                         ?>
                                     </select>
                                 </div>
                                 <div class="col-lg-3">
                                     <p>Currency on Cost</p>
-                                    <select class="custom-select form-control-border" id="currencyOnCost">
+                                    <select class="form-control select2" id="currencyOnCost">
                                         <?php
-                                        $currencyCostList = explode(",", $SettingsInfo['currencyForCostOptions']);
-                                        $currencyCostSelected = $SettingsInfo['currencyForCost'];
+                                        $currencyCostList = explode(",", $_SESSION['currencyForCostOptions']);
+                                        $currencyCostSelected = $_SESSION['currencyForCost'];
 
                                         foreach ($currencyCostList as $currencyCost) {
                                             if ($currencyCost == $currencyCostSelected) {
@@ -375,8 +384,8 @@
                                     <p>Currency on Salary</p>
                                     <select class="custom-select form-control-border" id="currencyOnCost">
                                         <?php
-                                        $currencySalaryList = explode(",", $SettingsInfo['currencyForSalaryOptions']);
-                                        $currencySalarySelected = $SettingsInfo['currencyForSalary'];
+                                        $currencySalaryList = explode(",", $_SESSION['currencyForSalaryOptions']);
+                                        $currencySalarySelected = $_SESSION['currencyForSalary'];
 
                                         foreach ($currencySalaryList as $currencySalary) {
                                             if ($currencySalary == $currencySalarySelected) {
@@ -426,7 +435,8 @@
 
 <script>
     $(function() {
-        $('.currencyOnCost').select2();
+        $('#language').select2();
+        $('#currencyOnCost').select2();
     });
 </script>
 <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
