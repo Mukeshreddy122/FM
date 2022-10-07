@@ -64,9 +64,10 @@
                     </table>
                 </div>
                 <script>
+                    // 
                     function deleteProject(project_id) {
                         varfleet = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/project/${project_id}`, "DELETE", "", document.getElementById("session_token").value);
-                        console.log(project_id)
+                        // console.log(project_id)
                         $('#projectRecords').DataTable().clear();
                     }
                 </script>
@@ -88,6 +89,47 @@
                                 [1, 'desc']
                             ]
                         });
+
+                        $('#customerName').on('select2:select', function(e) {
+                            var data = e.params.data;
+                            var custId = parseInt(data.id)
+                            var div_data = "";
+                            // EMP Data
+                            var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+                            for (let i = 0; i < emp_data.length; i++) {
+                                if (emp_data[i].customerId === custId) {
+                                    div_data += `<option value='${custId}'>${emp_data[i].name}</option>`;
+                                }
+                            }
+
+
+                            $('#selEmpList').html(div_data);
+                            // EMP End
+                            // FLEET Data
+                            var fleet_div
+                            var fleet_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+                            for (let i = 0; i < fleet_data.length; i++) {
+                                if (fleet_data[i].customerId === custId) {
+                                    fleet_div += `<option value='${custId}'>${fleet_data[i].name}</option>`;
+                                }
+                            }
+                            // console.log(div_data)
+                            $('#selFleetList').html(fleet_div);
+                            // END FLEET
+                            // PROJECT DATA
+                            // var project_div
+                            // var project_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+                            // for (let i = 0; i < project_data.length; i++) {
+                            //     if (project_data[i].customerId === custId) {
+                            //         project_div += `<option value='${custId}'>${project_data[i].name}</option>`;
+                            //     }
+                            // }
+
+                            // $('#projectName').html(project_div);
+
+
+                        });
+
 
                         // var table = $('#projectRecords').DataTable();
                         $('#projectRecords tbody tr td').on('click', 'i', function() {
@@ -112,7 +154,7 @@
                         });
                         // dropdown
                         function showCustomerProjects(row_data) {
-                            console.log(row_data.id());
+                            // console.log(row_data.id());
 
                             var row_details = "<table id='customerProjectList' class='table' width='80%' cellpadding='2' cellspacing='2'>";
                             row_details += "<thead class='bg-info'>";
@@ -126,7 +168,7 @@
                             row_details += "<td>Cost</td>" + "</thead>";
 
                             var project_data = GetProjectsForCustomer(row_data.id());
-                            console.log(project_data);
+                            // console.log(project_data);
                             if (!(project_data == null) && project_data.length > 0) {
                                 for (let pi = 0; pi < project_data.length; pi++) {
                                     var project_json = JSON.parse(project_data[pi]);
@@ -155,6 +197,14 @@
                         );
 
                         function loadTableData() {
+
+
+
+
+
+
+
+
                             $(".dataTables_empty").empty();
                             var project_json = "";
                             <?php
@@ -424,14 +474,82 @@
 
 <script type="text/javascript">
     function saveProject() {
-        // show hide fields based on settings 
+        var selEmpList = document.getElementById('selEmpList').value
+        var selFleetList = document.getElementById('selFleetList').value
+
+        var startDate = document.getElementById('startDate').value
+        var endDate = document.getElementById('endDate').value
+        var custId = document.getElementById('customerName').value
+        var projectCost = document.getElementById('projectCost').value
+        var projectIcome = document.getElementById('projectIncome').value
+        var projectManpower = document.getElementById('projectManpower').value
+        var projectFleet = document.getElementById('projectFleet').value
+        var projectName = document.getElementById('projectName').value
+        var projectName = document.getElementById('projectName').value
+        var projectName = document.getElementById('projectName').value
+        var projectProfit = projectCost - projectIcome
+
+
+
+
         // perform validation for each field display toaster alert 
-        // call POST for create new project 
-        // call PUT for update
+        if (projectName === "" || custId === "" || startDate === "" || endDate === "" || projectManpower === "" || projectFleet === "" || projectCost === "" || projectIncome === "" || projectFleet === "" || selEmpList === "" || selFleetList === "") {
+            toastr.error("Please fill all the fields!")
+        } else {
+            // call POST for create new project 
+
+            var newProject = {
+                "name": projectName,
+                "customerId": custId,
+                "projectStartDate": startDate,
+                "projectEndDate": endDate,
+                "manpower": projectManpower,
+                "deviceCount": projectFleet,
+                "projectCost": projectCost,
+                "projectIncome": projectIcome,
+                "projectProfit": projectProfit,
+                "employeesList": [selEmpList],
+                "devicesList": [
+                    selFleetList
+                ]
+            }
+            var project_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project", "POST", JSON.stringify(newProject), document.getElementById("session_token").value);
+            console.log(project_data)
+
+        }
+
+        // PUT 
+        // perform validation for each field display toaster alert 
+        //  if (projectName === "" || custId === "" || startDate === "" || endDate === "" || projectManpower === "" || projectFleet === "" || projectCost === "" || projectIncome === "" || projectFleet === "" || selEmpList === "" || selFleetList === "") {
+        //     toastr.error("Please fill all the fields!")
+        // } else {
+        //     // call PUT for create new project 
+
+        //     var newProject = {
+        //         "name": projectName,
+        //         "customerId": custId,
+        //         "projectStartDate": startDate,
+        //         "projectEndDate": endDate,
+        //         "manpower": projectManpower,
+        //         "deviceCount": projectFleet,
+        //         "projectCost": projectCost,
+        //         "projectIncome": projectIcome,
+        //         "projectProfit": projectProfit,
+        //         "employeesList": [selEmpList],
+        //         "devicesList": [
+        //             selFleetList
+        //         ]
+        //     }
+        //     var project_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project", "PUT", JSON.stringify(newProject), document.getElementById("session_token").value);
+        //     console.log(project_data)
+
+        // }
+
 
         var empOptions = $('#selEmpList').select2('val')
         var fleetOptions = $('#selFleetList').select2('val')
-        console.log(fleetOptions.length)
+
+
         if (empOptions.length > document.getElementById("projectManpower").value) {
             toastr.error("Man power exceeded!")
         }
@@ -439,49 +557,162 @@
             toastr.error("Fleet Count exceeded!")
         }
 
-
     }
 
     function editProject(projectid) {
-        permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
 
-        // select options
+        var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
+        var customerName = <?php echo $_SESSION['customerName'] ?>;
+        if(customerName==1)
+        {
+            $("#customerName").prop('disabled', false);
+        }
+        else{
+            $("#customerName").prop('disabled', true);
+        }
+        var customerIndustry = <?php echo $_SESSION[' customerIndustry'] ?>;
+        var customerTypeOfCompany = <?php echo $_SESSION['customerTypeOfCompany '] ?>;
+        var customerNumOfEmployees = <?php echo $_SESSION['customerNumOfEmployees'] ?>;
+        var customerVATNumber = <?php echo $_SESSION['customerVATNumbe'] ?>;
+        var customerVisitAddress = <?php echo $_SESSION['customerVisitAddress'] ?>;
+        var customerPostAddress = <?php echo $_SESSION['customerPostAddress'] ?>;
+        var customerSisterCompanies = <?php echo $_SESSION['customerSisterCompanies'] ?>;
+        // EMP_NAME
+        var employeeName = <?php echo $_SESSION['employeeName'] ?>;
+        var employeeMailAddress = <?php echo $_SESSION['employeeMailAddress '] ?>;
+        var employeePhoneNumber = <?php echo $_SESSION['employeePhoneNumber'] ?>;
+        var employeeCompanyRole = <?php echo $_SESSION['employeeCompanyRole '] ?>;
+        var employeeExternalCompany = <?php echo $_SESSION['employeeExternalCompany'] ?>;
+        var employeeProjectConnection = <?php echo $_SESSION['employeeProjectConnection'] ?>;
+        var deviceName = <?php echo $_SESSION['deviceName'] ?>;
+        var deviceWebsite = <?php echo $_SESSION['deviceWebsite'] ?>;
+        var deviceSerialNumber = <?php echo $_SESSION[' deviceSerialNumber'] ?>;
+        var deviceSenderNumber = <?php echo $_SESSION['deviceSenderNumber'] ?>;
+        var deviceSenderType = <?php echo $_SESSION['deviceSenderType'] ?>;
+        var deviceCategory = <?php echo $_SESSION['deviceCategory'] ?>;
+        var deviceFabrication = <?php echo $_SESSION['deviceFabrication'] ?>;
+        var deviceServiceInterval = <?php echo $_SESSION['deviceServiceInterval'] ?>;
+        var deviceContainerName = <?php echo $_SESSION['deviceContainerName'] ?>;
+        var deviceServiceLog = <?php echo $_SESSION[' deviceServiceLog'] ?>;
+        var deviceNotes = <?php echo $_SESSION['deviceNotes '] ?>;
+        var devicePicture = <?php echo $_SESSION['devicePicture'] ?>;
+        var projectName = <?php echo $_SESSION['projectName'] ?>;
+        var projectCustomerName = <?php echo $_SESSION['projectCustomerName'] ?>;
+        var projectCost = <?php echo $_SESSION['projectCost'] ?>;
+        if(projectCost!=1)
+        {
+            $("#projectCost").hide();
+        }
+        var projectIncome = <?php echo $_SESSION['projectIncome'] ?>;
+        if(projectIncome!=1)
+        {
+            $("#projectIncome").hide();
+        }
+      
+        var projectStartTime = <?php echo $_SESSION['projectStartTime'] ?>;
+        if(projectStartTime!=1)
+        {
+            $("#startDate").hide();
+        }
+       
+        var projectEndTime = <?php echo $_SESSION['projectEndTime'] ?>;
+        if(projectEndTime!=1)
+        {
+            $("#endDate").hide();
+        }
+        var projectFleet = <?php echo $_SESSION['projectFleet'] ?>;
+        if(projectFleet!=1)
+        {
+            $("#projectFleet").hide();
+        }
+        var projectManpower = <?php echo $_SESSION['projectManpower'] ?>;
+        if(projectManpower!=1)
+        {
+            $("#projectManpower").hide();
+        }
+        var projectProfit = <?php echo $_SESSION['projectProfit '] ?>;
+        if(projectProfit!=1)
+        {
+            $("#projectProfit").hide();
+        }
+       
+
+
         var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
         var fleet_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-        var div_data = ""
-        for (let i = 0; i < emp_data.length; i++) {
-            div_data += `<option value=${emp_data[i]['id']}> ${emp_data[i]['name']} </option>`
-        }
-        $('#selEmpList').html(div_data);
 
-        div_data = "";
-        for (let i = 0; i < fleet_data.length; i++) {
-            div_data += `<option value=${fleet_data[i]['id']}> ${fleet_data[i]['name']} </option>`
-        }
-        $('#selFleetList').html(div_data);
 
-        if (permission == "ADMIN") {
-            // change customername textbox to search & select
-            var customer_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-            div_data = "";
-            for (let i = 0; i < customer_data.length; i++) {
-                div_data += `<option value=${customer_data[i]['id']}> ${customer_data[i]['name']} </option>`;
-            }
-            $('#customerName').html(div_data);
-        } else {
-            // pre-populate customer details from session information
 
-            $('#customerName').html("<option value='" + <?php echo $_SESSION['customerId'] ?> + "' selected='selected'>" + document.getElementById('cname').value + "</option>");
-            $('#customerName').select2().prop('disabled', true);
-            document.getElementById('customerName').classList.add('disabled');
-            // document.getElementById('customerName').setAttribute('readonly', 'readonly');
-        }
         if (projectid == -1) {
+            if (permission == "ADMIN") {
+                // change customername textbox to search & select
+                var customer_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+                div_data = "";
+                $('#customerName').select2().prop('disabled', false);
+                for (let i = 0; i < customer_data.length; i++) {
+                    div_data += `<option value=${customer_data[i]['id']}> ${customer_data[i]['name']} </option>`;
+                }
+                $('#customerName').html(div_data);
+            } else {
+                // pre-populate customer details from session information
+                $('#customerName').html("<option value='" + <?php echo $_SESSION['customerId'] ?> + "' selected='selected'>" + document.getElementById('cname').value + "</option>");
+                $('#customerName').select2().prop('disabled', true);
+                document.getElementById('customerName').classList.add('disabled');
+            }
+
             // all fields blank
+            document.getElementById('startDate').value = ""
+            document.getElementById('endDate').value = ""
+            document.getElementById('customerName').value = ""
+            document.getElementById('projectCost').value = ""
+            document.getElementById('projectIncome').value = ""
+            document.getElementById('projectManpower').value = ""
+            document.getElementById('projectFleet').value = ""
+            document.getElementById('projectName').value = ""
 
         } else {
-            var project_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projectid, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-            // Mukesh Work
+            var project_response = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projectid, "GET", "", document.getElementById("session_token").value).responsedata.responseText;
+            var project_json = JSON.parse(project_response);
+
+            /** EMPLOYEE drop down section */
+            var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+            var proj_emp_list = project_json['employeesList'];
+
+            var proj_emp_set = new Set(proj_emp_list);
+
+            var div_data = "";
+            emp_data.forEach(emp => {
+                employee_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + emp['id'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+                if (proj_emp_set.has(emp['id'])) {
+                    div_data += `<option selected='selected' value='${employee_json['id']}'>${employee_json['name']}</option>`;
+                } else {
+                    div_data += `<option value='${employee_json['id']}'>${employee_json['name']}</option>`;
+                }
+            });
+            $('#selEmpList').html(div_data);
+            /** END EMPLOYEE drop down section */
+
+            /** FLEET drop down section */
+            var fleet_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+            var proj_fleet_list = project_json['devicesList'];
+
+            var proj_fleet_set = new Set(proj_fleet_list);
+
+            div_data = "";
+            fleet_data.forEach(fleet => {
+                var fleet_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + fleet['id'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+                if (proj_fleet_set.has(fleet['id'])) {
+                    div_data += `<option selected='selected' value='${fleet_json['id']}'>${fleet_json['name']}</option>`;
+                } else {
+                    div_data += `<option value='${fleet_json['id']}'>${fleet_json['name']}</option>`;
+                }
+            });
+
+            $("#selFleetList").html(div_data);
+            /** END FLEET drop down section */
+
+            /** CUSTOMER drop down section */
+
             customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + project_json['customerId'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
 
             $('#customerName').html("<option value='" + customer['id'] + "' selected='selected'>" + customer['name'] + "</option>");
@@ -499,8 +730,17 @@
             document.getElementById('projectManpower').value = project_json['manpower'];
             document.getElementById('projectFleet').value = project_json['id'];
             document.getElementById('projectName').value = project_json['name'];
+
+            /** END CUSTOMER drop down section */
+
+
+
         }
         $('#addEditProjectModal').modal('show');
+
+        // // fleet details
+
+        // End of fleet list selection in edit page
     }
 
     function showProjectDetails(projectid) {
@@ -508,9 +748,9 @@
         // shown only to user. admin & manager wil see the editProject / addEditProjectModal section
         var project_response = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projectid, "GET", "", document.getElementById("session_token").value).responsedata.responseText;
         var project_json = JSON.parse(project_response);
-        console.log(project_json)
+        // console.log(project_json)
         customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + project_json['customerId'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-        console.log(customer)
+        // console.log(customer)
         // alert(device_list['projectCost']);
         // Mukesh to add all other values
         $('#roProjectCost').html(project_json['projectCost']);
@@ -522,6 +762,37 @@
         $('#roStartDate').html(project_json['projectStartDate']);
         $('#roEndDate').html(project_json['projectEndDate']);
         $('#roProjectName').html(project_json['name']);
+
+        // employee details 
+        var employees_array = [];
+        employees_array = project_json['employeesList'];
+        var employee_div = "";
+        employees_array.forEach(emp => {
+            var employee_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + emp, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+            // console.log("Employee json" + JSON.stringify(employee_json))
+            employee_div += `<option selected='selected'>${employee_json['name']}</option>`
+
+
+        });
+        $("#selEmpList").html(employee_div)
+        // End of emp list selection in edit page
+
+        // fleet details
+        var fleets_array = [];
+        fleets_array = project_json['devicesList'];
+        var fleet_div = "";
+        fleets_array.forEach(fleet => {
+            var fleet_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + fleet, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+            // console.log("Employee json" + JSON.stringify(employee_json))
+            fleet_div += `<option selected='selected'>${fleet_json['name']}</option>`
+
+
+        });
+        $("#selFleetList").html(fleet_div)
+        // End of fleet list selection in edit page
+
+        $('#showProjectDetails').modal('show');
+
 
         var device_array = [];
 
@@ -559,7 +830,7 @@
         var employee_div = "";
         employees_array.forEach(emp => {
             var employee_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + emp, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-            var employee_img = performAPIAJAXCallGeneric("http://vghar.ddns.net:6060/ZFMS/employee/" + emp + "/image", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+            // var employee_img = performAPIAJAXCallGeneric("http://vghar.ddns.net:6060/ZFMS/employee/" + emp + "/image", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
             // console.log("Employee json" + JSON.stringify(employee_json))
             employee_div += "<div class='class='col-3 col-md-3 col-sm'>"
             employee_div += "<ul class='users-list clearfix'>"
@@ -569,7 +840,7 @@
             employee_div += "<span class='users-list-date'>Employee</span>"
             employee_div += "</li>"
             employee_div += "</ul>"
-            employee_div += "</div>"
+            employee_div += "</option>"
 
         });
         $("#roEmployeeList").html(employee_div)
