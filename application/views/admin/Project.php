@@ -238,18 +238,9 @@
                                                 <!-- <label class="form-control-label">Customer Name</label>
                                                 <input type="text" placeholder="Customer Name" id="customerName" name="customerName" required class="form-control" /> -->
                                               <div class="form-group"><label>Minimal</label>
-                                                <select class="form-control select2 " id="newCustomerName" style="width: 100%;" >
-                                                    <option selected="selected">Alabama</option>
-                                                    <option>Alaska</option>
-
-
-
-
-                                                    <option>California</option>
-                                                    <option>Delaware</option>
-                                                    <option>Tennessee</option>
-                                                    <option>Texas</option>
-                                                    <option>Washington</option>
+                                                <select class="form-control select2-info " id="newCustomerName" style="width: 100%;" >
+                                                    
+                                                   
                                                 </select> </div>  
                                             </div>
 
