@@ -206,10 +206,10 @@
 
 
                             $(".dataTables_empty").empty();
-                            var project_json = "";
+                            var project_json = " ";
                             <?php
                             if (sizeof($projectInfo) > 0) {
-                                // echo "toastr.success('Data Loaded!');";
+                                echo "toastr.success('Data Loaded!');";
                                 $project_row_data = "";
                                 foreach ($projectInfo as $key => $project) {
                                     $index++;
@@ -562,81 +562,15 @@
     function editProject(projectid) {
 
         var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
+        console.log(permission)
         var customerName = <?php echo $_SESSION['customerName'] ?>;
-        if(customerName==1)
+        if(customerName!=1)
         {
-            $("#customerName").prop('disabled', false);
-        }
-        else{
-            $("#customerName").prop('disabled', true);
-        }
-        var customerIndustry = <?php echo $_SESSION[' customerIndustry'] ?>;
-        var customerTypeOfCompany = <?php echo $_SESSION['customerTypeOfCompany '] ?>;
-        var customerNumOfEmployees = <?php echo $_SESSION['customerNumOfEmployees'] ?>;
-        var customerVATNumber = <?php echo $_SESSION['customerVATNumbe'] ?>;
-        var customerVisitAddress = <?php echo $_SESSION['customerVisitAddress'] ?>;
-        var customerPostAddress = <?php echo $_SESSION['customerPostAddress'] ?>;
-        var customerSisterCompanies = <?php echo $_SESSION['customerSisterCompanies'] ?>;
-        // EMP_NAME
-        var employeeName = <?php echo $_SESSION['employeeName'] ?>;
-        var employeeMailAddress = <?php echo $_SESSION['employeeMailAddress '] ?>;
-        var employeePhoneNumber = <?php echo $_SESSION['employeePhoneNumber'] ?>;
-        var employeeCompanyRole = <?php echo $_SESSION['employeeCompanyRole '] ?>;
-        var employeeExternalCompany = <?php echo $_SESSION['employeeExternalCompany'] ?>;
-        var employeeProjectConnection = <?php echo $_SESSION['employeeProjectConnection'] ?>;
-        var deviceName = <?php echo $_SESSION['deviceName'] ?>;
-        var deviceWebsite = <?php echo $_SESSION['deviceWebsite'] ?>;
-        var deviceSerialNumber = <?php echo $_SESSION[' deviceSerialNumber'] ?>;
-        var deviceSenderNumber = <?php echo $_SESSION['deviceSenderNumber'] ?>;
-        var deviceSenderType = <?php echo $_SESSION['deviceSenderType'] ?>;
-        var deviceCategory = <?php echo $_SESSION['deviceCategory'] ?>;
-        var deviceFabrication = <?php echo $_SESSION['deviceFabrication'] ?>;
-        var deviceServiceInterval = <?php echo $_SESSION['deviceServiceInterval'] ?>;
-        var deviceContainerName = <?php echo $_SESSION['deviceContainerName'] ?>;
-        var deviceServiceLog = <?php echo $_SESSION[' deviceServiceLog'] ?>;
-        var deviceNotes = <?php echo $_SESSION['deviceNotes '] ?>;
-        var devicePicture = <?php echo $_SESSION['devicePicture'] ?>;
-        var projectName = <?php echo $_SESSION['projectName'] ?>;
-        var projectCustomerName = <?php echo $_SESSION['projectCustomerName'] ?>;
-        var projectCost = <?php echo $_SESSION['projectCost'] ?>;
-        if(projectCost!=1)
-        {
-            $("#projectCost").hide();
-        }
-        var projectIncome = <?php echo $_SESSION['projectIncome'] ?>;
-        if(projectIncome!=1)
-        {
-            $("#projectIncome").hide();
-        }
-      
-        var projectStartTime = <?php echo $_SESSION['projectStartTime'] ?>;
-        if(projectStartTime!=1)
-        {
-            $("#startDate").hide();
+            $("#customerName").hide();
         }
        
-        var projectEndTime = <?php echo $_SESSION['projectEndTime'] ?>;
-        if(projectEndTime!=1)
-        {
-            $("#endDate").hide();
-        }
-        var projectFleet = <?php echo $_SESSION['projectFleet'] ?>;
-        if(projectFleet!=1)
-        {
-            $("#projectFleet").hide();
-        }
-        var projectManpower = <?php echo $_SESSION['projectManpower'] ?>;
-        if(projectManpower!=1)
-        {
-            $("#projectManpower").hide();
-        }
-        var projectProfit = <?php echo $_SESSION['projectProfit '] ?>;
-        if(projectProfit!=1)
-        {
-            $("#projectProfit").hide();
-        }
-       
-
+        
+  
 
         var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
         var fleet_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
