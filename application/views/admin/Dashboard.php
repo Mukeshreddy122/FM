@@ -94,8 +94,9 @@
     }
     for (let i = 0; i < data.length; i++) {
         var marker = L.marker([data[i].latitude, data[i].longitude]).addTo(map);
-        marker.bindPopup(`<b>${data[i].deviceName}</b><br>at ${data[i].locationTime}`).openPopup();
-        marker.bindTooltip(data[i].deviceName).openTooltip();
+        var str = `<b>${data[i].deviceName}</b><br>at ${data[i].locationTime}`;
+        marker.bindPopup(str).openPopup();
+        marker.bindTooltip(str).openTooltip();
         map.on('click', onMapClick);
     }
     result=""

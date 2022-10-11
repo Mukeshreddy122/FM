@@ -24,14 +24,17 @@ class Project extends CI_Controller
 	public function projectEntry()
 	{
 		$data['test'] = "Projects";
-		$projects = $this->apiresponse->convertData($this->ProjectModel->getProjects());
-		$projectName = [];
-		foreach ($projects as $key => $project) {
-			foreach ($project as $projKey => $projValue)
-				if ($projKey == 'name') {
-					array_push($projectName, $projValue);
-				}
-		}
+		$projects = $this->ProjectModel->getProjects();
+		// $projects = $this->apiresponse->convertData($this->ProjectModel->getProjects());
+		// $projectName = [];
+		// foreach ($projects as $key => $project) {
+		// 	foreach ($project as $projKey => $projValue)
+		// 		if ($projKey == 'name') {
+		// 			array_push($projectName, $projValue);
+		// 		}
+		// }
+		// print_r($projects);
+		// print_r(sizeof($projects[0]['devicesList']));die;
 		$data['projectInfo'] = $projects;
 		$this->load->view('admin/Project', $data);
 	}

@@ -21,7 +21,18 @@ class ProjectModel extends CI_Model
     {
         $options['userId'] = $this->session->userdata('email');
         $response = WpOrg\Requests\Requests::GET($this->url . 'project', $this->headers, $this->apirequests->auth());
-        // print_r($response->body);die;
+        // print_r($response->body);
+        // die;
+        return $this->apiresponse->getApiResponse($response->status_code, $response->body);
+    }
+
+    #Select
+    public function getProject($projectId)
+    {
+        $options['userId'] = $this->session->userdata('email');
+        $response = WpOrg\Requests\Requests::GET($this->url . 'project/' . $projectId, $this->headers, $this->apirequests->auth());
+        // print_r($response->body);
+        // die;
         return $this->apiresponse->getApiResponse($response->status_code, $response->body);
     }
 

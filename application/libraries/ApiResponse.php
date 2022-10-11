@@ -52,38 +52,40 @@ class ApiResponse
     }
     public function convertData($response) #format response array at single level
     {
-        $responseArray = [];
-        if (is_array($response)) {
-            foreach ($response as $indexKey => $indexValue) {
-                if (is_array($indexValue)) {
-                    foreach ($indexValue as $fieldKey => $fieldValue) {
-                        if (is_array($fieldValue)) {
-                            foreach ($fieldValue as $Key => $Value) {
-                                $responseArray[$indexKey][$Key] = $Value;
-                            };
-                        } else {
-                            $responseArray[$indexKey][$fieldKey] = $fieldValue;
-                        }
-                    }
-                }
-            }
-        }
-        return $responseArray;
+        return $response;
+        // $responseArray = [];
+        // if (is_array($response)) {
+        //     foreach ($response as $indexKey => $indexValue) {
+        //         if (is_array($indexValue)) {
+        //             foreach ($indexValue as $fieldKey => $fieldValue) {
+        //                 if (is_array($fieldValue)) {
+        //                     foreach ($fieldValue as $Key => $Value) {
+        //                         $responseArray[$indexKey][$Key] = $Value;
+        //                     };
+        //                 } else {
+        //                     $responseArray[$indexKey][$fieldKey] = $fieldValue;
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // return $responseArray;
     }
     public function convertSingleData($response) #format response array at single level
     {
-        $responseArray = [];
-        if (is_array($response)) {
-            foreach ($response as $indexKey => $indexValue) {
-                if (is_array($indexValue)) {
-                    foreach ($indexValue as $Key => $Value) {
-                        $responseArray[$Key] = $Value;
-                    };
-                } else {
-                    $responseArray[$indexKey] = $indexValue;
-                }
-            }
-        }
-        return $responseArray;
+        return $response;
+        // $responseArray = [];
+        // if (is_array($response)) {
+        //     foreach ($response as $indexKey => $indexValue) {
+        //         if (is_array($indexValue)) {
+        //             foreach ($indexValue as $Key => $Value) {
+        //                 $responseArray[$Key] = $Value;
+        //             };
+        //         } else {
+        //             $responseArray[$indexKey] = $indexValue;
+        //         }
+        //     }
+        // }
+        // return $responseArray;
     }
 }

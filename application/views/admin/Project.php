@@ -197,21 +197,17 @@
                         );
 
                         function loadTableData() {
-
-
-
-
-
-
-
-
                             $(".dataTables_empty").empty();
                             var project_json = " ";
                             <?php
                             if (sizeof($projectInfo) > 0) {
                                 echo "toastr.success('Data Loaded!');";
                                 $project_row_data = "";
+                                // print_r("alert ('sizeof($projectInfo[0]['devicesList'])')");
+// die;
                                 foreach ($projectInfo as $key => $project) {
+                                    // $l = sizeof($project['devicesList']) == null ? "0" :  sizeof($project['devicesList']);
+                                    // print_r("alert('{$project['name']} - sizeof({$project['devicesList']})');") ;
                                     $index++;
 
                                     // $project_row_data = "";
@@ -564,13 +560,12 @@
         var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
         console.log(permission)
         var customerName = <?php echo $_SESSION['customerName'] ?>;
-        if(customerName!=1)
-        {
+        if (customerName != 1) {
             $("#customerName").hide();
         }
-       
-        
-  
+
+
+
 
         var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
         var fleet_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
