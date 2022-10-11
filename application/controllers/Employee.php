@@ -25,7 +25,7 @@ class Employee extends CI_Controller
 	{
 		$data['employees'] = $this->apiresponse->convertData($this->UserModel->getUsers());
 		$data['userTypes'] = $this->mainlib->getUserTypes();
-		$employeeInfo = $this->UserModel->getUsers();
+		$data['employeeInfo'] = $this->UserModel->getUsers();
 		$this->load->view('admin/Employee', $data);
 	}
 	public function manageEmployee()

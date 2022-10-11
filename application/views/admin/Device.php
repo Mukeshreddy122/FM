@@ -161,46 +161,70 @@
             data: cust_result,
             order: [
                 [1, 'desc']
-                ]   ,
-            columns: [
-            {
-                data: "id",
-    
-            },
-            {
-                data: "name"
-            },
-            {
-                data:["Device Website"]
-            },
-            {
-                data:["Serial Number"]
-            },
-            {
-                data:["Sender Number"]
-            },
-            {
-                data:["Sender Type"]
-            },
-            {
-                data:["Service Interval"]
-            },
-            {
-                data:["lastOnlineTime"]
-            },
-            {
-                data:["countryCode"]
-            },
-            {
-                data: null,
-                defaultContent: '<i class="fas fa-edit "/>'+"   "+"  "+'<i class="fa fa-trash delete "/>',
-                orderable: false
-            },
-            
-        
-            ],
+                ]  
            
             });
+
+            $(document).ready(
+                            loadTableData()
+                        );
+
+                        function loadTableData() {
+                            $(".dataTables_empty").empty();
+                            var employee_json = " ";
+                            <?php
+                            if (sizeof($employeeInfo) > 0) {
+                                echo "toastr.success('Data Loaded!');";
+                                $employee_row_data = "";
+                                $index=1;
+                                foreach ($employeeInfo as $key => $employee) {
+                                    
+
+                                    // $employee_row_data = "";
+                                    $employee_row_data = $employee_row_data . "<tr '>";
+                                    $employee_row_data = $employee_row_data . "<td class='employeeId'>{$employee['id']}</td>";
+                                    // $employee_row_data = $employee_row_data . "<td class='employeeName'>{$this->employeeModel->getemployee($employee['employeeId'])['name']}</td>";
+                                    // echo "<td class='employeeName'>{$employee['employeeId']}</td>";
+                                    $employee_row_data = $employee_row_data . "<td class='employeeName'>{$employee['name']}";
+                                    // $employee_row_data = $employee_row_data . "<br/><small><b>Date: </b>{$employee['employeeStartDate']} - {$employee['employeeEndDate']}</small></td>";
+                                    $employee_row_data = $employee_row_data . "<td class='employeeName'>{$employee['Mail Address']}</td>";
+                                    $employee_row_data = $employee_row_data . "<td class='employeeName'>{$employee['email']}</td>";
+                                    // echo "<td class='employeeTime'>{$employee['employeeStartDate']} - {$employee['employeeEndDate']}</td>";
+                                    $employee_row_data = $employee_row_data . "<td class='employeeVAT'>$ {$employee['phone']}</td>";
+                                    // $employee_row_data = $employee_row_data . "<td class='employeeVisit'>$ {$employee['customerName']}</td>";
+                                    $employee_row_data = $employee_row_data . "<td class='employeeVisit'>$ {$employee['permission']}</td>";
+                                    
+                                    // echo "<td class='employeeReport'><a href='#'>Report</a></td>";
+                                    if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
+                                        $employee_row_data = $employee_row_data . "<td class='employee-actions text-right'>";
+                                        // if ($employee['employeeIsCompleted']) {
+                                        //     $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info' onclick='showemployeeDetails({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                                        //     $employee_row_data = $employee_row_data . "<i class='fas fa-pencil-alt text-gray disabled'></i>&nbsp;&nbsp;&nbsp;";
+                                        //     $employee_row_data = $employee_row_data . "<i class='fas fa-check text-green'></i></td>";
+                                        // } else {
+                                            $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info' onclick='showemployeeDetails({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                                            $employee_row_data = $employee_row_data . "<i class='fas fa-pencil-alt text-orange' onclick='editemployee({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                                            $employee_row_data = $employee_row_data . "<i class='fas fa-trash text-danger outline'></i></td>";
+                                        // }
+                                    } else {
+                                        $employee_row_data = $employee_row_data . "<td><a href='#showemployeeDetails'><i class='fas fa-folder text-info'></i></a>";
+                                        $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;";
+                                        $employee_row_data = $employee_row_data . "&nbsp;&nbsp;&nbsp;</td>";
+                                    }
+                                    $employee_row_data = $employee_row_data . "</tr>";
+                                    $index++;
+                                }
+                                echo "$('#employeeRecords').DataTable().destroy();";
+                                echo "$('#employeeRecords').find('tbody').append(\"$employee_row_data\");";
+                                echo "$('#employeeRecords').DataTable().draw();";
+                            } else {
+                                echo "toastr.error('Unable to get data!')";
+                            }
+                            ?>
+
+                           
+
+                        }
         })
           
 
