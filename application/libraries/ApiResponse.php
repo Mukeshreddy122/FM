@@ -15,6 +15,8 @@ class ApiResponse
     public function getApiResponse($statusCode, $responseBody)
     {
         //  var_dump($responseBody);
+        // print_r($responseBody);
+        // die;
         if ($statusCode == 200) {
             return json_decode($responseBody, true);
         } else if ($statusCode == 204) {

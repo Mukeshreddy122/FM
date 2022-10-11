@@ -34,23 +34,16 @@
                                 <th style="width: 5%">
                                     Fleet
                                 </th>
-                                <!--  <td>Project Manager</td> -->
                                 <th style="width: 5%">
                                     Manpower
                                 </th>
-                                <!-- <th style="width: 15%">
-                                    Project Time
-                                </th> -->
                                 <th style="width: 10%">
                                     Cost
                                 </th>
                                 <th style="width: 10%">
                                     Income
                                 </th>
-                                <!-- <th style="width: 5%">
-                                    Report
-                                </th> -->
-                                <th style="width: 13%">
+                                <th style="width: 8%">
                                     &nbsp;
                                 </th>
                             </tr>
@@ -67,7 +60,6 @@
                     // 
                     function deleteProject(project_id) {
                         varfleet = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/project/${project_id}`, "DELETE", "", document.getElementById("session_token").value);
-                        // console.log(project_id)
                         $('#projectRecords').DataTable().clear();
                     }
                 </script>
@@ -113,25 +105,11 @@
                                     fleet_div += `<option value='${custId}'>${fleet_data[i].name}</option>`;
                                 }
                             }
-                            // console.log(div_data)
                             $('#selFleetList').html(fleet_div);
                             // END FLEET
                             // PROJECT DATA
-                            // var project_div
-                            // var project_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-                            // for (let i = 0; i < project_data.length; i++) {
-                            //     if (project_data[i].customerId === custId) {
-                            //         project_div += `<option value='${custId}'>${project_data[i].name}</option>`;
-                            //     }
-                            // }
-
-                            // $('#projectName').html(project_div);
-
-
                         });
 
-
-                        // var table = $('#projectRecords').DataTable();
                         $('#projectRecords tbody tr td').on('click', 'i', function() {
                             var tr = $(this).closest('tr');
                             var row = table.row(tr);
@@ -154,8 +132,6 @@
                         });
                         // dropdown
                         function showCustomerProjects(row_data) {
-                            // console.log(row_data.id());
-
                             var row_details = "<table id='customerProjectList' class='table' width='80%' cellpadding='2' cellspacing='2'>";
                             row_details += "<thead class='bg-info'>";
                             row_details += "<td>Project ID</td>";
@@ -168,7 +144,6 @@
                             row_details += "<td>Cost</td>" + "</thead>";
 
                             var project_data = GetProjectsForCustomer(row_data.id());
-                            // console.log(project_data);
                             if (!(project_data == null) && project_data.length > 0) {
                                 for (let pi = 0; pi < project_data.length; pi++) {
                                     var project_json = JSON.parse(project_data[pi]);
@@ -204,11 +179,8 @@
                                 echo "toastr.success('Data Loaded!');";
                                 $project_row_data = "";
                                 foreach ($projectInfo as $key => $project) {
-                                    // $l = sizeof($project['devicesList']) == null ? "0" :  sizeof($project['devicesList']);
-                                    // print_r("alert('{$project['name']} - sizeof({$project['devicesList']})');") ;
                                     $index++;
 
-                                    // $project_row_data = "";
                                     $project_row_data = $project_row_data . "<tr id='{$project['id']}'>";
                                     $project_row_data = $project_row_data . "<td class='projectId'>{$project['id']}</td>";
                                     $project_row_data = $project_row_data . "<td class='customerName'>{$this->CustomerModel->getCustomer($project['customerId'])['name']}</td>";
@@ -279,14 +251,11 @@
                                                 <input type="hidden" id="projectId" name="projectId" />
                                             </div>
                                             <div class="col-sm-12">
-                                                <!-- <label class="form-control-label">Customer Name</label>
-                                                <input type="text" placeholder="Customer Name" id="customerName" name="customerName" required class="form-control" /> -->
                                                 <div class="form-group"><label class="form-control-label">Customer Name</label>
                                                     <select class="form-control select2 " id="customerName" style="width: 100%;" required>
                                                     </select>
                                                 </div>
                                             </div>
-
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12">
@@ -347,7 +316,6 @@
                                                 <div class="form-group select2-info">
                                                     <label>Employees</label>
                                                     <select id="selEmpList" class="select2" multiple="multiple" data-placeholder="Select a Employee" data-dropdown-css-class="select2-info" style="width: 100%;">
-
 
                                                     </select>
                                                 </div>
@@ -447,16 +415,10 @@
 
                             </div>
                             <div class="col-12 col-md-4 col-lg-4 order-2 order-md-2">
-                                <!-- <div class="col-12 col-sm-2">
-                                    <h3 class="text-orange center"><i class="fas fa-wrench"></i> Fleet</h3>
-                                </div> -->
-
                                 <div id="roFleetList">
 
                                 </div>
-
                             </div>
-
                         </div>
                         <div class="row " data-spy="scroll" id="roEmployeeList">
 
@@ -482,9 +444,6 @@
         var projectName = document.getElementById('projectName').value
         var projectName = document.getElementById('projectName').value
         var projectProfit = projectCost - projectIcome
-
-
-
 
         // perform validation for each field display toaster alert 
         if (projectName === "" || custId === "" || startDate === "" || endDate === "" || projectManpower === "" || projectFleet === "" || projectCost === "" || projectIncome === "" || projectFleet === "" || selEmpList === "" || selFleetList === "") {
@@ -550,7 +509,6 @@
         if (fleetOptions.length > document.getElementById("projectFleet").value) {
             toastr.error("Fleet Count exceeded!")
         }
-
     }
 
     function editProject(projectid) {
@@ -562,13 +520,8 @@
             $("#customerName").hide();
         }
 
-
-
-
         var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
         var fleet_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-
-
 
         if (projectid == -1) {
             if (permission == "ADMIN") {
@@ -659,9 +612,6 @@
             document.getElementById('projectName').value = project_json['name'];
 
             /** END CUSTOMER drop down section */
-
-
-
         }
         $('#addEditProjectModal').modal('show');
 
@@ -675,11 +625,9 @@
         // shown only to user. admin & manager wil see the editProject / addEditProjectModal section
         var project_response = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projectid, "GET", "", document.getElementById("session_token").value).responsedata.responseText;
         var project_json = JSON.parse(project_response);
-        // console.log(project_json)
         customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + project_json['customerId'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-        // console.log(customer)
-        // alert(device_list['projectCost']);
-        // Mukesh to add all other values
+
+            // Mukesh to add all other values
         $('#roProjectCost').html(project_json['projectCost']);
         $('#roProjectIncome').html(project_json['projectIncome']);
         $('#roProjectFleet').html(project_json['deviceCount']);
@@ -696,10 +644,7 @@
         var employee_div = "";
         employees_array.forEach(emp => {
             var employee_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + emp, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-            // console.log("Employee json" + JSON.stringify(employee_json))
             employee_div += `<option selected='selected'>${employee_json['name']}</option>`
-
-
         });
         $("#selEmpList").html(employee_div)
         // End of emp list selection in edit page
@@ -710,16 +655,12 @@
         var fleet_div = "";
         fleets_array.forEach(fleet => {
             var fleet_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + fleet, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-            // console.log("Employee json" + JSON.stringify(employee_json))
             fleet_div += `<option selected='selected'>${fleet_json['name']}</option>`
-
-
         });
         $("#selFleetList").html(fleet_div)
         // End of fleet list selection in edit page
 
         $('#showProjectDetails').modal('show');
-
 
         var device_array = [];
 
@@ -745,8 +686,6 @@
                 device_div += "<span class='description'><i class='fa fa-map-marker text-red'></i>&nbsp;Offline";
             }
             device_div += "<p>Last Online Time: " + device_json['lastOnlineTime'] + "</p></span>";
-            // device_div += "<p>Notes: " + device_json['notes'] + "</p>";
-
             device_div += "</div>";
         });
         $('#roFleetList').html(device_div);
@@ -757,8 +696,6 @@
         var employee_div = "";
         employees_array.forEach(emp => {
             var employee_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + emp, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-            // var employee_img = performAPIAJAXCallGeneric("http://vghar.ddns.net:6060/ZFMS/employee/" + emp + "/image", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-            // console.log("Employee json" + JSON.stringify(employee_json))
             employee_div += "<div class='class='col-3 col-md-3 col-sm'>"
             employee_div += "<ul class='users-list clearfix'>"
             employee_div += "<li>"

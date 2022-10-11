@@ -39,7 +39,6 @@ class Customer extends CI_Controller
 	}
 	public function manageCustomer()
 	{
-		// print_r("CustomerID: " . $_POST['customerId']);
 		$formData = json_encode(array(
 			'id' => (!empty($_POST['customerId'])) ? $_POST['customerId'] : -1,
 			'name' => $_POST['customerName'],
