@@ -203,8 +203,6 @@
                             if (sizeof($projectInfo) > 0) {
                                 echo "toastr.success('Data Loaded!');";
                                 $project_row_data = "";
-                                // print_r("alert ('sizeof($projectInfo[0]['devicesList'])')");
-// die;
                                 foreach ($projectInfo as $key => $project) {
                                     // $l = sizeof($project['devicesList']) == null ? "0" :  sizeof($project['devicesList']);
                                     // print_r("alert('{$project['name']} - sizeof({$project['devicesList']})');") ;
