@@ -4,233 +4,395 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">
-                    <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
-
-                        <a rel="nofollow" id="NewDevice" href="#newDeviceModal" data-toggle="modal" class="btn btn-block bg-info" onclick="resetFormData()">Add Fleet <i class="fa fa-plus"></i></a>
+                        <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
+                        <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" />
+                        <a rel="nofollow" id="NewDevice" href="#newDeviceModal" data-toggle="modal" class="btn btn-block bg-info" onclick="editDevice(-1)">Add Fleet <i class="fa fa-plus"></i></a>
                     </h4>
                 </div>
                 <div class="card-body">
-                    <table id="deviceRecords" class="table table-sm table-hover ">
-                        <thead class="bg-info font-weight-bold">
+                    <table id="deviceRecords" class="table table-striped table-sm">
+                        <thead class="bg-info" style="font-family: 'Source Sans Pro', sans-serif;">
                             <tr>
-                                <td>#</td>
-                                <td>Fleet Name</td>
-                                <td>Fleet Website</td>
-                                <td>Serial Number</td>
-                                <td>Sender Number</td>
-                                <td>Sender Type</td>
-                                <td>Service Interval</td>
-                                <td>lastOnlineTime</td>
-                                <td>countryCode</td>
-                                <td id="action-header">Action</td>
+                                <th style="width: 5%">
+                                    #
+                                </th>
+                                <th style="width: 20%">
+                                Fleet 
+                                </th>
+                                
+                                <th style="width: 20%">
+                                Fleet ID'S
+                                </th>
+                               
+                                <th style="width: 20%">
+                               
+                                Object Details
+                                </th>
+                                <th style="width: 20%">
+                                Service Interval
+                                </th>
+                                
+                                <th style="width: 15%">
+
+                                </th>
+                                <!-- <th style="width: 8%">
+                                    &nbsp;
+                                </th> -->
                             </tr>
                         </thead>
-                        <tbody >
-                           
+                        <tbody id="deviceTableData">
+                            <?php
+                            $index = 0;
+
+                            ?>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="modal fade" tabindex="-1" id="newDeviceModal">
-                <div class="modal-dialog modal-lg">
-                    <form class="form" role="form" method="post" action="<?php echo base_url() ?>Device/manageDevice">
-                        <div class="modal-content">
-                        <div class="modal-header bg-info" id="addFleet">
-                                <h4 class="modal-title">New Fleet</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row form-group">
-                                    <div class="hidden-fields">
-                                        <input type="hidden" id="deviceId" name="deviceId" />
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label">Device Name</label>
-                                        <input type="text" placeholder="Device Name" id="deviceName" name="deviceName" required class="form-control" />
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label">Device Website</label>
-                                        <input type="url" placeholder="" id="deviceWebsite" name="deviceWebsite" required class="form-control" />
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label">Serial Number</label>
-                                        <input type="text" placeholder="Serial number object" id="serialNumber" name="serialNumber" required class="form-control" />
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label">Sender Number</label>
-                                        <input type="tel" placeholder="Sender number" id="senderNumber" name="senderNumber" required class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label"> Sender type</label>
-                                        <div class="form-select">
-                                            <select id="senderType" name="senderType" class="custom-select">
-                                                <?php
-                                                foreach ($senderTypes as $key => $senderType) {
-                                                    echo "<option value='{$senderType}'>{$senderType}</option>";
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label">Object Category</label>
-                                        <div class="form-select">
-                                            <select id="objectCategory" name="objectCategory" class="custom-select">
-                                                <?php
-                                                foreach ($objectCategories as $key => $objectCategory) {
-                                                    echo "<option value='{$objectCategory}'>{$objectCategory}</option>";
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label">Fabrication</label>
-                                        <input type="text" placeholder="Fabrication" id="fabrication" name="fabrication" require class="form-control" />
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label class="form-control-label">Service Interval</label>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <input type="number" placeholder="" id="intervalPrefix" name="intervalPrefix" require class="form-control" />
-                                            </div>
-                                            <div class="col-sm-6 form-select">
-                                                <select id="intervalSuffix" name="intervalSuffix" class="custom-select">
-                                                    <option value="days">days</option>
-                                                    <option value="months">months</option>
-                                                    <option value="years">years</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col-sm-3 invisible-section">
-                                        <label class="form-control-label">Name of tool / container</label>
-                                        <input type="text" placeholder="Name of tool or container" id="deviceTool" name="deviceTool" required class="form-control" />
-                                    </div>
-                                    <div class="col-sm-3 invisible-section">
-                                        <label class="form-control-label">Service Log</label>
-                                        <input type="text" placeholder="Service Log" id="serviceLog" name="serviceLog" require class="form-control" />
-                                    </div>
-                                    <div class="col-sm-3 invisible-section">
-                                        <label class="form-control-label">Notes</label>
-                                        <input type="text" placeholder="Notes" id="Notes" name="Notes" require class="form-control" />
-                                    </div>
-                                    <div class="col-sm-3 invisible-section">
-                                        <label class="form-control-label">Picture of Product</label>
-                                        <input type="file" name="pictureOfProduct" class="form-control-file" require />
-                                    </div>
-                                </div>
-                                <span style="color:red"><?php echo $this->session->flashdata('info') ?></span>
-                                <span style="color:red"><?php echo $this->session->flashdata('error') ?></span>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn bg-info">Save changes</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-
+            
         </div>
     </div>
-   
-            <script>
-                  $(document).ready(function(){
-                    // loadTableData()
+
+    <script>
+        $(document).ready(function() {
+            // loadTableData()
             var customerData = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet ", "GET", "", document.getElementById("session_token").value)
-            var cust_result=customerData.responsedata.responseJSON
+            var cust_result = customerData.responsedata.responseJSON
             console.log(cust_result)
-             $('#deviceRecords').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": false,
-            data: cust_result,
-            order: [
-                [1, 'desc']
-                ]  
-           
+            $('#deviceRecords').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": false,
+                
+                order: [
+                    [1, 'desc']
+                ]
+
             });
 
             $(document).ready(
-                            loadTableData()
-                        );
+                loadTableData()
+            );
 
-                        function loadTableData() {
-                            $(".dataTables_empty").empty();
-                            var employee_json = " ";
-                            <?php
-                            if (sizeof($employeeInfo) > 0) {
-                                echo "toastr.success('Data Loaded!');";
-                                $employee_row_data = "";
-                                $index=1;
-                                foreach ($employeeInfo as $key => $employee) {
-                                    
+            function loadTableData() {
+                $(".dataTables_empty").empty();
+                var device_json = " ";
+                <?php
+                if (sizeof($devices) > 0) {
+                    echo "toastr.success('Data Loaded!');";
+                    $device_row_data = "";
+                    $index = 1;
+                    foreach ($devices as $key => $device) {
 
-                                    // $employee_row_data = "";
-                                    $employee_row_data = $employee_row_data . "<tr '>";
-                                    $employee_row_data = $employee_row_data . "<td class='employeeId'>{$employee['id']}</td>";
-                                    // $employee_row_data = $employee_row_data . "<td class='employeeName'>{$this->employeeModel->getemployee($employee['employeeId'])['name']}</td>";
-                                    // echo "<td class='employeeName'>{$employee['employeeId']}</td>";
-                                    $employee_row_data = $employee_row_data . "<td class='employeeName'>{$employee['name']}";
-                                    // $employee_row_data = $employee_row_data . "<br/><small><b>Date: </b>{$employee['employeeStartDate']} - {$employee['employeeEndDate']}</small></td>";
-                                    $employee_row_data = $employee_row_data . "<td class='employeeName'>{$employee['Mail Address']}</td>";
-                                    $employee_row_data = $employee_row_data . "<td class='employeeName'>{$employee['email']}</td>";
-                                    // echo "<td class='employeeTime'>{$employee['employeeStartDate']} - {$employee['employeeEndDate']}</td>";
-                                    $employee_row_data = $employee_row_data . "<td class='employeeVAT'>$ {$employee['phone']}</td>";
-                                    // $employee_row_data = $employee_row_data . "<td class='employeeVisit'>$ {$employee['customerName']}</td>";
-                                    $employee_row_data = $employee_row_data . "<td class='employeeVisit'>$ {$employee['permission']}</td>";
-                                    
-                                    // echo "<td class='employeeReport'><a href='#'>Report</a></td>";
-                                    if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
-                                        $employee_row_data = $employee_row_data . "<td class='employee-actions text-right'>";
-                                        // if ($employee['employeeIsCompleted']) {
-                                        //     $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info' onclick='showemployeeDetails({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
-                                        //     $employee_row_data = $employee_row_data . "<i class='fas fa-pencil-alt text-gray disabled'></i>&nbsp;&nbsp;&nbsp;";
-                                        //     $employee_row_data = $employee_row_data . "<i class='fas fa-check text-green'></i></td>";
-                                        // } else {
-                                            $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info' onclick='showemployeeDetails({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
-                                            $employee_row_data = $employee_row_data . "<i class='fas fa-pencil-alt text-orange' onclick='editemployee({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
-                                            $employee_row_data = $employee_row_data . "<i class='fas fa-trash text-danger outline'></i></td>";
-                                        // }
-                                    } else {
-                                        $employee_row_data = $employee_row_data . "<td><a href='#showemployeeDetails'><i class='fas fa-folder text-info'></i></a>";
-                                        $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;";
-                                        $employee_row_data = $employee_row_data . "&nbsp;&nbsp;&nbsp;</td>";
-                                    }
-                                    $employee_row_data = $employee_row_data . "</tr>";
-                                    $index++;
-                                }
-                                echo "$('#employeeRecords').DataTable().destroy();";
-                                echo "$('#employeeRecords').find('tbody').append(\"$employee_row_data\");";
-                                echo "$('#employeeRecords').DataTable().draw();";
-                            } else {
-                                echo "toastr.error('Unable to get data!')";
-                            }
-                            ?>
 
-                           
-
+                        // $device_row_data = "";
+                        $device_row_data = $device_row_data . "<tr '>";
+                        $device_row_data = $device_row_data . "<td class='deviceId'>{$device['id']}</td>";
+                        // $device_row_data = $device_row_data . "<td class='deviceName'>{$this->deviceModel->getdevice($device['deviceId'])['name']}</td>";
+                        // echo "<td class='deviceName'>{$device['deviceId']}</td>";
+                        // Device details column
+                        $device_row_data = $device_row_data . "<td class='deviceName'>{$device['name']}";
+                        $device_row_data = $device_row_data . "<br/><small><b>Website: &nbsp;</b>{$device['Device Website']}</small>";
+                        if($device['deviceOnline']){
+                            $device_row_data=$device_row_data."<br/><small><b>Online : &nbsp; </b><i class='fa fa-map-marker text-green' aria-hidden='true'></i> {$device['lastOnlineTime']}</small></td> ";
+                        }else{
+                            $device_row_data=$device_row_data."<br/><small><b>Online : &nbsp; </b><i class='fa fa-map-marker text-red' aria-hidden='true'></i> {$device['lastOnlineTime']}</small></td>";
                         }
-        })
-          
-
-
-
+                         // Device details column END 
+                        // Device ID details 
+                        $device_row_data = $device_row_data . "<td class='deviceName'><small><b>Device-uniqueId: &nbsp;</b>{$device['deviceUniqueId']}</small>";
+                        $device_row_data = $device_row_data . "<br/><small><b>Serial Number: &nbsp;</b>{$device['Serial Number']}</small></td>";
+                      
                        
+                        // Fleet object and fabrication
+                        $device_row_data = $device_row_data . "<td class='deviceName'></i><small><b>Category: &nbsp;</b>{$device['Object Category']}</small>";
+                        $device_row_data = $device_row_data . "<br/><small><b>Fabrication: &nbsp;</b>{$device['Fabrication']}</small></td>";
+                        
+                        // Service type and interval
+                        
+                        $device_row_data = $device_row_data . "<td class='servicInterval'><small><i class='fa fa-calendar  text-primary' aria-hidden='true'></i></small> {$device['Service Interval']}-{$device['serviceIntervalType']}</td> ";
+                       
+                       
+
+
+                        // echo "<td class='deviceReport'><a href='#'>Report</a></td>";
+                        if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
+                            $device_row_data = $device_row_data . "<td class='device-actions text-right'>";
+                            if ($device['underMaintenance']) {
+                                $device_row_data = $device_row_data . "<i class='fas fa-eye text-info' onclick='showdeviceDetails({$device['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                                $device_row_data = $device_row_data . "<i class='fas fa-pencil-alt text-gray disabled'></i>&nbsp;&nbsp;&nbsp;";
+                                // $device_row_data = $device_row_data . "<i class='fas fa-check text-green'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                            } else {
+                            $device_row_data = $device_row_data . "<i class='fas fa-eye text-info' onclick='showdeviceDetails({$device['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                            $device_row_data = $device_row_data . "<i class='fas fa-pencil-alt text-orange' onclick='editdevice({$device['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                            $device_row_data = $device_row_data . "<i class='fas fa-trash text-danger outline'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                            }
+                        } else {
+                            $device_row_data = $device_row_data . "<td><a href='#showdeviceDetails'><i class='fas fa-folder text-info'></i></a>";
+                            $device_row_data = $device_row_data . "<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;";
+                            $device_row_data = $device_row_data . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        }
+                        $device_row_data = $device_row_data . "</tr>";
+                        $index++;
+                    }
+                    echo "$('#deviceRecords').DataTable().destroy();";
+                    echo "$('#deviceRecords').find('tbody').append(\"$device_row_data\");";
+                    echo "$('#deviceRecords').DataTable().draw();";
+                } else {
+                    echo "toastr.error('Unable to get data!')";
+                }
+                ?>
+
+
+
+            }
+        })
+        
+    </script>
+    <div class="modal fade" id="addEditCustomerModal">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info">
+                            <h4 class="modal-title">Fleet Details</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card card-light">
+                                        <div class="card-header">
+                                            <h3 class="card-title">General</h3>
+
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="hidden-fields">
+                                                    <input type="hidden" id="customerId" name="customerId" />
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <!-- <label class="form-control-label">Customer Name</label>
+                                                <input type="text" placeholder="Customer Name" id="customerName" name="customerName" required class="form-control" /> -->
+                                                    <div class="form-group"><label class="form-control-label">Device Name</label>
+                                                        <input type="text" placeholder="Device Name" id="Device Name" name="Device Name" required class="form-control" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <label class="form-control-label">Type of company</label>
+                                                    <input type="text" placeholder="Type of company" id="Type of company" name="Type of company" required class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label class="form-control-label">Industry</label>
+                                                    <input type="text" placeholder="Industry" id="industry" name="industry" required class="form-control" />
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-control-label">No. of Employees</label>
+                                                    <input type="text" placeholder="No. of Employees" id="numberOfEmployees" name="numberOfEmployees" required class="form-control" />
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-control-label">VAT Numbers</label>
+                                                    <input type="text" placeholder="Visit Address" id="visitAddress" name="visitAddress" required class="form-control" />
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-control-label">Post Address</label>
+                                                    <input type="text" placeholder="Post address" id="postAddress" name="postAddress" required class="form-control" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+                                    <!-- /.card -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card card-light ">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Manager user account</h3>
+
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label class="form-control-label">Employee Name</label>
+                                                    <input type="text" placeholder="employee Name" id="employeeName" name="employeeName" required class="form-control" />
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-control-label">Mail Address</label>
+                                                    <input type="text" placeholder="Mail Address" id="mailAddress" name="mailAddress" required class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label class="form-control-label">Company Role</label>
+                                                    <input type="text" placeholder="Company Role" id="companyRole" name="companyRole" required class="form-control" />
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-control-label">External Company</label>
+                                                    <input type="text" placeholder="External Company" id="externalCompany" required class="form-control" />
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-control-label">Email</label>
+                                                    <input type="text" placeholder="Email" id="Email" name="Email" required class="form-control" />
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-control-label">Password</label>
+                                                    <input type="text" placeholder="Password" id="Password" name="Password" required class="form-control" />
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-control-label">Sister Companies</label>
+                                                    <select id="sisterCompanies" name="sisterCompanies" class="custom-select"></select>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group select2-info">
+                                                    <label>Employees</label>
+                                                    <select id="selEmpList" class="select2" multiple="multiple" data-placeholder="Select a Employee" data-dropdown-css-class="select2-info" style="width: 100%;">
+
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <label class="form-control-label ">Fleet</label>
+                                                <div class="form-select select2-info">
+                                                    <select id="selFleetList" class="select2" data-placeholder="Select a E" data-dropdown-css-class="select2-info" multiple name="devices" data-dropdown-css-class="select2-info" class="custom-select">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+                                    <!-- /.card -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <input type="submit" value="Save" id="btnSavecustomer" onclick="savecustomer()" class="btn bg-olive float-right">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" tabindex="-1" id="showcustomerDetails">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info">
+                            <h4 class="modal-title">>New Customer </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-3">
+                                            <div class="info-box bg-light">
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text text-center text-muted">Cost</span>
+                                                    <span class="info-box-number text-center text-muted mb-0" id="rocustomerCost"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-3">
+                                            <div class="info-box bg-light">
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text text-center text-muted">Income</span>
+                                                    <span class="info-box-number text-center text-muted mb-0" id="rocustomerIncome"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-3">
+                                            <div class="info-box bg-light">
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text text-center text-muted">Fleet</span>
+                                                    <span class="info-box-number text-center text-muted mb-0" id="rocustomerFleet"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-3">
+                                            <div class="info-box bg-light">
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text text-center text-muted">Manpower</span>
+                                                    <span class="info-box-number text-center text-muted mb-0" id="rocustomerManpower"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="row">
+                            <div class="col-12 col-md-8 col-lg-8 order-1 order-md-1">
+                                <div class="text-muted">
+                                    <p class="text-sm">Customer Name
+                                        <b class="d-block" id="roCustomerName"></b>
+                                    </p>
+                                    <p class="text-sm">customer Name
+                                        <b class="d-block" id="rocustomerName"></b>
+                                    </p>
+                                    <p class="text-sm">Start Date
+                                        <b class="d-block" id="roStartDate"></b>
+                                    </p>
+                                    <p class="text-sm">End Date
+                                        <b class="d-block" id="roEndDate"></b>
+                                    </p>
+                                </div>
+
+                            </div> -->
+                            <div class="col-12 col-md-4 col-lg-4 order-2 order-md-2">
+                                <!-- <div class="col-12 col-sm-2">
+                                    <h3 class="text-orange center"><i class="fas fa-wrench"></i> Fleet</h3>
+                                </div> -->
+
+                                <div id="roFleetList">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="row " data-spy="scroll" id="roEmployeeList">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                function editDevice(deviceId){
+                    $("#addEditCustomerModal").modal("show")
+                }
+
+
             </script>
 
 </section>

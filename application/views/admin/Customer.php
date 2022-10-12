@@ -5,7 +5,7 @@
                 <div class="card-header">
                     <h4 class="card-title">
                         <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
-                        <!-- <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" /> -->
+                        <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" />
 
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
                             <button id="NewCustomer" data-toggle="modal" class="btn btn-block bg-info" onclick="editCustomer(-1)">Add <?php echo $title; ?> <i class="fa fa-plus"></i></button>
@@ -19,22 +19,38 @@
                                 <th style="width: 1%">
                                     #
                                 </th>
-                                <th style="width: 20%">
-                                    Customer Name
+                                <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") { ?>
+                                    <th style="width: 15%">
+                                        Customer Name
+                                    </th>
+                                    <th style="width: 15%">
+                                        Cutomer Type
+                                    </th>
+                                <?php }  ?>
+                                <th style="width:10%">
+                                    No. of Employees
                                 </th>
-                                <th style="width:5%">
-                                    Employees
-                                </th>
+
                                 <th style="width: 15%">
-                                    Resources
+                                    VAT Number
                                 </th>
+                                <!--  <td>customer Manager</td> -->
                                 <th style="width: 15%">
                                     Visit Address
                                 </th>
-                                <th style="width: 15%">
+                                <!-- <th style="width: 15%">
+                                    customer Time
+                                </th> -->
+                                <th style="width: 10%">
                                     Post Address
                                 </th>
-                                <th style="width: 8%">
+                                <!-- <th style="width: 10%">
+                                    Income
+                                </th> -->
+                                <!-- <th style="width: 5%">
+                                    Report
+                                </th> -->
+                                <th style="width: 13%">
                                     &nbsp;
                                 </th>
                             </tr>
@@ -42,7 +58,6 @@
                         <tbody id="customerTableData">
                             <?php
                             $index = 0;
-
                             ?>
                         </tbody>
                     </table>
@@ -51,6 +66,11 @@
 
             <script>
                 $(document).ready(function() {
+
+                    // loadTableData()
+                    var customerData = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer ", "GET", "", document.getElementById("session_token").value)
+                    var cust_result = customerData.responsedata.responseJSON
+                    console.log(cust_result)
                     $('#customerRecords').DataTable({
                         "paging": true,
                         "lengthChange": false,
@@ -74,28 +94,22 @@
 
                     function loadTableData() {
                         $(".dataTables_empty").empty();
-                        // var customer_json = " ";
+                        var customer_json = " ";
                         <?php
                         if (sizeof($customerInfo) > 0) {
                             echo "toastr.success('Data Loaded!');";
                             $customer_row_data = "";
                             foreach ($customerInfo as $key => $customer) {
-                                // $c_data = implode(',', $customer);
-                                // echo "console.log({$c_data})";
-                                $e_count = count($customer['employeesList']);
-                                $f_count = count($customer['devicesList']);
-                                $p_count = count($customer['projectList']);
+                                $index++;
+                                // $customer_row_data = "";
                                 $customer_row_data = $customer_row_data . "<tr id='{$customer['id']}'>";
                                 $customer_row_data = $customer_row_data . "<td class='customerId'>{$customer['id']}</td>";
                                 $customer_row_data = $customer_row_data . "<td class='customerName'>{$customer['name']}";
-                                $customer_row_data = $customer_row_data . "<br/><small><b>Type </b>{$customer['Customer Type']}</small></td>";
-                                $customer_row_data = $customer_row_data . "<td><small><b>Manpower&nbsp;&nbsp;&nbsp;</b>{$customer['No. of Employees']}</small>";
-                                $customer_row_data = $customer_row_data . "<br/><small><b>Emp. Count&nbsp;</b>{$e_count}</small></td>";
-                                $customer_row_data = $customer_row_data . "<td><small><b>Fleet Count&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>{$f_count}</small>";
-                                $customer_row_data = $customer_row_data . "<br/><small><b>Projects Count </b>{$p_count}</small></td>";
-                                // $customer_row_data = $customer_row_data . "<td>$ {$customer['VAT Number']}</td>";
-                                $customer_row_data = $customer_row_data . "<td>{$customer['Visit Address']}</td>";
-                                $customer_row_data = $customer_row_data . "<td>{$customer['Post Address']}</td>";
+                                $customer_row_data = $customer_row_data . "<td class='customerName'>{$customer['Customer Type']}</td>";
+                                $customer_row_data = $customer_row_data . "<td class='customerName'>{$customer['No. of Employees']}</td>";
+                                $customer_row_data = $customer_row_data . "<td class='customerVAT'>$ {$customer['VAT Number']}</td>";
+                                $customer_row_data = $customer_row_data . "<td class='customerVisit'>$ {$customer['Visit Address']}</td>";
+                                $customer_row_data = $customer_row_data . "<td class='customerVisit'>$ {$customer['Post Address']}</td>";
 
                                 if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
                                     $customer_row_data = $customer_row_data . "<td class='customer-actions text-right'>";
@@ -104,17 +118,15 @@
                                     $customer_row_data = $customer_row_data . "<i class='fas fa-pencil-alt text-orange' onclick='editcustomer({$customer['id']})'></i>&nbsp;&nbsp;&nbsp;";
                                     $customer_row_data = $customer_row_data . "<i class='fas fa-trash text-danger outline'></i></td>";
                                 } else {
-                                    $customer_row_data = $customer_row_data . "<td><i class='fas fa-folder text-info'></i>";
+                                    $customer_row_data = $customer_row_data . "<td><a href='#showcustomerDetails'><i class='fas fa-folder text-info'></i></a>";
                                     $customer_row_data = $customer_row_data . "<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;";
                                     $customer_row_data = $customer_row_data . "&nbsp;&nbsp;&nbsp;</td>";
                                 }
                                 $customer_row_data = $customer_row_data . "</tr>";
-                                $index++;
                             }
                             echo "$('#customerRecords').DataTable().destroy();";
                             echo "$('#customerRecords').find('tbody').append(\"$customer_row_data\");";
                             echo "$('#customerRecords').DataTable().draw();";
-                            // echo "console.log(\"{$customer_row_data}\");";
                         } else {
                             echo "toastr.error('Unable to get data!')";
                         }
@@ -150,10 +162,13 @@
                                                     <input type="hidden" id="customerId" name="customerId" />
                                                 </div>
                                                 <div class="col-sm-12">
+                                                    <!-- <label class="form-control-label">Customer Name</label>
+                                                <input type="text" placeholder="Customer Name" id="customerName" name="customerName" required class="form-control" /> -->
                                                     <div class="form-group"><label class="form-control-label">Customer Name</label>
                                                         <input type="text" placeholder="Customer Name" id="customerName" name="customerName" required class="form-control" />
                                                     </div>
                                                 </div>
+
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-12">
@@ -229,6 +244,27 @@
                                                     <select id="sisterCompanies" name="sisterCompanies" class="custom-select"></select>
                                                 </div>
                                             </div>
+                                            <!-- <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group select2-info">
+                                                    <label>Employees</label>
+                                                    <select id="selEmpList" class="select2" multiple="multiple" data-placeholder="Select a Employee" data-dropdown-css-class="select2-info" style="width: 100%;">
+
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <label class="form-control-label ">Fleet</label>
+                                                <div class="form-select select2-info">
+                                                    <select id="selFleetList" class="select2" data-placeholder="Select a E" data-dropdown-css-class="select2-info" multiple name="devices" data-dropdown-css-class="select2-info" class="custom-select">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div> -->
                                         </div>
                                         <!-- /.card-body -->
                                     </div>
@@ -295,11 +331,35 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- <div class="row">
+                            <div class="col-12 col-md-8 col-lg-8 order-1 order-md-1">
+                                <div class="text-muted">
+                                    <p class="text-sm">Customer Name
+                                        <b class="d-block" id="roCustomerName"></b>
+                                    </p>
+                                    <p class="text-sm">customer Name
+                                        <b class="d-block" id="rocustomerName"></b>
+                                    </p>
+                                    <p class="text-sm">Start Date
+                                        <b class="d-block" id="roStartDate"></b>
+                                    </p>
+                                    <p class="text-sm">End Date
+                                        <b class="d-block" id="roEndDate"></b>
+                                    </p>
+                                </div>
+
+                            </div> -->
                             <div class="col-12 col-md-4 col-lg-4 order-2 order-md-2">
+                                <!-- <div class="col-12 col-sm-2">
+                                    <h3 class="text-orange center"><i class="fas fa-wrench"></i> Fleet</h3>
+                                </div> -->
+
                                 <div id="roFleetList">
 
                                 </div>
+
                             </div>
+
                         </div>
                         <div class="row " data-spy="scroll" id="roEmployeeList">
 
@@ -316,11 +376,17 @@
                         $("#customerName").hide();
                     }
 
+
+
+
                     var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
                     var fleet_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
 
-                    if (custId == -1) {
+
+
+                    if (custid == -1) {
                         if (permission == "ADMIN") {
+                            // change customername textbox to search & select
                             var customer_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
                             div_data = "";
                             $('#customerName').select2().prop('disabled', false);
@@ -329,6 +395,7 @@
                             }
                             $('#customerName').html(div_data);
                         } else {
+                            // pre-populate customer details from session information
                             $('#customerName').html("<option value='" + <?php echo $_SESSION['customerId'] ?> + "' selected='selected'>" + document.getElementById('cname').value + "</option>");
                             $('#customerName').select2().prop('disabled', true);
                             document.getElementById('customerName').classList.add('disabled');
@@ -392,6 +459,7 @@
                         $('#customerName').html("<option value='" + customer['id'] + "' selected='selected'>" + customer['name'] + "</option>");
                         $('#customerName').select2().prop('disabled', true);
                         document.getElementById('customerName').classList.add('disabled');
+                        // console.log(customer)
                         // pull field names from #addEditProjectModal MODAL section 
                         // and populate data for each field from project_json 
                         // document.getElementById('projectName').value = project_json['name'];
@@ -405,10 +473,13 @@
                         document.getElementById('projectName').value = project_json['name'];
 
                         /** END CUSTOMER drop down section */
+
+
+
                     }
                     $('#addEditProjectModal').modal('show');
 
-                    // fleet details
+                    // // fleet details
 
                     // End of fleet list selection in edit page
                     $('#addEditCustomerModal').modal('show');
