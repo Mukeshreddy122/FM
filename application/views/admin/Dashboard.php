@@ -10,6 +10,10 @@
                 <div class="box box-solid bg-light-blue-gradient">
                     <input type="hidden" id="gpsLat">
                     <input type="hidden" id="gpsLon">
+                    <?php 
+                    
+                    echo "<input type='hidden' id='USER_API_TOKEN' value='{$_SESSION['USER_API_TOKEN']}'>";
+                    ?>
                     <div class="box-body">
                         <div id="map" style="height: 550px; width: 100%;"></div>
                     </div>
@@ -78,7 +82,7 @@
 
 <script>
     var zoom = 16;
-    setInterval(mapCaller, 1000)
+    setInterval(mapCaller, 3000)
     var map = L.map('map').setView([20.5937, 78.9629], 5);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -89,7 +93,7 @@
 
     function mapCaller() {
         // var arr = {"USER_API_TOKEN":"9e90b62c-b640-420c-a5c9-b79c831705b0"};
-        result = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/location", "GET", "", "9e90b62c-b640-420c-a5c9-b79c831705b0");
+        result = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/location", "GET", "", document.getElementById('USER_API_TOKEN').value);
         data = (result.responsedata.responseJSON)
     }
     for (let i = 0; i < data.length; i++) {
