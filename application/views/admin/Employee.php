@@ -44,7 +44,7 @@
                                 <th style="width: 12%">
                                     Access
                                 </th>
-                                <th style="width: 15%">
+                                <th style="width: 25%">
 
                                 </th>
                                 <!-- <th style="width: 2%">
@@ -125,7 +125,7 @@
                                     } else {
                                         $employee_row_data = $employee_row_data . "<td><i class='fas fa-folder text-info'></i>";
                                         $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;";
-                                        $employee_row_data = $employee_row_data . "&nbsp;&nbsp;&nbsp;</td>";
+                                        $employee_row_data = $employee_row_data . "</td>";
                                     }
                                     $employee_row_data = $employee_row_data . "</tr>";
                                     $index++;
@@ -255,7 +255,7 @@
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header bg-info">
-                                <h4 class="modal-title">>New Employee </h4>
+                                <h4 class="modal-title">New Employee </h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -335,10 +335,15 @@
             $('#customerName').select2().prop('disabled', true);
             document.getElementById('customerName').classList.add('disabled');
         }
-        $("#addEditEmployeeModal").modal("show");
+        $("#addEditEmployeeModal").modal("show")
 
     }
+    function showemployeeDetails(empId){
+        
+       $("#showemployeeDetails").modal("show")
+    }
 
+    // save employee function
     function saveEmployee() {
 
     }
