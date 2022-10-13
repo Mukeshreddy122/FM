@@ -10,10 +10,8 @@
                 <div class="box box-solid bg-light-blue-gradient">
                     <input type="hidden" id="gpsLat">
                     <input type="hidden" id="gpsLon">
-                    <?php 
-                    
-                    echo "<input type='hidden' id='USER_API_TOKEN' value='{$_SESSION['USER_API_TOKEN']}'>";
-                    ?>
+                    <input type='hidden' id='USER_API_TOKEN' value="<?php echo $_SESSION['USER_API_TOKEN'] ?>">
+
                     <div class="box-body">
                         <div id="map" style="height: 550px; width: 100%;"></div>
                     </div>
@@ -103,5 +101,5 @@
         marker.bindTooltip(str).openTooltip();
         map.on('click', onMapClick);
     }
-    result=""
+    result = ""
 </script>
