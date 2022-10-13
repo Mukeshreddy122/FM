@@ -26,16 +26,16 @@ class Settings extends CI_Controller
 		$data['test'] = "Settings";
 		$Settings = $this->apiresponse->convertData($this->SettingsModel->getSettings());
 		// print_r($Settings);die;
-		$SettingsName = [];
-		foreach ($Settings as $key => $Settings) {
-			foreach ($Settings as $key => $custValue)
-				//print($key . " ::: " . $custValue);
-			if ($key == 'name') {
-				array_push($SettingsName, $custValue);
-			}
-		}
+		// $SettingsName = [];
+		// foreach ($Settings as $key => $Settings) {
+		// 	foreach ($Settings as $key => $custValue)
+		// 		//print($key . " ::: " . $custValue);
+		// 	if ($key == 'name') {
+		// 		array_push($SettingsName, $custValue);
+		// 	}
+		// }
 		$data['SettingsInfo'] = $Settings;
-		$data['SettingsName'] = $SettingsName;
+		// $data['SettingsName'] = $SettingsName;
 		$this->load->view('admin/Settings', $data);
 	}
 	public function manageSettings()

@@ -79,27 +79,45 @@
 <script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js" integrity="sha256-NDI0K41gVbWqfkkaHj15IzU7PtMoelkzyKp8TOaFQ3s=" crossorigin=""></script>
 
 <script>
-    var zoom = 16;
+    var zoom = 18;
     setInterval(mapCaller, 3000)
     var map = L.map('map').setView([20.5937, 78.9629], 5);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
+        // maxZoom: 19,
         attribution: '© OpenStreetMap'
     }).addTo(map);
+    var markerLayerGroup;
     mapCaller()
-    var result, data
+    var result, data;
+    var marker_points = [];
 
     function mapCaller() {
         // var arr = {"USER_API_TOKEN":"9e90b62c-b640-420c-a5c9-b79c831705b0"};
         result = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/location", "GET", "", document.getElementById('USER_API_TOKEN').value);
         data = (result.responsedata.responseJSON)
+
+        // map.removeLayer(markerLayerGroup);
+
+        // markerLayerGroup.eachLayer(function(layer) {
+        //     markerLayerGroup.removeLayer(layer);
+        // });
+
+        marker_points = [];
+        for (let i = 0; i < data.length; i++) {
+            var str = `<b>${data[i].deviceName}</b><br>at ${data[i].locationTime}`;
+            var marker = L.marker([data[i].latitude, data[i].longitude], {
+                title: data[i].deviceName
+            }).bindPopup(str).on('click', panAndZoom);
+            // marker.bindPopup(str);
+            marker.bindTooltip(str);
+            marker_points.push(marker);
+            // map.on('click', onMapClick);
+        }
+        markerLayerGroup = L.layerGroup(marker_points);
     }
-    for (let i = 0; i < data.length; i++) {
-        var marker = L.marker([data[i].latitude, data[i].longitude]).addTo(map);
-        var str = `<b>${data[i].deviceName}</b><br>at ${data[i].locationTime}`;
-        marker.bindPopup(str).openPopup();
-        marker.bindTooltip(str).openTooltip();
-        map.on('click', onMapClick);
+
+    function panAndZoom(e) {
+        map.setView(e.target.getLatLng(), 8);
     }
     result = ""
 </script>

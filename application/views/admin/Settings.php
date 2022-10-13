@@ -3,7 +3,8 @@
     if ($_SESSION['permission'] != "ADMIN") {
         redirect(base_url() . 'PM');
     }
-    print_r($_SESSION['systemLanguageOptions']);
+
+    // print_r($SettingsInfo['systemLanguageOptions']);
     // die;
     ?>
     <div class="row">
@@ -328,10 +329,14 @@
                                     <p>Language</p>
                                     <select id="language" class="form-control select2">
                                         <?php
-                                        $languageList = explode(",", $_SESSION['systemLanguageOptions']);
+                                        // $langvar = $SettingsInfo['systemLanguageOptions'];
+                                        // print_r("Lang var" . $langvar[0]);die;
+                                        $languageList = [];
+                                        $languageList = explode(',', $_SESSION['systemLanguageOptions'][0]);
                                         $selectedLanguage = $_SESSION['systemLanguage'];
 
                                         $lang_select = "";
+                                        $lang_select = "<option value='{$languageList[0]}'>{$languageList[0]}</option>";
                                         foreach ($languageList as $lang) {
                                             if ($lang == $selectedLanguage) {
                                                 $lang_select += "<option value='" . $lang . "' selected='selected'>" . $lang . "</option>";
@@ -339,7 +344,9 @@
                                                 $lang_select +=  "<option value='" . $lang . "' >" . $lang . "</option>";
                                             }
                                         }
-                                        echo $lang_select;
+                                        echo "console.log('VK ' .$lang_select);";
+
+                                        echo "'$lang_select'";
                                         ?>
                                     </select>
                                 </div>
