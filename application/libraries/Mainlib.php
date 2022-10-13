@@ -20,6 +20,7 @@ class Mainlib
         $this->CI->load->model('DeviceModel');
         $this->CI->load->model('SettingsModel');
         $this->CI->load->model('ProjectModel');
+        $this->CI->load->model('MaintenanceModel');
     }
     public function header($title = "PM")
     {

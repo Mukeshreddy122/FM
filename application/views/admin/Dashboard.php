@@ -89,7 +89,7 @@
     var markerLayerGroup;
     mapCaller()
     var result, data;
-    var marker_points = [];
+    var marker_points = new Array();
 
     function mapCaller() {
         // var arr = {"USER_API_TOKEN":"9e90b62c-b640-420c-a5c9-b79c831705b0"};
@@ -102,6 +102,11 @@
         //     markerLayerGroup.removeLayer(layer);
         // });
 
+        if ($(marker_points).length > 0) {
+            marker_points.forEach(element => {
+                map.removeLayer(element);
+            });
+        }
         marker_points = [];
         for (let i = 0; i < data.length; i++) {
             var str = `<b>${data[i].deviceName}</b><br>at ${data[i].locationTime}`;

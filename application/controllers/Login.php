@@ -20,8 +20,18 @@ class Login extends CI_Controller
 
     public function index()
     {
-        $this->load->view('Login');
-        // redirect(base_url() . 'Login');
+        if (
+            $_SESSION['uId'] != null
+            && $_SESSION['name'] != null
+            && $_SESSION['permission'] != null
+            && $_SESSION['USER_API_TOKEN'] != null
+            && $_SESSION['customerId'] != null
+            // && $_SESSION['myCustomerName'] != null
+        ) {
+            redirect(base_url() . 'PM');
+        } else {
+            $this->load->view('Login');
+        }
     }
 
     public function validateLogin()
@@ -40,7 +50,7 @@ class Login extends CI_Controller
                 $uId = $logininfo['id'];
                 $name = $logininfo['name'];
                 $email = $logininfo['email'];
-                $phone = $logininfo['phone'];
+                // $phone = $logininfo['phone'];
                 $permission = $logininfo['permission'];
                 $user_api_token = $logininfo['USER_API_TOKEN'];
                 $myCustomerName = $logininfo['customerName'];
@@ -51,24 +61,28 @@ class Login extends CI_Controller
                     'USER_API_TOKEN' => $user_api_token
                 );
 
-                $MailAddress = (array_key_exists('Mail Address', $logininfo)) ? $logininfo['Mail Address'] : "";
-                $PhoneNumber = (array_key_exists('Phone Number', $logininfo)) ? $logininfo['Phone Number'] : "";
-                $CompanyRole = (array_key_exists('Company Role', $logininfo)) ? $logininfo['Company Role'] : "";
-                $ExternalCompany = (array_key_exists('External Company', $logininfo)) ? $logininfo['External Company'] : "";
-                $ProjectConnection = (array_key_exists('Project Connection', $logininfo)) ? $logininfo['Project Connection'] : "";
-                $customerId = $logininfo['customerId'];
+                // $MailAddress = (array_key_exists('Mail Address', $logininfo)) ? $logininfo['Mail Address'] : "";
+                // $PhoneNumber = (array_key_exists('Phone Number', $logininfo)) ? $logininfo['Phone Number'] : "";
+                // $CompanyRole = (array_key_exists('Company Role', $logininfo)) ? $logininfo['Company Role'] : "";
+                // $ExternalCompany = (array_key_exists('External Company', $logininfo)) ? $logininfo['External Company'] : "";
+                // $ProjectConnection = (array_key_exists('Project Connection', $logininfo)) ? $logininfo['Project Connection'] : "";
+                if ($permission == "ADMIN") {
+                    $customerId = 0;
+                } else {
+                    $customerId = $logininfo['customerId'];
+                }
                 // $settings_customerName = 'true';
                 // $settings_customerTypeOfCompany = $settingsInfo['customerTypeOfCompany'];
                 $session_data = array(
                     'uId' => $uId,
                     'name' => $name,
                     'email' => $email,
-                    'phone' => $phone,
-                    'Mail Address' => $MailAddress,
-                    'Phone Number' => $PhoneNumber,
-                    'Company Role' => $CompanyRole,
-                    'External Company' => $ExternalCompany,
-                    'Project Connection' => $ProjectConnection,
+                    // 'phone' => $phone,
+                    // 'Mail Address' => $MailAddress,
+                    // 'Phone Number' => $PhoneNumber,
+                    // 'Company Role' => $CompanyRole,
+                    // 'External Company' => $ExternalCompany,
+                    // 'Project Connection' => $ProjectConnection,
                     'permission' => $permission,
                     'USER_API_TOKEN' => $user_api_token,
                     'customerId' => $customerId,
