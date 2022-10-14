@@ -16,7 +16,7 @@
                     </h4>
                 </div>
                 <div class="card-body">
-                    <table id="employeeRecords" class="table table-striped table-sm">
+                    <table id="employeeRecords" class="table table-striped table-sm wrap">
                         <thead class="bg-info" style="font-family: 'Source Sans Pro', sans-serif;">
                             <tr>
                                 <th style="width: 3%">
@@ -83,63 +83,65 @@
                             loadTableData()
                         );
 
-                        function loadTableData() {
-                            $(".dataTables_empty").empty();
-                            // var employee_json = " ";
-                            <?php
-                            if (sizeof($employeeInfo) > 0) {
-                                echo "toastr.success('Data Loaded!');";
-                                $employee_row_data = "";
-                                foreach ($employeeInfo as $key => $employee) {
-                                    // $c_data = implode(',', $employee);
-                                    // echo "console.log({$c_data})";
-                                    // $e_count = count($employee['employeesList']);
-                                    // $f_count = count($employee['devicesList']);
-                                    // $p_count = count($employee['projectList']);
-                                    $employee_row_data = $employee_row_data . "<tr id='{$employee['id']}'>";
-                                    $employee_row_data = $employee_row_data . "<td class='employeeId'>{$employee['id']}</td>";
-                                    $employee_row_data = $employee_row_data . "<td class='employeeName'>{$employee['name']}";
-                                    $employee_row_data = $employee_row_data . "<td class='mailAddress'>{$employee['Mail Address']}";
 
-                                    // $employee_row_data = $employee_row_data . "<br/><small><b>Type </b>{$employee['Mail Address']}</small></td>";
-
-                                    // $employee_row_data = $employee_row_data . "<td><small><b>Manpower&nbsp;&nbsp;&nbsp;</b>{$employee['phone']}</small>";
-                                    // $employee_row_data = $employee_row_data . "<br/><small><b>Type </b>{$employee['Company Role']}</small></td>";
-
-                                    // $employee_row_data = $employee_row_data . "<br/><small><b>Emp. Count&nbsp;</b>{$e_count}</small></td>";
-                                    // $employee_row_data = $employee_row_data . "<td><small><b>Fleet Count&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>{$f_count}</small>";
-                                    // $employee_row_data = $employee_row_data . "<br/><small><b>Projects Count </b>{$p_count}</small></td>";
-                                    // $employee_row_data = $employee_row_data . "<td>$ {$employee['VAT Number']}</td>";
-                                    $employee_row_data = $employee_row_data . "<td class='email'>{$employee['email']}</td>";
-
-                                    $employee_row_data = $employee_row_data . "<td class='phone'>{$employee['phone']}</td>";
-                                    $employee_row_data = $employee_row_data . "<td class='companyRole'>{$employee['Company Role']}</td>";
-                                    $employee_row_data = $employee_row_data . "<td class='permission'>{$employee['permission']}</td>";
-
-                                    if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
-                                        $employee_row_data = $employee_row_data . "<td class='employee-actions text-right'>";
-
-                                        $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info' onclick='showemployeeDetails({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
-                                        $employee_row_data = $employee_row_data . "<i class='fas fa-pencil-alt text-orange' onclick='editEmployee({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
-                                        $employee_row_data = $employee_row_data . "<i class='fas fa-trash text-danger outline'></i></td>";
-                                    } else {
-                                        $employee_row_data = $employee_row_data . "<td><i class='fas fa-folder text-info'></i>";
-                                        $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;";
-                                        $employee_row_data = $employee_row_data . "</td>";
-                                    }
-                                    $employee_row_data = $employee_row_data . "</tr>";
-                                    $index++;
-                                }
-                                echo "$('#employeeRecords').DataTable().destroy();";
-                                echo "$('#employeeRecords').find('tbody').append(\"$employee_row_data\");";
-                                echo "$('#employeeRecords').DataTable().draw();";
-                                // echo "console.log(\"{$employee_row_data}\");";
-                            } else {
-                                echo "toastr.error('Unable to get data!')";
-                            }
-                            ?>
-                        }
                     })
+
+                    function loadTableData() {
+                        $('#employeeRecords').DataTable().clear().draw();
+                        // var employee_json = " ";
+                        <?php
+                        if (sizeof($employeeInfo) > 0) {
+                            echo "toastr.success('Data Loaded!');";
+                            $employee_row_data = "";
+                            foreach ($employeeInfo as $key => $employee) {
+                                // $c_data = implode(',', $employee);
+                                // echo "console.log({$c_data})";
+                                // $e_count = count($employee['employeesList']);
+                                // $f_count = count($employee['devicesList']);
+                                // $p_count = count($employee['projectList']);
+                                $employee_row_data = $employee_row_data . "<tr id='{$employee['id']}'>";
+                                $employee_row_data = $employee_row_data . "<td class='employeeId'>{$employee['id']}</td>";
+                                $employee_row_data = $employee_row_data . "<td class='employeeName'>{$employee['name']}";
+                                $employee_row_data = $employee_row_data . "<td class='mailAddress'>{$employee['Mail Address']}";
+
+                                // $employee_row_data = $employee_row_data . "<br/><small><b>Type </b>{$employee['Mail Address']}</small></td>";
+
+                                // $employee_row_data = $employee_row_data . "<td><small><b>Manpower&nbsp;&nbsp;&nbsp;</b>{$employee['phone']}</small>";
+                                // $employee_row_data = $employee_row_data . "<br/><small><b>Type </b>{$employee['Company Role']}</small></td>";
+
+                                // $employee_row_data = $employee_row_data . "<br/><small><b>Emp. Count&nbsp;</b>{$e_count}</small></td>";
+                                // $employee_row_data = $employee_row_data . "<td><small><b>Fleet Count&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>{$f_count}</small>";
+                                // $employee_row_data = $employee_row_data . "<br/><small><b>Projects Count </b>{$p_count}</small></td>";
+                                // $employee_row_data = $employee_row_data . "<td>$ {$employee['VAT Number']}</td>";
+                                $employee_row_data = $employee_row_data . "<td class='email'>{$employee['email']}</td>";
+
+                                $employee_row_data = $employee_row_data . "<td class='phone'>{$employee['phone']}</td>";
+                                $employee_row_data = $employee_row_data . "<td class='companyRole'>{$employee['Company Role']}</td>";
+                                $employee_row_data = $employee_row_data . "<td class='permission'>{$employee['permission']}</td>";
+
+                                if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
+                                    $employee_row_data = $employee_row_data . "<td class='employee-actions text-right'>";
+
+                                    $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info' onclick='showemployeeDetails({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                                    $employee_row_data = $employee_row_data . "<i class='fas fa-pencil-alt text-orange' onclick='editEmployee({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                                    $employee_row_data = $employee_row_data . "<i class='fas fa-trash text-danger outline' onclick='deleteEmployee()'></i></td>";
+                                } else {
+                                    $employee_row_data = $employee_row_data . "<td><i class='fas fa-folder text-info'></i>";
+                                    $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;";
+                                    $employee_row_data = $employee_row_data . "</td>";
+                                }
+                                $employee_row_data = $employee_row_data . "</tr>";
+                                $index++;
+                            }
+                            echo "$('#employeeRecords').DataTable().destroy();";
+                            echo "$('#employeeRecords').find('tbody').append(\"$employee_row_data\");";
+                            echo "$('#employeeRecords').DataTable().draw();";
+                            // echo "console.log(\"{$employee_row_data}\");";
+                        } else {
+                            echo "toastr.error('Unable to get data!')";
+                        }
+                        ?>
+                    }
                 </script>
                 <div class="modal fade" id="addEditEmployeeModal">
                     <div class="modal-dialog modal-lg">
@@ -165,6 +167,9 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="row">
+                                                    <div class="hidden-fields">
+                                                        <input type="hidden" id="empId" name="customerId" />
+                                                    </div>
                                                     <div class="col-sm-12">
                                                         <div class="form-group"><label class="form-control-label">Customer Name</label>
                                                             <select class="form-control select2 " id="customerName" style="width: 100%;" required>
@@ -173,7 +178,7 @@
                                                     </div>
                                                     <div class="col-sm-12">
                                                         <div class="form-group"><label class="form-control-label">Employee Name</label>
-                                                            <input type="text" placeholder="Employee Name" id=">employeeName" name=">employeeName" required class="form-control" />
+                                                            <input type="text" placeholder="Employee Name" id="employeeName" name="employeeName" required class="form-control" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -215,22 +220,22 @@
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <label class="form-control-label">Email</label>
-                                                        <input type="text" placeholder="Email" id="Email" name="Email" required class="form-control" />
+                                                        <input type="text" placeholder="Email" id="email" name="Email" required class="form-control" />
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label class="form-control-label">Password</label>
-                                                        <input type="text" placeholder="Password" id="Password" name="Password" required class="form-control" />
+                                                        <input type="text" placeholder="Password" id="password" name="Password" required class="form-control" />
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label class="form-control-label">Access</label>
-                                                        <select id="Access" name="Access" class="custom-select">
+                                                        <select name="Access" class="custom-select" id="permission">
                                                             <option value="USER" selected>USER</option>
                                                             <option value="MANAGER">MANAGER</option>
-                                                            <?php if($_SESSION['permission']=="ADMIN"){
-                                                            
-                                                            echo "<option value='ADMIN'>ADMIN</option> ";
-                                                                }?>
-                                                            
+                                                            <?php if ($_SESSION['permission'] == "ADMIN") {
+
+                                                                echo "<option value='ADMIN'>ADMIN</option> ";
+                                                            } ?>
+
                                                         </select>
                                                     </div>
 
@@ -318,7 +323,7 @@
     var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
 
     function editEmployee(employeeId) {
-
+        document.getElementById('empId').value = employeeId;
 
         if (permission == "ADMIN") {
             // change customername textbox to search & select
@@ -330,22 +335,107 @@
             }
             $('#customerName').html(div_data);
         } else {
+            var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + employeeId, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+
             // pre-populate customer details from session information
+            // document.getElementById("customerName").value =emp_data['']
+            document.getElementById('mailAddress').value = emp_data['Mail Address']
+            document.getElementById('companyRole').value = emp_data['Company Role']
+
+
+
+            document.getElementById('employeeName').value = emp_data['name']
+            document.getElementById('email').value = emp_data['email']
+
+            document.getElementById('phoneNumber').value = emp_data['phone']
+
+            document.getElementById('password').value = emp_data['password']
+            $("#permission").text() = emp_data['permission']
+            // $("#customerName").text() =emp_data['']
             $('#customerName').html("<option value='" + <?php echo $_SESSION['customerId'] ?> + "' selected='selected'>" + document.getElementById('cname').value + "</option>");
             $('#customerName').select2().prop('disabled', true);
             document.getElementById('customerName').classList.add('disabled');
         }
+
         $("#addEditEmployeeModal").modal("show")
 
     }
-    function showemployeeDetails(empId){
-        
-       $("#showemployeeDetails").modal("show")
+
+    function showemployeeDetails(empId) {
+
+        $("#showemployeeDetails").modal("show")
     }
 
     // save employee function
-    function saveEmployee() {
+    function saveDevice() {
+        var empid = document.getElementById('empId').value;
 
+        // 1. Create MAP from all fields of addeditcustomermodal pop-up
+        // 2. convert that map to JSON 
+        // 3. Call POST / PUT to save data
+        // 4. If data saved successfully, show green toast and close modal
+        // 5. If data does not save, show red toast and DO NOT close modal
+
+        const today = new Date();
+
+        var employeeObject = {
+            "id": empid,
+            "employeeStatus": 0,
+            "customerId": document.getElementById("customerName").value,
+            "Mail Address": document.getElementById('mailAddress').value,
+            "Company Role": document.getElementById('companyRole').value,
+            "External Company": false,
+            "Projects List": [],
+            "devices list": [],
+            "name": document.getElementById('employeeName').value,
+            "email": document.getElementById('email').value,
+            "countrycode": "",
+            "phone": document.getElementById('phoneNumber').value,
+            "createdDate": today.getUTCDay(),
+            "password": document.getElementById('password').value,
+            "permission": $("#permission").val(),
+            "customerName": $("#customerName").val()
+        }
+
+        var empObject = {
+            "id": -1,
+            "name": document.getElementById('employeeName').value,
+        };
+        var resp;
+        if (document.getElementById('empId').value === "-1") {
+            // new customer. perform POST
+            resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "POST", JSON.stringify(employeeObject), document.getElementById("session_token").value).responsedata;
+
+        } else {
+            // existing customer. perform PUT
+            resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + empid, "PUT", JSON.stringify(customerObject), document.getElementById("session_token").value).responsedata;
+        }
+        if (resp.status == 200) {
+            toastr.success("Employee added successfully!")
+            $('#addEditEmployeeModal').modal('hide')
+            loadTableData();
+        } else {
+            // failed
+            // show resp.responseText in red toast
+            toastr.error("Employee not Updated!")
+        }
+    }
+
+    function deleteEmployee() {
+        var empid = document.getElementById('empId').value;
+        resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + empid, "DELETE", "", document.getElementById("session_token").value).responsedata;
+        if (resp.status == 204) {
+            toastr.success("Employee deleted successfully!")
+            $('#addEditEmployeeModal').modal('hide')
+            loadTableData();
+        } else {
+            // failed
+            // show resp.responseText in red toast
+            toastr.error("Employee not Updated!")
+        }
+
+
+        loadTableData();
     }
 </script>
 

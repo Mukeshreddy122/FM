@@ -119,15 +119,12 @@
                         // Service type and interval
 
                         $device_row_data = $device_row_data . "<td class='servicInterval'><small><i class='fa fa-calendar  text-primary' aria-hidden='true'></i></small> {$device['Service Interval']}-{$device['serviceIntervalType']} ";
-                        if($device['underMaintenance']){
-                        $device_row_data=$device_row_data."<br> <small><i class='fa fa-suitcase text-red' aria-hidden='true'></i></small> &nbsp; Maintanence</td>";
-
+                        if ($device['underMaintenance']) {
+                            $device_row_data = $device_row_data . "<br> <small><i class='fa fa-suitcase text-red' aria-hidden='true'></i></small> &nbsp; Maintanence</td>";
+                        } else {
+                            $device_row_data = $device_row_data . "<br> <small><i class='fa fa-suitcase text-green' aria-hidden='true'></i> </small> &nbsp; Maintanence</td>";
                         }
-                        else{
-                        $device_row_data=$device_row_data."<br> <small><i class='fa fa-suitcase text-green' aria-hidden='true'></i> </small> &nbsp; Maintanence</td>";
 
-                        }
-                        
 
 
 
@@ -189,7 +186,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="hidden-fields">
-                                            <input type="hidden" id="customerId" name="customerId" />
+                                            <input type="hidden" id="deviceId" name="deviceId" />
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group"><label class="form-control-label">Customer Name</label>
@@ -402,24 +399,25 @@
     <script>
         function editDevice(deviceId) {
             var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
+            document.getElementById('deviceId').value = deviceId;
 
 
-            if(deviceId<=0){
+            if (deviceId <= 0) {
                 if (permission == "ADMIN") {
-                // change customername textbox to search & select
-                var customer_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-                var div_data = "";
-                $('#customerName').select2().prop('disabled', false);
-                for (let i = 0; i < customer_data.length; i++) {
-                    div_data += `<option value=${customer_data[i]['id']}> ${customer_data[i]['name']} </option>`;
+                    // change customername textbox to search & select
+                    var customer_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+                    var div_data = "";
+                    $('#customerName').select2().prop('disabled', false);
+                    for (let i = 0; i < customer_data.length; i++) {
+                        div_data += `<option value=${customer_data[i]['id']}> ${customer_data[i]['name']} </option>`;
+                    }
+                    $('#customerName').html(div_data);
+                } else {
+                    // pre-populate customer details from session information
+                    $('#customerName').html("<option value='" + <?php echo $_SESSION['customerId'] ?> + "' selected='selected'>" + document.getElementById('cname').value + "</option>");
+                    $('#customerName').select2().prop('disabled', true);
+                    document.getElementById('customerName').classList.add('disabled');
                 }
-                $('#customerName').html(div_data);
-            } else {
-                // pre-populate customer details from session information
-                $('#customerName').html("<option value='" + <?php echo $_SESSION['customerId'] ?> + "' selected='selected'>" + document.getElementById('cname').value + "</option>");
-                $('#customerName').select2().prop('disabled', true);
-                document.getElementById('customerName').classList.add('disabled');
-            }
             }
             // all feilds blank
             document.getElementById("customerName").value = ""
@@ -443,6 +441,52 @@
 
         function showdeviceDetails(deviceId) {
             $("#showdeviceDetails").modal("show")
+        }
+
+        function saveDevice() {
+            var devId = document.getElementById('deviceId').value;
+
+            // 1. Create MAP from all fields of addeditcustomermodal pop-up
+            // 2. convert that map to JSON 
+            // 3. Call POST / PUT to save data
+            // 4. If data saved successfully, show green toast and close modal
+            // 5. If data does not save, show red toast and DO NOT close modal
+
+            const today = new Date();
+            const devData={
+                
+            }
+            
+            // var empObject = {
+            //     "id": -1,
+            //     "name": document.getElementById('employeeName').value,
+            // };
+            var resp;
+            if (document.getElementById('customerId').value === "-1") {
+                // new customer. perform POST
+                custresp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "POST", JSON.stringify(customerObject), document.getElementById("session_token").value).responsedata;
+                // console.log(resp)
+                // if (custresp.status == 200) {
+                //     resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "POST", JSON.stringify(empObject), document.getElementById("session_token").value).responsedata;
+                // }
+            } else {
+                // existing customer. perform PUT
+                resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + custid, "PUT", JSON.stringify(customerObject), document.getElementById("session_token").value).responsedata;
+            }
+            if (resp.status == 200) {
+                toastr.success("Customer data updated!")
+                $('#addEditCustomerModal').modal('hide')
+                loadTableData();
+            } else {
+                // failed
+                // show resp.responseText in red toast
+                toastr.error("Customer not Updated!")
+            }
+
+        }
+
+        function deleteDevice() {
+
         }
     </script>
 

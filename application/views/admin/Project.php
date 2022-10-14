@@ -185,13 +185,13 @@
                                     $project_row_data = $project_row_data . "<td class='projectId'>{$project['id']}</td>";
                                     $project_row_data = $project_row_data . "<td class='customerName'>{$this->CustomerModel->getCustomer($project['customerId'])['name']}</td>";
                                     // echo "<td class='customerName'>{$project['customerId']}</td>";
-                                    $project_row_data = $project_row_data . "<td class='projectName'>{$project['name']}";
-                                    $project_row_data = $project_row_data . "<br/><small><b>Date: </b>{$project['projectStartDate']} - {$project['projectEndDate']}</small></td>";
-                                    $project_row_data = $project_row_data . "<td class='projectName'>{$project['deviceCount']}</td>";
-                                    $project_row_data = $project_row_data . "<td class='projectName'>{$project['manpower']}</td>";
+                                    $project_row_data = $project_row_data . "<td id='projectName'>{$project['name']}";
+                                    $project_row_data = $project_row_data . "<br/><small><b>Date: </b></small><small id='projectStartDate'>{$project['projectStartDate']}</small> - <small id='projectEndDate'>{$project['projectEndDate']}</small></td>";
+                                    $project_row_data = $project_row_data . "<td id='deviceCount'>{$project['deviceCount']}</td>";
+                                    $project_row_data = $project_row_data . "<td id='manpower'>{$project['manpower']}</td>";
                                     // echo "<td class='projectTime'>{$project['projectStartDate']} - {$project['projectEndDate']}</td>";
-                                    $project_row_data = $project_row_data . "<td class='projectCost'>$ {$project['projectCost']}</td>";
-                                    $project_row_data = $project_row_data . "<td class='projectIncome'>$ {$project['projectIncome']}</td>";
+                                    $project_row_data = $project_row_data . "<td id='projectCost'>$ {$project['projectCost']}</td>";
+                                    $project_row_data = $project_row_data . "<td id='projectIncome'>$ {$project['projectIncome']}</td>";
                                     // echo "<td class='projectReport'><a href='#'>Report</a></td>";
                                     if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
                                         $project_row_data = $project_row_data . "<td class='project-actions text-right'>";
@@ -429,90 +429,8 @@
 </section>
 
 <script type="text/javascript">
-    function saveProject() {
-        var selEmpList = document.getElementById('selEmpList').value
-        var selFleetList = document.getElementById('selFleetList').value
-
-        var startDate = document.getElementById('startDate').value
-        var endDate = document.getElementById('endDate').value
-        var custId = document.getElementById('customerName').value
-        var projectCost = document.getElementById('projectCost').value
-        var projectIcome = document.getElementById('projectIncome').value
-        var projectManpower = document.getElementById('projectManpower').value
-        var projectFleet = document.getElementById('projectFleet').value
-        var projectName = document.getElementById('projectName').value
-        var projectName = document.getElementById('projectName').value
-        var projectName = document.getElementById('projectName').value
-        var projectProfit = projectCost - projectIcome
-
-        // perform validation for each field display toaster alert 
-        if (projectName === "" || custId === "" || startDate === "" || endDate === "" || projectManpower === "" || projectFleet === "" || projectCost === "" || projectIncome === "" || projectFleet === "" || selEmpList === "" || selFleetList === "") {
-            toastr.error("Please fill all the fields!")
-        } else {
-            // call POST for create new project 
-
-            var newProject = {
-                "name": projectName,
-                "customerId": custId,
-                "projectStartDate": startDate,
-                "projectEndDate": endDate,
-                "manpower": projectManpower,
-                "deviceCount": projectFleet,
-                "projectCost": projectCost,
-                "projectIncome": projectIcome,
-                "projectProfit": projectProfit,
-                "employeesList": [selEmpList],
-                "devicesList": [
-                    selFleetList
-                ]
-            }
-            var project_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project", "POST", JSON.stringify(newProject), document.getElementById("session_token").value);
-            console.log(project_data)
-
-        }
-
-        // PUT 
-        // perform validation for each field display toaster alert 
-        //  if (projectName === "" || custId === "" || startDate === "" || endDate === "" || projectManpower === "" || projectFleet === "" || projectCost === "" || projectIncome === "" || projectFleet === "" || selEmpList === "" || selFleetList === "") {
-        //     toastr.error("Please fill all the fields!")
-        // } else {
-        //     // call PUT for create new project 
-
-        //     var newProject = {
-        //         "name": projectName,
-        //         "customerId": custId,
-        //         "projectStartDate": startDate,
-        //         "projectEndDate": endDate,
-        //         "manpower": projectManpower,
-        //         "deviceCount": projectFleet,
-        //         "projectCost": projectCost,
-        //         "projectIncome": projectIcome,
-        //         "projectProfit": projectProfit,
-        //         "employeesList": [selEmpList],
-        //         "devicesList": [
-        //             selFleetList
-        //         ]
-        //     }
-        //     var project_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project", "PUT", JSON.stringify(newProject), document.getElementById("session_token").value);
-        //     console.log(project_data)
-
-        // }
-
-
-        var empOptions = $('#selEmpList').select2('val')
-        var fleetOptions = $('#selFleetList').select2('val')
-
-
-        if (empOptions.length > document.getElementById("projectManpower").value) {
-            toastr.error("Man power exceeded!")
-        }
-        if (fleetOptions.length > document.getElementById("projectFleet").value) {
-            toastr.error("Fleet Count exceeded!")
-        }
-    }
-
     function editProject(projectid) {
-
+        document.getElementById('projectId').value = projectid;
         var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
         console.log(permission)
         var customerName = <?php echo $_SESSION['customerName'] ?>;
@@ -627,7 +545,7 @@
         var project_json = JSON.parse(project_response);
         customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + project_json['customerId'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
 
-            // Mukesh to add all other values
+        // Mukesh to add all other values
         $('#roProjectCost').html(project_json['projectCost']);
         $('#roProjectIncome').html(project_json['projectIncome']);
         $('#roProjectFleet').html(project_json['deviceCount']);
@@ -671,7 +589,7 @@
             // var device_img = performAPIAJAXCallGeneric("http://vghar.ddns.net:6060/ZFMS/fleet/" + element + "/image", "GET", "", document.getElementById("session_token").value).responsedata.responseText;
             device_div += "<div class='post'>";
             device_div += "<div class='user-block'>";
-            device_div += "<img class='img-circle img-bordered-sm' src='data:image/png;base64, " + device_img + "' alt=''>";
+            // device_div += "<img class='img-circle img-bordered-sm' src='data:image/png;base64, " + device_img + "' alt=''>";
             if (device_json['underMaintenance']) {
                 device_div += "<span class='username'><p>" + device_json['name'];
                 device_div += " <i class='fa fa-solid fa-toolbox text-red'></i>" + "</p></span>";
@@ -711,6 +629,77 @@
 
         $('#showProjectDetails').modal('show');
     }
+
+    function deleteProject() {
+
+    }
+
+    function saveProject() {
+        var projId=document.getElementById('projectId').value 
+        var selEmpList = document.getElementById('selEmpList').value
+        var selFleetList = document.getElementById('selFleetList').value
+        var projId=document.getElementById('project')
+        var startDate = document.getElementById('startDate').value
+        var endDate = document.getElementById('endDate').value
+        var custId = document.getElementById('customerName').value
+        var projectCost = document.getElementById('projectCost').value
+        var projectIcome = document.getElementById('projectIncome').value
+        var projectManpower = document.getElementById('projectManpower').value
+        var projectFleet = document.getElementById('projectFleet').value
+        var projectName = document.getElementById('projectName').value
+        var projectName = document.getElementById('projectName').value
+        var projectName = document.getElementById('projectName').value
+        var projectProfit = projectCost - projectIcome
+
+        // 1. Create MAP from all fields of addeditcustomermodal pop-up
+        // 2. convert that map to JSON 
+        // 3. Call POST / PUT to save data
+        // 4. If data saved successfully, show green toast and close modal
+        // 5. If data does not save, show red toast and DO NOT close modal
+
+        const today = new Date();
+        var projId = document.getElementById('projectId').value;
+        var custId = document.getElementById('custId').value;
+        var projectObject = {
+                "id": projId,
+                "name": projectName,
+                "customerId": custId,
+                "projectStartDate": startDate,
+                "projectEndDate": endDate,
+                "manpower": projectManpower,
+                "deviceCount": projectFleet,
+                "projectCost": projectCost,
+                "projectIncome": projectIcome,
+                "projectProfit": projectProfit,
+                "projectStatus": 0,
+                "projectIsCompleted": false,
+                "createdDate": today.getUTCDay(),
+                "employeesList": [],
+                "devicesList": []
+            }
+        }
+        // var empObject = {
+        //     "id": -1,
+        //     "name": document.getElementById('employeeName').value,
+        // };
+        var resp;
+        if (document.getElementById('projectId').value =="-1") {
+            // new customer. perform POST
+            resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project", "POST", JSON.stringify(projectObject), document.getElementById("session_token").value).responsedata;
+            
+        } else {
+            // existing customer. perform PUT
+            resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projId, "PUT", JSON.stringify(projectObject), document.getElementById("session_token").value).responsedata;
+        }
+        if (resp.status == 200) {
+            toastr.success("Project data updated!")
+            $('#addEditCustomerModal').modal('hide')
+            loadTableData();
+        } else {
+            // failed
+            // show resp.responseText in red toast
+            toastr.error("Customer not Updated!")
+        }
 </script>
 <!-- DataTables -->
 <link rel="stylesheet" href="assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
