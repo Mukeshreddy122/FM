@@ -10,6 +10,24 @@
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
                             <button id="NewProject" data-toggle="modal" class="btn btn-block bg-info" onclick="editProject(-1)">Add <?php echo $title; ?> <i class="fa fa-plus"></i></button>
                         <?php } ?>
+
+                        <?php
+                        $currencyForCost;
+                        switch ($_SESSION['currencyForCost']) {
+                            case "dollar":
+                                echo "<input type='hidden' id='currencyForCost' value='$'/>";
+                                $currencyForCost = "$";
+                                break;
+                            case "Pound":
+                                echo "<input type='hidden' id='currencyForCost' value='£'/>";
+                                $currencyForCost = "£";
+                                break;
+                            case "euro":
+                                echo "<input type='hidden' id='currencyForCost' value='€'/>";
+                                $currencyForCost = "€";
+                                break;
+                        }
+                        ?>
                     </h4>
                 </div>
                 <div class="card-body p-0">
@@ -190,8 +208,8 @@
                                     $project_row_data = $project_row_data . "<td id='deviceCount'>{$project['deviceCount']}</td>";
                                     $project_row_data = $project_row_data . "<td id='manpower'>{$project['manpower']}</td>";
                                     // echo "<td class='projectTime'>{$project['projectStartDate']} - {$project['projectEndDate']}</td>";
-                                    $project_row_data = $project_row_data . "<td id='projectCost'>$ {$project['projectCost']}</td>";
-                                    $project_row_data = $project_row_data . "<td id='projectIncome'>$ {$project['projectIncome']}</td>";
+                                    $project_row_data = $project_row_data . "<td id='projectCost'>{$currencyForCost} {$project['projectCost']}</td>";
+                                    $project_row_data = $project_row_data . "<td id='projectIncome'>{$currencyForCost} {$project['projectIncome']}</td>";
                                     // echo "<td class='projectReport'><a href='#'>Report</a></td>";
                                     if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
                                         $project_row_data = $project_row_data . "<td class='project-actions text-right'>";
@@ -227,7 +245,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header bg-info">
-                        <h4 class="modal-title">Project Details</h4>
+                        <h4 class="modal-title" id="addEditTitle">Add / Edit Project</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -360,7 +378,7 @@
                         <div class="row">
                             <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1">
                                 <div class="row">
-                                    <div class="col-12 col-sm-3">
+                                    <div class="col-12 col-sm-2">
                                         <div class="info-box bg-light">
                                             <div class="info-box-content">
                                                 <span class="info-box-text text-center text-muted">Cost</span>
@@ -368,7 +386,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-3">
+                                    <div class="col-12 col-sm-2">
                                         <div class="info-box bg-light">
                                             <div class="info-box-content">
                                                 <span class="info-box-text text-center text-muted">Income</span>
@@ -376,7 +394,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-3">
+                                    <div class="col-12 col-sm-2">
                                         <div class="info-box bg-light">
                                             <div class="info-box-content">
                                                 <span class="info-box-text text-center text-muted">Fleet</span>
@@ -384,7 +402,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-3">
+                                    <div class="col-12 col-sm-2">
                                         <div class="info-box bg-light">
                                             <div class="info-box-content">
                                                 <span class="info-box-text text-center text-muted">Manpower</span>
@@ -442,6 +460,7 @@
         var fleet_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
 
         if (projectid == -1) {
+            document.getElementById('addEditTitle').value = "Add New Project";
             if (permission == "ADMIN") {
                 // change customername textbox to search & select
                 var customer_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
@@ -471,6 +490,8 @@
         } else {
             var project_response = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projectid, "GET", "", document.getElementById("session_token").value).responsedata.responseText;
             var project_json = JSON.parse(project_response);
+
+            document.getElementById('addEditTitle').value = "Edit Project - " + project_json['name'];
 
             /** EMPLOYEE drop down section */
             var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
@@ -545,11 +566,12 @@
         var project_json = JSON.parse(project_response);
         customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + project_json['customerId'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
 
+        var currency_val = document.getElementById('currencyForCost').value;
         // Mukesh to add all other values
-        $('#roProjectCost').html(project_json['projectCost']);
-        $('#roProjectIncome').html(project_json['projectIncome']);
-        $('#roProjectFleet').html(project_json['deviceCount']);
-        $('#roProjectManpower').html(project_json['manpower']);
+        $('#roProjectCost').html(currency_val + " " + project_json['projectCost']);
+        $('#roProjectIncome').html(currency_val + " " + project_json['projectIncome']);
+        $('#roProjectFleet').html(currency_val + " " + project_json['deviceCount']);
+        $('#roProjectManpower').html(currency_val + " " + project_json['manpower']);
         $('#roCustomerName').html(document.getElementById('cname').value);
         $('#roProjectManpower').html(project_json['manpower']);
         $('#roStartDate').html(project_json['projectStartDate']);
@@ -586,10 +608,10 @@
         var device_div = "";
         device_array.forEach(element => {
             var device_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + element, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-            // var device_img = performAPIAJAXCallGeneric("http://vghar.ddns.net:6060/ZFMS/fleet/" + element + "/image", "GET", "", document.getElementById("session_token").value).responsedata.responseText;
+            var device_img = performAPIAJAXCallGeneric("http://vghar.ddns.net:6060/ZFMS/fleet/" + element + "/image", "GET", "", document.getElementById("session_token").value).responsedata.responseText;
             device_div += "<div class='post'>";
             device_div += "<div class='user-block'>";
-            // device_div += "<img class='img-circle img-bordered-sm' src='data:image/png;base64, " + device_img + "' alt=''>";
+            device_div += "<img class='img-circle img-bordered-sm' src='data:image/png;base64, " + device_img + "' alt=''>";
             if (device_json['underMaintenance']) {
                 device_div += "<span class='username'><p>" + device_json['name'];
                 device_div += " <i class='fa fa-solid fa-toolbox text-red'></i>" + "</p></span>";
@@ -635,10 +657,10 @@
     }
 
     function saveProject() {
-        var projId=document.getElementById('projectId').value 
+        var projId = document.getElementById('projectId').value
         var selEmpList = document.getElementById('selEmpList').value
         var selFleetList = document.getElementById('selFleetList').value
-        var projId=document.getElementById('project')
+        // var projId = document.getElementById('project')
         var startDate = document.getElementById('startDate').value
         var endDate = document.getElementById('endDate').value
         var custId = document.getElementById('customerName').value
@@ -661,32 +683,32 @@
         var projId = document.getElementById('projectId').value;
         var custId = document.getElementById('custId').value;
         var projectObject = {
-                "id": projId,
-                "name": projectName,
-                "customerId": custId,
-                "projectStartDate": startDate,
-                "projectEndDate": endDate,
-                "manpower": projectManpower,
-                "deviceCount": projectFleet,
-                "projectCost": projectCost,
-                "projectIncome": projectIcome,
-                "projectProfit": projectProfit,
-                "projectStatus": 0,
-                "projectIsCompleted": false,
-                "createdDate": today.getUTCDay(),
-                "employeesList": [],
-                "devicesList": []
-            }
+            "id": projId,
+            "name": projectName,
+            "customerId": custId,
+            "projectStartDate": startDate,
+            "projectEndDate": endDate,
+            "manpower": projectManpower,
+            "deviceCount": projectFleet,
+            "projectCost": projectCost,
+            "projectIncome": projectIcome,
+            "projectProfit": projectProfit,
+            "projectStatus": 0,
+            "projectIsCompleted": false,
+            "createdDate": today.getUTCDay(),
+            "employeesList": [],
+            "devicesList": []
         }
+
         // var empObject = {
         //     "id": -1,
         //     "name": document.getElementById('employeeName').value,
         // };
         var resp;
-        if (document.getElementById('projectId').value =="-1") {
+        if (document.getElementById('projectId').value == "-1") {
             // new customer. perform POST
             resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project", "POST", JSON.stringify(projectObject), document.getElementById("session_token").value).responsedata;
-            
+
         } else {
             // existing customer. perform PUT
             resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projId, "PUT", JSON.stringify(projectObject), document.getElementById("session_token").value).responsedata;
@@ -700,6 +722,7 @@
             // show resp.responseText in red toast
             toastr.error("Customer not Updated!")
         }
+    }
 </script>
 <!-- DataTables -->
 <link rel="stylesheet" href="assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">

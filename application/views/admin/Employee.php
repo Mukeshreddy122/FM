@@ -318,6 +318,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 </section>
 <script>
     var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
@@ -327,36 +330,49 @@
 
         if (permission == "ADMIN") {
             // change customername textbox to search & select
-            var customer_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
             var div_data = "";
+        } else {
+            $('#customerName').html("<option value='" + <?php echo $_SESSION['customerId'] ?> + "' selected='selected'>" + document.getElementById('cname').value + "</option>");
+            $('#customerName').select2().prop('disabled', true);
+            document.getElementById('customerName').classList.add('disabled');
+        }
+
+        if (employeeId == -1) {
+            var customer_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
             $('#customerName').select2().prop('disabled', false);
             for (let i = 0; i < customer_data.length; i++) {
                 div_data += `<option value=${customer_data[i]['id']}> ${customer_data[i]['name']} </option>`;
             }
             $('#customerName').html(div_data);
         } else {
+            // $('#customerName').select2().prop('disabled', true);
             var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + employeeId, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
 
             // pre-populate customer details from session information
             // document.getElementById("customerName").value =emp_data['']
             document.getElementById('mailAddress').value = emp_data['Mail Address']
             document.getElementById('companyRole').value = emp_data['Company Role']
-
-
-
             document.getElementById('employeeName').value = emp_data['name']
             document.getElementById('email').value = emp_data['email']
 
             document.getElementById('phoneNumber').value = emp_data['phone']
 
-            document.getElementById('password').value = emp_data['password']
-            $("#permission").text() = emp_data['permission']
-            // $("#customerName").text() =emp_data['']
-            $('#customerName').html("<option value='" + <?php echo $_SESSION['customerId'] ?> + "' selected='selected'>" + document.getElementById('cname').value + "</option>");
-            $('#customerName').select2().prop('disabled', true);
-            document.getElementById('customerName').classList.add('disabled');
-        }
+            document.getElementById('password').value = '';
+            $('#password').prop('disabled', true);
+            $('#customerName').html(`<option value='${emp_data['customerId']}' selected='selected'>${emp_data['customerName']}</option>`);
 
+            var perm_list = ['ADMIN', 'MANAGER', 'USER'];
+
+            var perm_div = "";
+            perm_list.forEach(element => {
+                if (emp_data['permission'] == element) {
+                    perm_div += "<option value='" + element + "' selected='selected'>" + element + "</option>";
+                } else {
+                    perm_div += "<option value='" + element + "'>" + element + "</option>";
+                }
+            });
+            $("#permission").html(perm_div);
+        }
         $("#addEditEmployeeModal").modal("show")
 
     }

@@ -35,7 +35,7 @@
                                                                         } else {
                                                                             echo 'class="nav-link "';
                                                                         } ?>>
-                            <i class="nav-icon fas fa-building"></i>
+                            <i class="nav-icon fas fa-city"></i>
                             <p>Customers</p>
                         </a>
                     </li>
@@ -55,8 +55,18 @@
                                                                     } else {
                                                                         echo 'class="nav-link "';
                                                                     } ?>>
-                            <i class="nav-icon fa fa-screwdriver"></i>
+                            <i class="nav-icon fas fa-truck-pickup"></i>
                             <p>Fleet</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo base_url('Maintenance'); ?>" <?php if ($this->uri->segment(1) == "Maintenance") {
+                                                                        echo 'class="nav-link active-aqua"';
+                                                                    } else {
+                                                                        echo 'class="nav-link "';
+                                                                    } ?>>
+                            <i class="nav-icon fas fa-tools"></i>
+                            <p>Maintenance</p>
                         </a>
                     </li>
                 <?php } ?>
