@@ -7,7 +7,7 @@
                         <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
                         <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" />
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
-                            <button id="NewDevice" data-toggle="modal" class="btn btn-block bg-info" onclick="editDevice(-1)">Add <?php echo $title; ?> <i class="fa fa-plus"></i></button>
+                            <button id="NewDevice" data-toggle="modal" class="btn btn-block bg-info" onclick="editAddDevice(-1)">Add <?php echo $title; ?> <i class="fa fa-plus"></i></button>
 
                         <?php } ?>
                     </h4>
@@ -77,89 +77,74 @@
                 ]
 
             });
+            loadTableData()
+        });
 
-            $(document).ready(
-                loadTableData()
-            );
-
-            function loadTableData() {
-                $(".dataTables_empty").empty();
-                var device_json = " ";
-                <?php
-                if (sizeof($devices) > 0) {
-                    echo "toastr.success('Data Loaded!');";
-                    $device_row_data = "";
-                    $index = 1;
-                    foreach ($devices as $key => $device) {
-
-
-                        // $device_row_data = "";
-                        $device_row_data = $device_row_data . "<tr '>";
-                        $device_row_data = $device_row_data . "<td class='deviceId'>{$device['id']}</td>";
-                        // $device_row_data = $device_row_data . "<td class='deviceName'>{$this->deviceModel->getdevice($device['deviceId'])['name']}</td>";
-                        // echo "<td class='deviceName'>{$device['deviceId']}</td>";
-                        // Device details column
-                        $device_row_data = $device_row_data . "<td class='deviceName'>{$device['name']}";
-                        $device_row_data = $device_row_data . "<br/><small><b>Website: &nbsp;</b>{$device['Device Website']}</small>";
-                        if ($device['deviceOnline']) {
-                            $device_row_data = $device_row_data . "<br/><small><b>Online : &nbsp; </b><i class='fa fa-map-marker text-green' aria-hidden='true'></i> {$device['lastOnlineTime']}</small></td> ";
-                        } else {
-                            $device_row_data = $device_row_data . "<br/><small><b>Online : &nbsp; </b><i class='fa fa-map-marker text-red' aria-hidden='true'></i> {$device['lastOnlineTime']}</small></td>";
-                        }
-                        // Device details column END 
-                        // Device ID details 
-                        $device_row_data = $device_row_data . "<td class='deviceName'><small><b>Device-uniqueId: &nbsp;</b>{$device['deviceUniqueId']}</small>";
-                        $device_row_data = $device_row_data . "<br/><small><b>Serial Number: &nbsp;</b>{$device['Serial Number']}</small></td>";
-
-
-                        // Fleet object and fabrication
-                        $device_row_data = $device_row_data . "<td class='deviceName'></i><small><b>Category: &nbsp;</b>{$device['Object Category']}</small>";
-                        $device_row_data = $device_row_data . "<br/><small><b>Fabrication: &nbsp;</b>{$device['Fabrication']}</small></td>";
-
-                        // Service type and interval
-
-                        $device_row_data = $device_row_data . "<td class='servicInterval'><small><i class='fa fa-calendar  text-primary' aria-hidden='true'></i></small> {$device['Service Interval']}-{$device['serviceIntervalType']} ";
-                        if ($device['underMaintenance']) {
-                            $device_row_data = $device_row_data . "<br> <small><i class='fa fa-suitcase text-red' aria-hidden='true'></i></small> &nbsp; Maintanence</td>";
-                        } else {
-                            $device_row_data = $device_row_data . "<br> <small><i class='fa fa-suitcase text-green' aria-hidden='true'></i> </small> &nbsp; Maintanence</td>";
-                        }
-
-
-
-
-                        // echo "<td class='deviceReport'><a href='#'>Report</a></td>";
-                        if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
-                            $device_row_data = $device_row_data . "<td class='device-actions text-right'>";
-                            if ($device['underMaintenance']) {
-                                $device_row_data = $device_row_data . "<i class='fas fa-eye text-info' onclick='showdeviceDetails({$device['id']})'></i>&nbsp;&nbsp;&nbsp;";
-                                $device_row_data = $device_row_data . "<i class='fas fa-pencil-alt text-gray disabled'></i>&nbsp;&nbsp;&nbsp;";
-                                $device_row_data = $device_row_data . "<i class='fas fa-check text-green'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                            } else {
-                                $device_row_data = $device_row_data . "<i class='fas fa-eye text-info' onclick='showdeviceDetails({$device['id']})'></i>&nbsp;&nbsp;&nbsp;";
-                                $device_row_data = $device_row_data . "<i class='fas fa-pencil-alt text-orange' onclick='editDevice({$device['id']})' ></i>&nbsp;&nbsp;&nbsp;";
-                                $device_row_data = $device_row_data . "<i class='fas fa-trash text-danger outline'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                            }
-                        } else {
-                            $device_row_data = $device_row_data . "<td><a href='#showdeviceDetails'><i class='fas fa-folder text-info'></i></a>";
-                            $device_row_data = $device_row_data . "<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;";
-                            $device_row_data = $device_row_data . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        }
-                        $device_row_data = $device_row_data . "</tr>";
-                        $index++;
+        function loadTableData() {
+            $('#deviceRecords').DataTable().clear().draw();
+            var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
+            var device_row_data = "";
+            var deviceInfo = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+          
+            console.log(deviceInfo)
+            if (deviceInfo.length > 0) {
+                toastr.success('Data Loaded!')
+                
+                deviceInfo.forEach(device => {
+                    
+                    device_row_data = device_row_data + `<tr '>`;
+                    device_row_data = device_row_data + `<td class='deviceId'>${device['id']}</td>`;
+                    device_row_data = device_row_data + `<td class='deviceName'>${device['name']}`;
+                    device_row_data = device_row_data + `<br/><small><b>Website: &nbsp;</b>${device['Device Website']}</small>`;
+                    if (device['deviceOnline']) {
+                        device_row_data = device_row_data + `<br/><small><b>Online : &nbsp; </b><i class='fa fa-map-marker text-green' aria-hidden='true'></i> ${device['lastOnlineTime']}</small></td> `;
+                    } else {
+                        device_row_data = device_row_data + `<br/><small><b>Online : &nbsp; </b><i class='fa fa-map-marker text-red' aria-hidden='true'></i> ${device['lastOnlineTime']}</small></td>`;
                     }
-                    echo "$('#deviceRecords').DataTable().destroy();";
-                    echo "$('#deviceRecords').find('tbody').append(\"$device_row_data\");";
-                    echo "$('#deviceRecords').DataTable().draw();";
-                } else {
-                    echo "toastr.error('Unable to get data!')";
-                }
-                ?>
+                    // Device details column END 
+                    device_row_data = device_row_data + `<td class='deviceName'><small><b>Device-uniqueId: &nbsp;</b>${device['deviceUniqueId']}</small>`;
+                    device_row_data = device_row_data + `<br/><small><b>Serial Number: &nbsp;</b>${device['Serial Number']}</small></td>`;
+                    // Fleet object and fabrication
+                    device_row_data = device_row_data + `<td class='deviceName'></i><small><b>Category: &nbsp;</b>${device['Object Category']}</small>`;
+                    device_row_data = device_row_data + `<br/><small><b>Fabrication: &nbsp;</b>${device['Fabrication']}</small></td>`;
 
+                    // Service type and interval
+                    device_row_data = device_row_data + `<td class='servicInterval'><small><i class='fa fa-calendar  text-primary' aria-hidden='true'></i></small> ${device['Service Interval']}-${device['serviceIntervalType']} `;
+                    if (device['underMaintenance']) {
+                        device_row_data = device_row_data + `<br> <small><i class='fa fa-suitcase text-red' aria-hidden='true'></i></small> &nbsp; Maintanence</td>`;
+                    } else {
+                        device_row_data = device_row_data + `<br> <small><i class='fa fa-suitcase text-green' aria-hidden='true'></i> </small> &nbsp; Maintanence</td>`;
+                    }
+                    if (permission== "MANAGER" || permission == "ADMIN") {
+                        device_row_data = device_row_data + "<td class='device-actions text-right'>";
+                        if (device['underMaintenance']) {
+                            device_row_data = device_row_data + `<i class='fas fa-eye text-info' onclick='showdeviceDetails(${device['id']})'></i>&nbsp;&nbsp;&nbsp;`;
+                            device_row_data = device_row_data + `<i class='fas fa-pencil-alt text-gray disabled'></i>&nbsp;&nbsp;&nbsp;`;
+                            device_row_data = device_row_data + `<i class='fas fa-check text-green'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`;
+                        } else {
+                            device_row_data = device_row_data + `<i class='fas fa-eye text-info' onclick='showdeviceDetails(${device['id']})'></i>&nbsp;&nbsp;&nbsp;`;
+                            device_row_data = device_row_data + `<i class='fas fa-pencil-alt text-orange' onclick='editAddDevice({$device['id']})' ></i>&nbsp;&nbsp;&nbsp;`;
+                            device_row_data = device_row_data + `<i class='fas fa-trash text-danger outline' onclick='deleteDevice(${device['id']})'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`;
+                        }
+                    } else {
+                        device_row_data = device_row_data + `<td><a href='#showdeviceDetails'><i class='fas fa-folder text-info'></i></a>`;
+                        device_row_data = device_row_data + `<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;`;
+                        device_row_data = device_row_data + `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`;
+                    }
+                    device_row_data = device_row_data + `</tr>`;
+                    $('#deviceRecords').DataTable().destroy()
+                    console.log(device_row_data)
+                    $('#deviceRecords').find('tbody').append(device_row_data)
+                    $('#deviceRecords').DataTable().draw()
 
+                })
 
+            } else {
+                toastr.error('Unable to get data!')
             }
-        })
+
+
+        }
     </script>
     <div class="modal fade" id="addEditDeviceModal">
         <div class="modal-dialog modal-lg">
@@ -202,20 +187,18 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-6">
                                             <label class="form-control-label">Fleet Unique ID</label>
                                             <input type="text" placeholder="Unique ID" id="uniqueID" name="uniqueID" required class="form-control" />
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-sm-6">
                                             <label class="form-control-label">Fleet Website</label>
                                             <input type="text" placeholder="Fleet Website" id="fleetWebsite" name="fleetWebsite" required class="form-control" />
                                         </div>
-                                        <div class="col-sm-6">
-                                            <label class="form-control-label">Serial Number</label>
-                                            <input type="text" placeholder="Serial Number" id="serialNumber" name="serialNumber" required class="form-control" />
-                                        </div>
+
+                                    </div>
+                                    <div class="row">
+
                                         <div class="col-sm-6">
                                             <label class="form-control-label">Object Category</label>
                                             <input type="text" placeholder="Object Category" id="objectCategory" name="objectCategory" required class="form-control" />
@@ -267,9 +250,13 @@
                                             <label class="form-control-label">Name of Tool/Container</label>
                                             <input type="text" placeholder="Name of Tool/Container" id="nameOfContainer" name="nameOfContainer" required class="form-control" />
                                         </div>
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-6">
                                             <label class="form-control-label">Device Model</label>
                                             <input type="text" placeholder="Device Model" id="deviceModel" name="deviceModel" required class="form-control" />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-control-label">Serial Number</label>
+                                            <input type="text" placeholder="Serial Number" id="serialNumber" name="serialNumber" required class="form-control" />
                                         </div>
 
                                     </div>
@@ -303,7 +290,7 @@
                     <div class="row">
                         <div class="col-12">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <input type="submit" value="Save" id="btnSavecustomer" onclick="savecustomer()" class="btn bg-olive float-right">
+                            <input type="submit" value="Save" id="btnSavecustomer" onclick="saveDevice()" class="btn bg-olive float-right">
                         </div>
                     </div>
                 </div>
@@ -397,7 +384,7 @@
         </div>
     </div>
     <script>
-        function editDevice(deviceId) {
+        function editAddDevice(deviceId) {
             var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
             document.getElementById('deviceId').value = deviceId;
 
@@ -419,20 +406,46 @@
                     document.getElementById('customerName').classList.add('disabled');
                 }
             }
-            // all feilds blank
-            document.getElementById("customerName").value = ""
-            document.getElementById("fleetName").value = ""
-            document.getElementById("uniqueID").value = ""
-            document.getElementById("fleetWebsite").value = ""
-            document.getElementById("serialNumber").value = ""
-            document.getElementById("objectCategory").value = ""
-            document.getElementById("fabrication").value = ""
-            document.getElementById("senderNumber").value = ""
-            document.getElementById("senderType").value = ""
-            document.getElementById("serviceInterval").value = ""
-            document.getElementById("serviceIntervalType").value = ""
-            document.getElementById("nameOfContainer").value = ""
-            document.getElementById("deviceModel").value = ""
+            var custName = document.getElementById("customerName")
+            if (deviceId == -1) {
+
+                document.getElementById("fleetName").value = ""
+                document.getElementById("uniqueID").value = ""
+                document.getElementById("fleetWebsite").value = ""
+                document.getElementById("serialNumber").value = ""
+                document.getElementById("objectCategory").value = ""
+                document.getElementById("fabrication").value = ""
+                document.getElementById("senderNumber").value = ""
+                document.getElementById("senderType").value = ""
+                document.getElementById("serviceInterval").value = ""
+                document.getElementById("serviceIntervalType").value = ""
+                document.getElementById("nameOfContainer").value = ""
+                document.getElementById("deviceModel").value = ""
+            } else {
+                var deviceData = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + deviceId, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+                console.log(deviceData)
+                var customerData = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + deviceData['customerId'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+                console.log(customerData)
+
+                var opt = document.createElement('option');
+                opt.value = deviceData['id'];
+                opt.innerHTML = customerData['name'];
+                custName.appendChild(opt)
+                document.getElementById("fleetName").value = deviceData['name']
+                document.getElementById("uniqueID").value = deviceData['deviceUniqueId']
+                document.getElementById("fleetWebsite").value = deviceData['Device Website']
+                document.getElementById("serialNumber").value = deviceData['Serial Number']
+                document.getElementById("objectCategory").value = deviceData['Object Category']
+                document.getElementById("fabrication").value = deviceData['Fabrication']
+                document.getElementById("senderNumber").value = deviceData['Sender Number']
+                document.getElementById("senderType").value = deviceData['Sender Type']
+                document.getElementById("serviceInterval").value = deviceData['Service Interval']
+                document.getElementById("serviceIntervalType").value = deviceData['serviceIntervalType']
+                document.getElementById("nameOfContainer").value = deviceData['nameOfToolOrContainer']
+                document.getElementById("deviceModel").value = deviceData['devicemodel']
+            }
+            // all fields blank
+
 
 
             $("#addEditDeviceModal").modal("show")
@@ -440,6 +453,9 @@
 
 
         function showdeviceDetails(deviceId) {
+
+
+            
             $("#showdeviceDetails").modal("show")
         }
 
@@ -451,41 +467,71 @@
             // 3. Call POST / PUT to save data
             // 4. If data saved successfully, show green toast and close modal
             // 5. If data does not save, show red toast and DO NOT close modal
-
             const today = new Date();
-            const devData={
-                
+            var deviceObject = {
+                "id": devId,
+                "name": document.getElementById("fleetName").value,
+                "deviceUniqueId": document.getElementById("uniqueID").value,
+                "Device Website": document.getElementById("fleetWebsite").value,
+                "Serial Number": document.getElementById("serialNumber").value,
+                "countryCode": "",
+                "Sender Number": document.getElementById("senderNumber").value,
+                "Sender Type": document.getElementById("senderType").value,
+                "Object Category": document.getElementById("objectCategory").value,
+                "Fabrication": document.getElementById("fabrication").value,
+                "Service Interval": document.getElementById("serviceInterval").value,
+                "serviceIntervalType": document.getElementById("serviceIntervalType").value,
+                "nameOfToolOrContainer": document.getElementById("nameOfContainer").value,
+                "notes": "",
+                "fleetImage": "",
+                "deviceStatus": 0,
+                "deviceOnline": false,
+                "createdDate": today.getUTCDay(),
+                "lastOnlineTime": "",
+                "devicemodel": document.getElementById("deviceModel").value,
+                "underMaintenance": false,
+                "customerId": document.getElementById("customerName").value
             }
-            
-            // var empObject = {
-            //     "id": -1,
-            //     "name": document.getElementById('employeeName').value,
-            // };
             var resp;
-            if (document.getElementById('customerId').value === "-1") {
+            if (document.getElementById('deviceId').value === "-1") {
                 // new customer. perform POST
-                custresp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "POST", JSON.stringify(customerObject), document.getElementById("session_token").value).responsedata;
-                // console.log(resp)
-                // if (custresp.status == 200) {
-                //     resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "POST", JSON.stringify(empObject), document.getElementById("session_token").value).responsedata;
-                // }
+                resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "POST", JSON.stringify(deviceObject), document.getElementById("session_token").value).responsedata;
+                console.log(resp)
             } else {
                 // existing customer. perform PUT
-                resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + custid, "PUT", JSON.stringify(customerObject), document.getElementById("session_token").value).responsedata;
+                resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + devId, "PUT", JSON.stringify(deviceObject), document.getElementById("session_token").value).responsedata;
+                    console.log(resp)
             }
             if (resp.status == 200) {
-                toastr.success("Customer data updated!")
-                $('#addEditCustomerModal').modal('hide')
-                loadTableData();
+                toastr.success("Success!")
+                $('#addEditDeviceModal').modal('hide')
+                loadTableData()
             } else {
                 // failed
                 // show resp.responseText in red toast
-                toastr.error("Customer not Updated!")
+                toastr.error("Error!")
             }
+
+
+
 
         }
 
-        function deleteDevice() {
+        function deleteDevice(devId) {
+            resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + devId, "DELETE", "", document.getElementById("session_token").value).responsedata;
+            console.log(resp)
+            if (resp.status == 200 || resp.status == 204) {
+                toastr.success("Deleted!")
+                $('#addEditDeviceModal').modal('hide')
+                // $('#customerRecords').clear().draw()
+                // $('#deviceRecords').DataTable().draw();
+                loadTableData()
+            } else {
+                // failed
+                // show resp.responseText in red toast
+                toastr.error("Error!")
+                loadTableData()
+            }
 
         }
     </script>

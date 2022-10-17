@@ -19,10 +19,10 @@
                     <table id="employeeRecords" class="table table-striped table-sm wrap">
                         <thead class="bg-info" style="font-family: 'Source Sans Pro', sans-serif;">
                             <tr>
-                                <th style="width: 3%">
+                                <th style="width: 2%">
                                     #
                                 </th>
-                                <th style="width: 15%">
+                                <th style="width: 13%">
                                     Employee Name
                                 </th>
                                 <th style="width:15%">
@@ -124,7 +124,7 @@
 
                                     $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info' onclick='showemployeeDetails({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
                                     $employee_row_data = $employee_row_data . "<i class='fas fa-pencil-alt text-orange' onclick='editEmployee({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
-                                    $employee_row_data = $employee_row_data . "<i class='fas fa-trash text-danger outline' onclick='deleteEmployee()'></i></td>";
+                                    $employee_row_data = $employee_row_data . "<i class='fas fa-trash text-danger outline' onclick='deleteEmployee({$employee['id']})'></i></td>";
                                 } else {
                                     $employee_row_data = $employee_row_data . "<td><i class='fas fa-folder text-info'></i>";
                                     $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;";
@@ -327,7 +327,7 @@
 
     function editEmployee(employeeId) {
         document.getElementById('empId').value = employeeId;
-
+        
         if (permission == "ADMIN") {
             // change customername textbox to search & select
             var div_data = "";
@@ -424,7 +424,7 @@
 
         } else {
             // existing customer. perform PUT
-            resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + empid, "PUT", JSON.stringify(customerObject), document.getElementById("session_token").value).responsedata;
+            resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + empid, "PUT", JSON.stringify(employeeObject), document.getElementById("session_token").value).responsedata;
         }
         if (resp.status == 200) {
             toastr.success("Employee added successfully!")
@@ -437,10 +437,11 @@
         }
     }
 
-    function deleteEmployee() {
-        var empid = document.getElementById('empId').value;
+    function deleteEmployee(empid) {
+        // var empid = document.getElementById('empId').value;
+        console.log(empid)
         resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + empid, "DELETE", "", document.getElementById("session_token").value).responsedata;
-        if (resp.status == 204) {
+        if (resp.status == 204 || resp.status==200) {
             toastr.success("Employee deleted successfully!")
             $('#addEditEmployeeModal').modal('hide')
             loadTableData();
@@ -448,10 +449,11 @@
             // failed
             // show resp.responseText in red toast
             toastr.error("Employee not Updated!")
+            loadTableData();
         }
 
 
-        loadTableData();
+       
     }
 </script>
 

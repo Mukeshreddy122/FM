@@ -101,9 +101,9 @@
 
 
                     $('#customerRecords').DataTable().destroy();
-                    document.getElementById('managerUser').classList.add('disabled');
-                    document.getElementById('managerUser').style.opacity = 0.4
-                    document.getElementById('managerUser').style.pointerEvents = "none";
+                    // document.getElementById('managerUser').classList.add('disabled');
+                    // document.getElementById('managerUser').style.opacity = 0.4
+                    // document.getElementById('managerUser').style.pointerEvents = "none";
                     var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
                     var customer_json = " ";
                     var customerInfo = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
@@ -126,9 +126,9 @@
                             if (permission == "MANAGER" || permission == "ADMIN") {
                                 customer_row_data = customer_row_data + "<td class='customer-actions text-right'>";
 
-                                customer_row_data = customer_row_data + `<i class='fas fa-eye text-info' onclick='showcustomerDetails({$customer['id']})'></i>&nbsp;&nbsp;&nbsp;`;
-                                customer_row_data = customer_row_data + `<i class='fas fa-pencil-alt text-orange' onclick='editCustomer({$customer['id']})'></i>&nbsp;&nbsp;&nbsp;`;
-                                customer_row_data = customer_row_data + `<i class='fas fa-trash text-danger outline' onclick="deleteCustomer({$customer['id']})"></i></td>`;
+                                customer_row_data = customer_row_data + `<i class='fas fa-eye text-info' onclick='showcustomerDetails(${customer['id']})'></i>&nbsp;&nbsp;&nbsp;`;
+                                customer_row_data = customer_row_data + `<i class='fas fa-pencil-alt text-orange' onclick='editCustomer(${customer['id']})'></i>&nbsp;&nbsp;&nbsp;`;
+                                customer_row_data = customer_row_data + `<i class='fas fa-trash text-danger outline' onclick='deleteCustomer(${customer['id']})'></i></td>`;
                             } else {
                                 customer_row_data = customer_row_data + "<td><a href='#showcustomerDetails'><i class='fas fa-eye text-info'></i></a>";
                                 // $customer_row_data = $customer_row_data . "<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;";
@@ -236,32 +236,32 @@
                                                 <div class="col-sm-6">
                                                     <label class="form-control-label">Employee Name</label>
 
-                                                    <input id="employeeName" type="text" placeholder="Employee Name" id="employeeName" name="employeeName" required class="form-control" disabled />
+                                                    <input id="employeeName" type="text" placeholder="Employee Name" id="employeeName" name="employeeName" required class="form-control"  />
 
 
 
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="form-control-label">Mail Address</label>
-                                                    <input type="text" placeholder="Mail Address" id="mailAddress" name="mailAddress" required class="form-control" disabled />
+                                                    <input type="text" placeholder="Mail Address" id="mailAddress" name="mailAddress" required class="form-control"  />
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <label class="form-control-label">Company Role</label>
-                                                    <input type="text" placeholder="Company Role" id="companyRole" name="companyRole" required class="form-control" disabled />
+                                                    <input type="text" placeholder="Company Role" id="companyRole" name="companyRole" required class="form-control"  />
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="form-control-label">External Company</label>
-                                                    <input type="text" placeholder="External Company" id="externalCompany" required class="form-control" disabled />
+                                                    <input type="text" placeholder="External Company" id="externalCompany" required class="form-control"  />
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="form-control-label">Email</label>
-                                                    <input type="text" placeholder="Email" id="Email" name="Email" required class="form-control" disabled />
+                                                    <input type="text" placeholder="Email" id="Email" name="Email" required class="form-control"  />
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="form-control-label">Password</label>
-                                                    <input type="text" placeholder="Password" id="Password" name="Password" required class="form-control" disabled />
+                                                    <input type="text" placeholder="Password" id="Password" name="Password" required class="form-control"  />
                                                 </div>
                                                 <!-- <div class="col-sm-6">
                                                     <label class="form-control-label">Sister Companies</label>
@@ -328,17 +328,26 @@
         </div>
         <script>
             function editCustomer(custid) {
+               
                 document.getElementById('customerId').value = custid;
-
+                if(custid>0){
+                    
+                    document.getElementById('managerUser').classList.add('disabled');
+                    document.getElementById('managerUser').style.opacity = 0.4;
+                    document.getElementById('managerUser').style.pointerEvents = "none";
+                    // $('#managerUser').prop( "disabled", true );
+                }
                 var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
                 var customerName = <?php echo $_SESSION['customerName'] ?>;
+                // display modal conditions 
+
                 $("#mydiv").addClass("disabledbutton");
                 if (customerName != 1) {
                     $("#customerName").hide();
                 }
 
-
-
+               
+            
 
                 var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
                 var fleet_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
@@ -352,7 +361,7 @@
                         div_data = "";
 
                         for (let i = 0; i < customer_data.length; i++) {
-                            div_data += `<option value=${customer_data[i]['id']}> ${customer_data[i]['name']} </option>`;
+                            div_data += `<option value=${customer_data[i]['id']} > ${customer_data[i]['name']}  </option>`;
                         }
                         $('#customerName').html(div_data);
                     } else {
@@ -386,9 +395,6 @@
                     var customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + custid, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
                     $('#customerName').html("<option value='" + customer['id'] + "' selected='selected'>" + customer['name'] + "</option>");
 
-                    document.getElementById('managerUser').classList.add('disabled');
-                    document.getElementById('managerUser').style.opacity = 0.4
-                    document.getElementById('managerUser').style.pointerEvents = "none";
                     // feild values 
                     if (permission == "ADMIN") {
                         $('#customerName').prop('disabled', false);
@@ -442,13 +448,21 @@
                     "projectList": [],
                     "createdDate": today.getUTCDay()
                 };
+                var vatNumber= document.getElementById('vatNumber').value
+                var noOfEmployees=document.getElementById('numberOfEmployees').value
+                if(isNaN(vatNumber) || isNaN(noOfEmployees)){
+                    toastr.error("Fields Invalid")
+                }
                 var resp;
+                
                 if (document.getElementById('customerId').value === "-1") {
                     // new customer. perform POST
+
                     resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "POST", JSON.stringify(customerObject), document.getElementById("session_token").value).responsedata;
                     console.log(resp)
                 } else {
                     // existing customer. perform PUT
+
                     resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + custid, "PUT", JSON.stringify(customerObject), document.getElementById("session_token").value).responsedata;
                 }
                 if (resp.status == 200) {
@@ -500,7 +514,13 @@
             function deleteCustomer() {
                 var custid = document.getElementById('customerId').value;
                 resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + custid, "DELETE", "", document.getElementById("session_token").value).responsedata;
-            }
+                    if(resp.status==200||resp.status==204){
+                        toastr.success("Deleted!")
+                    }else{
+                        toastr.error("Error occurred!")
+                    }
+            
+                }
         </script>
 
         <!-- DataTables -->

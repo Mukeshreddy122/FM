@@ -6,11 +6,9 @@
                     <h4 class="card-title">
                         <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
                         <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" />
-
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
                             <button id="NewProject" data-toggle="modal" class="btn btn-block bg-info" onclick="editProject(-1)">Add <?php echo $title; ?> <i class="fa fa-plus"></i></button>
                         <?php } ?>
-
                         <?php
                         $currencyForCost;
                         switch ($_SESSION['currencyForCost']) {
@@ -69,7 +67,6 @@
                         <tbody id="projectTableData">
                             <?php
                             $index = 0;
-
                             ?>
                         </tbody>
                     </table>
@@ -82,11 +79,10 @@
                     }
                 </script>
                 <script>
-                    $(function() {
+                    $(document).ready(function() {
                         $('#customerName').select2();
                         $('#selEmpList').select2();
                         $('#selFleetList').select2();
-
                         $('#projectRecords').DataTable({
                             "paging": true,
                             "lengthChange": false,
@@ -99,7 +95,6 @@
                                 [1, 'desc']
                             ]
                         });
-
                         $('#customerName').on('select2:select', function(e) {
                             var data = e.params.data;
                             var custId = parseInt(data.id)
@@ -111,8 +106,6 @@
                                     div_data += `<option value='${custId}'>${emp_data[i].name}</option>`;
                                 }
                             }
-
-
                             $('#selEmpList').html(div_data);
                             // EMP End
                             // FLEET Data
@@ -127,11 +120,9 @@
                             // END FLEET
                             // PROJECT DATA
                         });
-
                         $('#projectRecords tbody tr td').on('click', 'i', function() {
                             var tr = $(this).closest('tr');
                             var row = table.row(tr);
-
                             if (row.child.isShown()) {
                                 // This row is already open - close it
                                 row.child.hide();
@@ -142,7 +133,6 @@
                                 // Open this row
                                 // row.child(showCustomerProjects(row.data())).show();
                                 row.child(showCustomerProjects(row)).show();
-
                                 tr.addClass('shown');
                                 $('#' + row.id() + ' td i').removeClass('fa-plus');
                                 $('#' + row.id() + ' td i').addClass('fa-minus');
@@ -160,12 +150,10 @@
                             row_details += "<td>Project Time</td>";
                             row_details += "<td>Income</td>";
                             row_details += "<td>Cost</td>" + "</thead>";
-
                             var project_data = GetProjectsForCustomer(row_data.id());
                             if (!(project_data == null) && project_data.length > 0) {
                                 for (let pi = 0; pi < project_data.length; pi++) {
                                     var project_json = JSON.parse(project_data[pi]);
-
                                     var row_data = "<tr>";
                                     row_data += "<td>" + project_json["id"] + "</td>";
                                     row_data += "<td>" + project_json["name"] + "</td>";
@@ -176,7 +164,6 @@
                                     row_data += "<td>" + project_json["projectIncome"] + "</td>";
                                     row_data += "<td>" + project_json["projectProfit"] + "</td>";
                                     row_data += "</tr>";
-
                                     row_details += row_data;
                                 }
                             } else {
@@ -185,11 +172,12 @@
                             row_details += "</tr>";
                             return row_details;
                         }
-                        $(document).ready(
+                       
                             loadTableData()
-                        );
-
-                        function loadTableData() {
+                    
+                       
+                    });
+                    function loadTableData() {
                             $(".dataTables_empty").empty();
                             var project_json = " ";
                             <?php
@@ -198,7 +186,6 @@
                                 $project_row_data = "";
                                 foreach ($projectInfo as $key => $project) {
                                     $index++;
-
                                     $project_row_data = $project_row_data . "<tr id='{$project['id']}'>";
                                     $project_row_data = $project_row_data . "<td class='projectId'>{$project['id']}</td>";
                                     $project_row_data = $project_row_data . "<td class='customerName'>{$this->CustomerModel->getCustomer($project['customerId'])['name']}</td>";
@@ -237,7 +224,6 @@
                             }
                             ?>
                         }
-                    });
                 </script>
             </div>
         </div>
@@ -256,7 +242,6 @@
                                 <div class="card card-light">
                                     <div class="card-header">
                                         <h3 class="card-title">General</h3>
-
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                                 <i class="fas fa-minus"></i>
@@ -300,7 +285,6 @@
                                 <div class="card card-light ">
                                     <div class="card-header">
                                         <h3 class="card-title">Budget</h3>
-
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                                 <i class="fas fa-minus"></i>
@@ -329,21 +313,17 @@
                                             </div>
                                         </div>
                                         <div class="row">
-
                                             <div class="col-md-6">
                                                 <div class="form-group select2-info">
                                                     <label>Employees</label>
                                                     <select id="selEmpList" class="select2" multiple="multiple" data-placeholder="Select a Employee" data-dropdown-css-class="select2-info" style="width: 100%;">
-
                                                     </select>
                                                 </div>
                                             </div>
-
                                             <div class="col-sm-6">
                                                 <label class="form-control-label ">Fleet</label>
                                                 <div class="form-select select2-info">
                                                     <select id="selFleetList" class="select2" data-dropdown-css-class="select2-info" multiple name="devices" data-dropdown-css-class="select2-info" class="custom-select">
-
                                                     </select>
                                                 </div>
                                             </div>
@@ -374,7 +354,6 @@
                         </button>
                     </div>
                     <div class="modal-body">
-
                         <div class="row">
                             <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1">
                                 <div class="row">
@@ -410,7 +389,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -430,22 +408,18 @@
                                         <b class="d-block" id="roEndDate"></b>
                                     </p>
                                 </div>
-
                             </div>
                             <div class="col-12 col-md-4 col-lg-4 order-2 order-md-2">
                                 <div id="roFleetList">
-
                                 </div>
                             </div>
                         </div>
                         <div class="row " data-spy="scroll" id="roEmployeeList">
-
                         </div>
                     </div>
                 </div>
             </div>
 </section>
-
 <script type="text/javascript">
     function editProject(projectid) {
         document.getElementById('projectId').value = projectid;
@@ -455,10 +429,8 @@
         if (customerName != 1) {
             $("#customerName").hide();
         }
-
         var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
         var fleet_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-
         if (projectid == -1) {
             document.getElementById('addEditTitle').value = "Add New Project";
             if (permission == "ADMIN") {
@@ -476,7 +448,6 @@
                 $('#customerName').select2().prop('disabled', true);
                 document.getElementById('customerName').classList.add('disabled');
             }
-
             // all fields blank
             document.getElementById('startDate').value = ""
             document.getElementById('endDate').value = ""
@@ -486,19 +457,14 @@
             document.getElementById('projectManpower').value = ""
             document.getElementById('projectFleet').value = ""
             document.getElementById('projectName').value = ""
-
         } else {
             var project_response = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projectid, "GET", "", document.getElementById("session_token").value).responsedata.responseText;
             var project_json = JSON.parse(project_response);
-
             document.getElementById('addEditTitle').value = "Edit Project - " + project_json['name'];
-
             /** EMPLOYEE drop down section */
             var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
             var proj_emp_list = project_json['employeesList'];
-
             var proj_emp_set = new Set(proj_emp_list);
-
             var div_data = "";
             emp_data.forEach(emp => {
                 employee_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + emp['id'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
@@ -510,13 +476,10 @@
             });
             $('#selEmpList').html(div_data);
             /** END EMPLOYEE drop down section */
-
             /** FLEET drop down section */
             var fleet_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
             var proj_fleet_list = project_json['devicesList'];
-
             var proj_fleet_set = new Set(proj_fleet_list);
-
             div_data = "";
             fleet_data.forEach(fleet => {
                 var fleet_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + fleet['id'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
@@ -526,14 +489,10 @@
                     div_data += `<option value='${fleet_json['id']}'>${fleet_json['name']}</option>`;
                 }
             });
-
             $("#selFleetList").html(div_data);
             /** END FLEET drop down section */
-
             /** CUSTOMER drop down section */
-
             customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + project_json['customerId'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-
             $('#customerName').html("<option value='" + customer['id'] + "' selected='selected'>" + customer['name'] + "</option>");
             $('#customerName').select2().prop('disabled', true);
             document.getElementById('customerName').classList.add('disabled');
@@ -549,23 +508,18 @@
             document.getElementById('projectManpower').value = project_json['manpower'];
             document.getElementById('projectFleet').value = project_json['id'];
             document.getElementById('projectName').value = project_json['name'];
-
             /** END CUSTOMER drop down section */
         }
         $('#addEditProjectModal').modal('show');
-
         // // fleet details
-
         // End of fleet list selection in edit page
     }
-
     function showProjectDetails(projectid) {
         // this is read only view of the project details section
         // shown only to user. admin & manager wil see the editProject / addEditProjectModal section
         var project_response = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projectid, "GET", "", document.getElementById("session_token").value).responsedata.responseText;
         var project_json = JSON.parse(project_response);
         customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + project_json['customerId'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-
         var currency_val = document.getElementById('currencyForCost').value;
         // Mukesh to add all other values
         $('#roProjectCost').html(currency_val + " " + project_json['projectCost']);
@@ -577,7 +531,6 @@
         $('#roStartDate').html(project_json['projectStartDate']);
         $('#roEndDate').html(project_json['projectEndDate']);
         $('#roProjectName').html(project_json['name']);
-
         // employee details 
         var employees_array = [];
         employees_array = project_json['employeesList'];
@@ -588,7 +541,6 @@
         });
         $("#selEmpList").html(employee_div)
         // End of emp list selection in edit page
-
         // fleet details
         var fleets_array = [];
         fleets_array = project_json['devicesList'];
@@ -599,11 +551,8 @@
         });
         $("#selFleetList").html(fleet_div)
         // End of fleet list selection in edit page
-
         $('#showProjectDetails').modal('show');
-
         var device_array = [];
-
         device_array = project_json['devicesList'];
         var device_div = "";
         device_array.forEach(element => {
@@ -617,7 +566,6 @@
                 device_div += " <i class='fa fa-solid fa-toolbox text-red'></i>" + "</p></span>";
             } else {
                 device_div += "<span class='username'><p>" + device_json['name'];
-
                 device_div += " <i class='fa fa-solid fa-toolbox text-green'></i>" + "</p></span>";
             }
             if (device_json['deviceOnline']) {
@@ -629,7 +577,6 @@
             device_div += "</div>";
         });
         $('#roFleetList').html(device_div);
-
         // adding the employee details
         var employees_array = [];
         employees_array = project_json['employeesList'];
@@ -645,17 +592,12 @@
             employee_div += "</li>"
             employee_div += "</ul>"
             employee_div += "</option>"
-
         });
         $("#roEmployeeList").html(employee_div)
-
         $('#showProjectDetails').modal('show');
     }
-
     function deleteProject() {
-
     }
-
     function saveProject() {
         var projId = document.getElementById('projectId').value
         var selEmpList = document.getElementById('selEmpList').value
@@ -672,16 +614,13 @@
         var projectName = document.getElementById('projectName').value
         var projectName = document.getElementById('projectName').value
         var projectProfit = projectCost - projectIcome
-
         // 1. Create MAP from all fields of addeditcustomermodal pop-up
         // 2. convert that map to JSON 
         // 3. Call POST / PUT to save data
         // 4. If data saved successfully, show green toast and close modal
         // 5. If data does not save, show red toast and DO NOT close modal
-
         const today = new Date();
-        var projId = document.getElementById('projectId').value;
-        var custId = document.getElementById('custId').value;
+       
         var projectObject = {
             "id": projId,
             "name": projectName,
@@ -699,7 +638,6 @@
             "employeesList": [],
             "devicesList": []
         }
-
         // var empObject = {
         //     "id": -1,
         //     "name": document.getElementById('employeeName').value,
@@ -708,7 +646,6 @@
         if (document.getElementById('projectId').value == "-1") {
             // new customer. perform POST
             resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project", "POST", JSON.stringify(projectObject), document.getElementById("session_token").value).responsedata;
-
         } else {
             // existing customer. perform PUT
             resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projId, "PUT", JSON.stringify(projectObject), document.getElementById("session_token").value).responsedata;
@@ -731,7 +668,6 @@
 <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <link rel="stylesheet" href="assets/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
-
 <!-- DataTables  & Plugins -->
 <script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
