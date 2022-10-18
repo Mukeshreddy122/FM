@@ -109,7 +109,7 @@
                     var customerInfo = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
                     // console.log(customerInfo)
                     if (customerInfo.length > 0) {
-                        "toastr.success('Data Loaded!')"
+                        toastr.success('Data Loaded!')
                         var customer_row_data = "";
                         customerInfo.forEach(customer => {
 
@@ -120,13 +120,13 @@
                             customer_row_data = customer_row_data + `<td class='customerName'>${customer['Customer Type']}</td>`
                             customer_row_data = customer_row_data + `<td class='customerName'>${customer['No. of Employees']}</td>`
                             customer_row_data = customer_row_data + `<td class='customerVAT'> ${customer['VAT Number']}</td>`
-                            customer_row_data = customer_row_data + `<td class='customerVisit'>${customer['Visit Address']}</td>`   
+                            customer_row_data = customer_row_data + `<td class='customerVisit'>${customer['Visit Address']}</td>`
                             customer_row_data = customer_row_data + `<td class='postAddress'> ${customer['Post Address']}</td>`
 
                             if (permission == "MANAGER" || permission == "ADMIN") {
                                 customer_row_data = customer_row_data + "<td class='customer-actions text-right'>";
 
-                                customer_row_data = customer_row_data + `<i class='fas fa-eye text-info' onclick='showcustomerDetails(${customer['id']})'></i>&nbsp;&nbsp;&nbsp;`;
+                                customer_row_data = customer_row_data + `<i class='fas fa-eye text-info' onclick='editCustomer(${customer['id']})'></i>&nbsp;&nbsp;&nbsp;`;
                                 customer_row_data = customer_row_data + `<i class='fas fa-pencil-alt text-orange' onclick='editCustomer(${customer['id']})'></i>&nbsp;&nbsp;&nbsp;`;
                                 customer_row_data = customer_row_data + `<i class='fas fa-trash text-danger outline' onclick='deleteCustomer(${customer['id']})'></i></td>`;
                             } else {
@@ -236,64 +236,50 @@
                                                 <div class="col-sm-6">
                                                     <label class="form-control-label">Employee Name</label>
 
-                                                    <input id="employeeName" type="text" placeholder="Employee Name" id="employeeName" name="employeeName" required class="form-control"  />
+                                                    <input id="employeeName" type="text" placeholder="Employee Name" id="employeeName" name="employeeName" required class="form-control" />
 
 
 
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="form-control-label">Mail Address</label>
-                                                    <input type="text" placeholder="Mail Address" id="mailAddress" name="mailAddress" required class="form-control"  />
+                                                    <input type="text" placeholder="Mail Address" id="mailAddress" name="mailAddress" required class="form-control" />
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <label class="form-control-label">Company Role</label>
-                                                    <input type="text" placeholder="Company Role" id="companyRole" name="companyRole" required class="form-control"  />
+                                                    <input type="text" placeholder="Company Role" id="companyRole" name="companyRole" required class="form-control" />
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="form-control-label">External Company</label>
-                                                    <input type="text" placeholder="External Company" id="externalCompany" required class="form-control"  />
+                                                    <input type="text" placeholder="External Company" id="externalCompany" required class="form-control" />
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="form-control-label">Email</label>
-                                                    <input type="text" placeholder="Email" id="Email" name="Email" required class="form-control"  />
+                                                    <input type="text" placeholder="Email" id="Email" name="Email" required class="form-control" />
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="form-control-label">Password</label>
-                                                    <input type="text" placeholder="Password" id="Password" name="Password" required class="form-control"  />
+                                                    <input type="text" placeholder="Password" id="Password" name="Password" required class="form-control" />
                                                 </div>
-                                                <!-- <div class="col-sm-6">
-                                                    <label class="form-control-label">Sister Companies</label>
-                                                    <select id="sisterCompanies" name="sisterCompanies" class="custom-select"></select>
-                                                </div> -->
-                                            </div>
-                                            <!-- <div class="row">
 
-                                            <div class="col-md-6">
-                                                <div class="form-group select2-info">
-                                                    <label>Employees</label>
-                                                    <select id="selEmpList" class="select2" multiple="multiple" data-placeholder="Select a Employee" data-dropdown-css-class="select2-info" style="width: 100%;">
-
-
-                                                    </select>
-                                                </div>
                                             </div>
 
-                                            <div class="col-sm-6">
-                                                <label class="form-control-label ">Fleet</label>
-                                                <div class="form-select select2-info">
-                                                    <select id="selFleetList" class="select2" data-placeholder="Select a E" data-dropdown-css-class="select2-info" multiple name="devices" data-dropdown-css-class="select2-info" class="custom-select">
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div> -->
                                         </div>
-                                        <!-- /.card-body -->
+
                                     </div>
                                     <!-- /.card -->
+                                    <div id="projectsList">
+                                        <div class="form-group"><label class="form-control-label">Projects:</label></div>
+                                        <div id="projects">
+
+                                        </div>
+
+
+                                    </div>
                                 </div>
+                                
                             </div>
                             <div class="row">
                                 <div class="col-12">
@@ -305,33 +291,13 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" tabindex="-1" id="showcustomerDetails">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-info">
-                            <h4 class="modal-title">New Customer </h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body ">
-
-
-                        </div>
-
-                        <div class="row " data-spy="scroll" id="roEmployeeList">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <script>
             function editCustomer(custid) {
-               
+
                 document.getElementById('customerId').value = custid;
-                if(custid>0){
-                    
+                if (custid > 0) {
+
                     document.getElementById('managerUser').classList.add('disabled');
                     document.getElementById('managerUser').style.opacity = 0.4;
                     document.getElementById('managerUser').style.pointerEvents = "none";
@@ -346,8 +312,8 @@
                     $("#customerName").hide();
                 }
 
-               
-            
+
+
 
                 var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
                 var fleet_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
@@ -390,6 +356,11 @@
                     // document.getElementById('sisterCompanies').value = 
                     document.getElementById('Email').value = ""
 
+                    $("#projectsList").hide()
+                    
+                    
+
+
                 } else {
 
                     var customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + custid, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
@@ -407,7 +378,7 @@
 
                     }
                     // document.getElementById('customerName').value = customer['name'];
-
+                    // document.getElementById('projectName').value = customer['projectName'];
                     document.getElementById('industry').value = customer['CustomerIndustry'];
                     document.getElementById('typeOfCompany').value = customer['Customer Type'];
                     document.getElementById('numberOfEmployees').value = customer['No. of Employees'];
@@ -415,6 +386,17 @@
                     document.getElementById('customerName').value = customer['name'];
                     document.getElementById('vatNumber').value = customer['VAT Number'];
                     document.getElementById('visitAddress').value = customer['Visit Address'];
+
+                    // display projects
+                    var projectsList = document.getElementById("projects")
+
+                    if (customer['Projects List'] === undefined) {
+
+                        projectsList.innerHTML = "No open projects found"
+                        projectsList.style.color = "red"
+                    } else {
+                        projectsList.append(customer['Projects List'])
+                    }
 
                 }
                 // End of fleet list selection in edit page
@@ -448,13 +430,16 @@
                     "projectList": [],
                     "createdDate": today.getUTCDay()
                 };
-                var vatNumber= document.getElementById('vatNumber').value
-                var noOfEmployees=document.getElementById('numberOfEmployees').value
-                if(isNaN(vatNumber) || isNaN(noOfEmployees)){
-                    toastr.error("Fields Invalid")
+                var vatNumber = document.getElementById('vatNumber').value
+                var noOfEmployees = document.getElementById('numberOfEmployees').value
+                if (custid > 0) {
+                    if (isNaN(vatNumber) || isNaN(noOfEmployees)) {
+                        toastr.error("Fields Invalid")
+                    }
+
                 }
                 var resp;
-                
+
                 if (document.getElementById('customerId').value === "-1") {
                     // new customer. perform POST
 
@@ -470,12 +455,6 @@
                     $('#addEditCustomerModal').modal('hide')
                     // $('#customerRecords').clear().draw()
                     $('#customerRecords').DataTable().draw();
-
-
-
-
-
-
                 } else {
                     // failed
                     // show resp.responseText in red toast
@@ -483,44 +462,16 @@
                 }
             }
 
-            function showcustomerDetails(custid) {
-                var customerData = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + custid, "GET", "", document.getElementById("session_token").value).responsedata.responseText;
-
-                // console.log(JSON.parse(customerData['projectList']));
-                var cust_json = JSON.parse(customerData)
-                var project_cust = cust_json['projectList']
-                console.log(project_cust)
-                var project_div = ""
-                project_cust.forEach(projId => {
-                    var project_response = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projId, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-                    project_div += "<div>"
-
-
-                    project_div += project_response['name']
-
-                    project_div += '</div>'
-
-
-                    $("#roProjectList").html(project_div)
-
-                })
-
-
-
-
-                $('#showcustomerDetails').modal('show');
-            }
-
             function deleteCustomer() {
                 var custid = document.getElementById('customerId').value;
                 resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + custid, "DELETE", "", document.getElementById("session_token").value).responsedata;
-                    if(resp.status==200||resp.status==204){
-                        toastr.success("Deleted!")
-                    }else{
-                        toastr.error("Error occurred!")
-                    }
-            
+                if (resp.status == 200 || resp.status == 204) {
+                    toastr.success("Deleted!")
+                } else {
+                    toastr.error("Error occurred!")
                 }
+
+            }
         </script>
 
         <!-- DataTables -->

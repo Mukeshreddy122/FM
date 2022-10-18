@@ -122,7 +122,7 @@
                                 if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
                                     $employee_row_data = $employee_row_data . "<td class='employee-actions text-right'>";
 
-                                    $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info' onclick='showemployeeDetails({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                                    $employee_row_data = $employee_row_data . "<i class='fas fa-eye text-info' onclick='editEmployee({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
                                     $employee_row_data = $employee_row_data . "<i class='fas fa-pencil-alt text-orange' onclick='editEmployee({$employee['id']})'></i>&nbsp;&nbsp;&nbsp;";
                                     $employee_row_data = $employee_row_data . "<i class='fas fa-trash text-danger outline' onclick='deleteEmployee({$employee['id']})'></i></td>";
                                 } else {
@@ -243,6 +243,14 @@
                                             </div>
                                             <!-- /.card-body -->
                                         </div>
+                                        <div id="projectsList">
+                                            <div class="form-group"><label class="form-control-label">Projects:</label></div>
+                                            <div id="projects">
+
+                                            </div>
+                                                        
+
+                                        </div>
                                         <!-- /.card -->
                                     </div>
                                 </div>
@@ -256,78 +264,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" tabindex="-1" id="showemployeeDetails">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header bg-info">
-                                <h4 class="modal-title">New Employee </h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
 
-                                <div class="row">
-                                    <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1">
-                                        <div class="row">
-                                            <div class="col-12 col-sm-3">
-                                                <div class="info-box bg-light">
-                                                    <div class="info-box-content">
-                                                        <span class="info-box-text text-center text-muted">Cost</span>
-                                                        <span class="info-box-number text-center text-muted mb-0" id="rocustomerCost"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-sm-3">
-                                                <div class="info-box bg-light">
-                                                    <div class="info-box-content">
-                                                        <span class="info-box-text text-center text-muted">Income</span>
-                                                        <span class="info-box-number text-center text-muted mb-0" id="rocustomerIncome"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-sm-3">
-                                                <div class="info-box bg-light">
-                                                    <div class="info-box-content">
-                                                        <span class="info-box-text text-center text-muted">Fleet</span>
-                                                        <span class="info-box-number text-center text-muted mb-0" id="rocustomerFleet"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-sm-3">
-                                                <div class="info-box bg-light">
-                                                    <div class="info-box-content">
-                                                        <span class="info-box-text text-center text-muted">Manpower</span>
-                                                        <span class="info-box-number text-center text-muted mb-0" id="rocustomerManpower"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4 col-lg-4 order-2 order-md-2">
-                                    <div id="roFleetList">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row " data-spy="scroll" id="roEmployeeList">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </section>
 <script>
     var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
 
     function editEmployee(employeeId) {
         document.getElementById('empId').value = employeeId;
-        
+
         if (permission == "ADMIN") {
             // change customername textbox to search & select
             var div_data = "";
@@ -343,6 +287,7 @@
             for (let i = 0; i < customer_data.length; i++) {
                 div_data += `<option value=${customer_data[i]['id']}> ${customer_data[i]['name']} </option>`;
             }
+          
             $('#customerName').html(div_data);
         } else {
             // $('#customerName').select2().prop('disabled', true);
@@ -371,17 +316,46 @@
                     perm_div += "<option value='" + element + "'>" + element + "</option>";
                 }
             });
+            // displaying projects list 
+            var projectsList = document.getElementById("projects")
+            var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/"+employeeId, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+            console.log(emp_data['Projects List'])
+           
+            if(emp_data['Projects List']!=0){
+                projectsList.innerHTML=`<li>${emp_data['Projects List']}</li>`
+                console.log(projectsList)
+               
+                
+            }else{
+                projectsList.innerHTML="No open projects found"
+                projectsList.style.color="red"
+                
+            }
+            
+
+           
+
+           
+
+            for (var i = 1; i <= emp_data; i++) {
+                var li = document.createElement("li");
+                li.className = "file";
+
+                var a = document.createElement("a");
+                a.innerHTML = "Subfile " + i;
+
+                li.appendChild(a);
+                ul.appendChild(li);
+            }
             $("#permission").html(perm_div);
         }
+
+
         $("#addEditEmployeeModal").modal("show")
 
     }
 
-    function showemployeeDetails(empId) {
-
-        $("#showemployeeDetails").modal("show")
-    }
-
+   
     // save employee function
     function saveDevice() {
         var empid = document.getElementById('empId').value;
@@ -441,7 +415,7 @@
         // var empid = document.getElementById('empId').value;
         console.log(empid)
         resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + empid, "DELETE", "", document.getElementById("session_token").value).responsedata;
-        if (resp.status == 204 || resp.status==200) {
+        if (resp.status == 204 || resp.status == 200) {
             toastr.success("Employee deleted successfully!")
             $('#addEditEmployeeModal').modal('hide')
             loadTableData();
@@ -453,7 +427,7 @@
         }
 
 
-       
+
     }
 </script>
 

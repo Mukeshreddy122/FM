@@ -52,8 +52,6 @@
                     </table>
                 </div>
             </div>
-
-
         </div>
     </div>
 
@@ -85,14 +83,13 @@
             var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
             var device_row_data = "";
             var deviceInfo = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-          
+
             console.log(deviceInfo)
             if (deviceInfo.length > 0) {
                 toastr.success('Data Loaded!')
-                
+
                 deviceInfo.forEach(device => {
-                    
-                    device_row_data = device_row_data + `<tr '>`;
+                    device_row_data = device_row_data + `<tr>`;
                     device_row_data = device_row_data + `<td class='deviceId'>${device['id']}</td>`;
                     device_row_data = device_row_data + `<td class='deviceName'>${device['name']}`;
                     device_row_data = device_row_data + `<br/><small><b>Website: &nbsp;</b>${device['Device Website']}</small>`;
@@ -111,19 +108,19 @@
                     // Service type and interval
                     device_row_data = device_row_data + `<td class='servicInterval'><small><i class='fa fa-calendar  text-primary' aria-hidden='true'></i></small> ${device['Service Interval']}-${device['serviceIntervalType']} `;
                     if (device['underMaintenance']) {
-                        device_row_data = device_row_data + `<br> <small><i class='fa fa-suitcase text-red' aria-hidden='true'></i></small> &nbsp; Maintanence</td>`;
+                        device_row_data = device_row_data + `<br> <small><i class='fa fa-suitcase text-red' aria-hidden='true'></i></small> &nbsp; Maintanence &nbsp; <small><i class='fa fa-times text-red' aria-hidden='true'></i></small></td>`;
                     } else {
-                        device_row_data = device_row_data + `<br> <small><i class='fa fa-suitcase text-green' aria-hidden='true'></i> </small> &nbsp; Maintanence</td>`;
+                        device_row_data = device_row_data + `<br> <small><i class='fa fa-suitcase text-green' aria-hidden='true'></i> </small> &nbsp; Maintanence &nbsp; <small><i class='fa fa-plus text-green' aria-hidden='true' onclick='maintanenceRedirect()'></i></small></td>`;
                     }
-                    if (permission== "MANAGER" || permission == "ADMIN") {
+                    if (permission == "MANAGER" || permission == "ADMIN") {
                         device_row_data = device_row_data + "<td class='device-actions text-right'>";
                         if (device['underMaintenance']) {
-                            device_row_data = device_row_data + `<i class='fas fa-eye text-info' onclick='showdeviceDetails(${device['id']})'></i>&nbsp;&nbsp;&nbsp;`;
+                            device_row_data = device_row_data + `<i class='fas fa-eye text-info' onclick='editAddDevice(${device['id']})'></i>&nbsp;&nbsp;&nbsp;`;
                             device_row_data = device_row_data + `<i class='fas fa-pencil-alt text-gray disabled'></i>&nbsp;&nbsp;&nbsp;`;
                             device_row_data = device_row_data + `<i class='fas fa-check text-green'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`;
                         } else {
-                            device_row_data = device_row_data + `<i class='fas fa-eye text-info' onclick='showdeviceDetails(${device['id']})'></i>&nbsp;&nbsp;&nbsp;`;
-                            device_row_data = device_row_data + `<i class='fas fa-pencil-alt text-orange' onclick='editAddDevice({$device['id']})' ></i>&nbsp;&nbsp;&nbsp;`;
+                            device_row_data = device_row_data + `<i class='fas fa-eye text-info' onclick='editAddDevice(${device['id']})'></i>&nbsp;&nbsp;&nbsp;`;
+                            device_row_data = device_row_data + `<i class='fas fa-pencil-alt text-orange' onclick='editAddDevice(${device['id']})' ></i>&nbsp;&nbsp;&nbsp;`;
                             device_row_data = device_row_data + `<i class='fas fa-trash text-danger outline' onclick='deleteDevice(${device['id']})'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`;
                         }
                     } else {
@@ -297,93 +294,14 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" tabindex="-1" id="showdeviceDetails">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h4 class="modal-title">New Device </h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="row">
-                        <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1">
-                            <div class="row">
-                                <div class="col-12 col-sm-3">
-                                    <div class="info-box bg-light">
-                                        <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">Cost</span>
-                                            <span class="info-box-number text-center text-muted mb-0" id="rocustomerCost"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-3">
-                                    <div class="info-box bg-light">
-                                        <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">Income</span>
-                                            <span class="info-box-number text-center text-muted mb-0" id="rocustomerIncome"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-3">
-                                    <div class="info-box bg-light">
-                                        <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">Fleet</span>
-                                            <span class="info-box-number text-center text-muted mb-0" id="rocustomerFleet"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-3">
-                                    <div class="info-box bg-light">
-                                        <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">Manpower</span>
-                                            <span class="info-box-number text-center text-muted mb-0" id="rocustomerManpower"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="row">
-                            <div class="col-12 col-md-8 col-lg-8 order-1 order-md-1">
-                                <div class="text-muted">
-                                    <p class="text-sm">Customer Name
-                                        <b class="d-block" id="roCustomerName"></b>
-                                    </p>
-                                    <p class="text-sm">customer Name
-                                        <b class="d-block" id="rocustomerName"></b>
-                                    </p>
-                                    <p class="text-sm">Start Date
-                                        <b class="d-block" id="roStartDate"></b>
-                                    </p>
-                                    <p class="text-sm">End Date
-                                        <b class="d-block" id="roEndDate"></b>
-                                    </p>
-                                </div>
-
-                            </div> -->
-                    <div class="col-12 col-md-4 col-lg-4 order-2 order-md-2">
-                        <!-- <div class="col-12 col-sm-2">
-                                    <h3 class="text-orange center"><i class="fas fa-wrench"></i> Fleet</h3>
-                                </div> -->
-
-                        <div id="roFleetList">
-
-                        </div>
-
-                    </div>
-
-                </div>
-                <div class="row " data-spy="scroll" id="roEmployeeList">
-
-                </div>
-            </div>
+   </div>
         </div>
     </div>
     <script>
+        // redirecting to maintanence page on plus icon click 
+        function maintanenceRedirect(){
+            window.location.href="./Maintenance.php";
+        }
         function editAddDevice(deviceId) {
             var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
             document.getElementById('deviceId').value = deviceId;
@@ -455,7 +373,7 @@
         function showdeviceDetails(deviceId) {
 
 
-            
+
             $("#showdeviceDetails").modal("show")
         }
 
@@ -500,7 +418,7 @@
             } else {
                 // existing customer. perform PUT
                 resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + devId, "PUT", JSON.stringify(deviceObject), document.getElementById("session_token").value).responsedata;
-                    console.log(resp)
+                console.log(resp)
             }
             if (resp.status == 200) {
                 toastr.success("Success!")

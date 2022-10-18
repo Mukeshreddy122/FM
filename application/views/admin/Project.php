@@ -172,58 +172,61 @@
                             row_details += "</tr>";
                             return row_details;
                         }
-                       
-                            loadTableData()
-                    
-                       
+
+                        loadTableData()
+
+
                     });
+
                     function loadTableData() {
-                            $(".dataTables_empty").empty();
-                            var project_json = " ";
-                            <?php
-                            if (sizeof($projectInfo) > 0) {
-                                echo "toastr.success('Data Loaded!');";
-                                $project_row_data = "";
-                                foreach ($projectInfo as $key => $project) {
-                                    $index++;
-                                    $project_row_data = $project_row_data . "<tr id='{$project['id']}'>";
-                                    $project_row_data = $project_row_data . "<td class='projectId'>{$project['id']}</td>";
-                                    $project_row_data = $project_row_data . "<td class='customerName'>{$this->CustomerModel->getCustomer($project['customerId'])['name']}</td>";
-                                    // echo "<td class='customerName'>{$project['customerId']}</td>";
-                                    $project_row_data = $project_row_data . "<td id='projectName'>{$project['name']}";
-                                    $project_row_data = $project_row_data . "<br/><small><b>Date: </b></small><small id='projectStartDate'>{$project['projectStartDate']}</small> - <small id='projectEndDate'>{$project['projectEndDate']}</small></td>";
-                                    $project_row_data = $project_row_data . "<td id='deviceCount'>{$project['deviceCount']}</td>";
-                                    $project_row_data = $project_row_data . "<td id='manpower'>{$project['manpower']}</td>";
-                                    // echo "<td class='projectTime'>{$project['projectStartDate']} - {$project['projectEndDate']}</td>";
-                                    $project_row_data = $project_row_data . "<td id='projectCost'>{$currencyForCost} {$project['projectCost']}</td>";
-                                    $project_row_data = $project_row_data . "<td id='projectIncome'>{$currencyForCost} {$project['projectIncome']}</td>";
-                                    // echo "<td class='projectReport'><a href='#'>Report</a></td>";
-                                    if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
-                                        $project_row_data = $project_row_data . "<td class='project-actions text-right'>";
-                                        if ($project['projectIsCompleted']) {
-                                            $project_row_data = $project_row_data . "<i class='fas fa-eye text-info' onclick='showProjectDetails({$project['id']})'></i>&nbsp;&nbsp;&nbsp;";
-                                            $project_row_data = $project_row_data . "<i class='fas fa-pencil-alt text-gray disabled'></i>&nbsp;&nbsp;&nbsp;";
-                                            $project_row_data = $project_row_data . "<i class='fas fa-check text-green'></i></td>";
-                                        } else {
-                                            $project_row_data = $project_row_data . "<i class='fas fa-eye text-info' onclick='showProjectDetails({$project['id']})'></i>&nbsp;&nbsp;&nbsp;";
-                                            $project_row_data = $project_row_data . "<i class='fas fa-pencil-alt text-orange' onclick='editProject({$project['id']})'></i>&nbsp;&nbsp;&nbsp;";
-                                            $project_row_data = $project_row_data . "<i class='fas fa-trash text-danger outline'></i></td>";
-                                        }
+                        var projectInfo = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+                        console.log(projectInfo)
+                        $(".dataTables_empty").empty();
+                        var project_json = " ";
+                        <?php
+                        if (sizeof($projectInfo) > 0) {
+                            echo "toastr.success('Data Loaded!');";
+                            $project_row_data = "";
+                            foreach ($projectInfo as $key => $project) {
+                                $index++;
+                                $project_row_data = $project_row_data . "<tr id='{$project['id']}'>";
+                                $project_row_data = $project_row_data . "<td class='projectId'>{$project['id']}</td>";
+                                $project_row_data = $project_row_data . "<td class='customerName'>{$this->CustomerModel->getCustomer($project['customerId'])['name']}</td>";
+                                // echo "<td class='customerName'>{$project['customerId']}</td>";
+                                $project_row_data = $project_row_data . "<td id='projectName'>{$project['name']}";
+                                $project_row_data = $project_row_data . "<br/><small><b>Date: </b></small><small id='projectStartDate'>{$project['projectStartDate']}</small> - <small id='projectEndDate'>{$project['projectEndDate']}</small></td>";
+                                $project_row_data = $project_row_data . "<td id='deviceCount'>{$project['deviceCount']}</td>";
+                                $project_row_data = $project_row_data . "<td id='manpower'>{$project['manpower']}</td>";
+                                // echo "<td class='projectTime'>{$project['projectStartDate']} - {$project['projectEndDate']}</td>";
+                                $project_row_data = $project_row_data . "<td id='projectCost'>{$currencyForCost} {$project['projectCost']}</td>";
+                                $project_row_data = $project_row_data . "<td id='projectIncome'>{$currencyForCost} {$project['projectIncome']}</td>";
+                                // echo "<td class='projectReport'><a href='#'>Report</a></td>";
+                                if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
+                                    $project_row_data = $project_row_data . "<td class='project-actions text-right'>";
+                                    if ($project['projectIsCompleted']) {
+                                        $project_row_data = $project_row_data . "<i class='fas fa-eye text-info' onclick='showProjectDetails({$project['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                                        $project_row_data = $project_row_data . "<i class='fas fa-pencil-alt text-gray disabled'></i>&nbsp;&nbsp;&nbsp;";
+                                        $project_row_data = $project_row_data . "<i class='fas fa-check text-green'></i></td>";
                                     } else {
-                                        $project_row_data = $project_row_data . "<td><a href='#showProjectDetails'><i class='fas fa-folder text-info'></i></a>";
-                                        $project_row_data = $project_row_data . "<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;";
-                                        $project_row_data = $project_row_data . "&nbsp;&nbsp;&nbsp;</td>";
+                                        $project_row_data = $project_row_data . "<i class='fas fa-eye text-info' onclick='showProjectDetails({$project['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                                        $project_row_data = $project_row_data . "<i class='fas fa-pencil-alt text-orange' onclick='editProject({$project['id']})'></i>&nbsp;&nbsp;&nbsp;";
+                                        $project_row_data = $project_row_data . "<i class='fas fa-trash text-danger outline'></i></td>";
                                     }
-                                    $project_row_data = $project_row_data . "</tr>";
+                                } else {
+                                    $project_row_data = $project_row_data . "<td><a href='#showProjectDetails'><i class='fas fa-folder text-info'></i></a>";
+                                    $project_row_data = $project_row_data . "<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;";
+                                    $project_row_data = $project_row_data . "&nbsp;&nbsp;&nbsp;</td>";
                                 }
-                                echo "$('#projectRecords').DataTable().destroy();";
-                                echo "$('#projectRecords').find('tbody').append(\"$project_row_data\");";
-                                echo "$('#projectRecords').DataTable().draw();";
-                            } else {
-                                echo "toastr.error('Unable to get data!')";
+                                $project_row_data = $project_row_data . "</tr>";
                             }
-                            ?>
+                            echo "$('#projectRecords').DataTable().destroy();";
+                            echo "$('#projectRecords').find('tbody').append(\"$project_row_data\");";
+                            echo "$('#projectRecords').DataTable().draw();";
+                        } else {
+                            echo "toastr.error('Unable to get data!')";
                         }
+                        ?>
+                    }
                 </script>
             </div>
         </div>
@@ -344,81 +347,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" tabindex="-1" id="showProjectDetails">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-info">
-                        <h4 class="modal-title">Project Details</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1">
-                                <div class="row">
-                                    <div class="col-12 col-sm-2">
-                                        <div class="info-box bg-light">
-                                            <div class="info-box-content">
-                                                <span class="info-box-text text-center text-muted">Cost</span>
-                                                <span class="info-box-number text-center text-muted mb-0" id="roProjectCost"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-2">
-                                        <div class="info-box bg-light">
-                                            <div class="info-box-content">
-                                                <span class="info-box-text text-center text-muted">Income</span>
-                                                <span class="info-box-number text-center text-muted mb-0" id="roProjectIncome"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-2">
-                                        <div class="info-box bg-light">
-                                            <div class="info-box-content">
-                                                <span class="info-box-text text-center text-muted">Fleet</span>
-                                                <span class="info-box-number text-center text-muted mb-0" id="roProjectFleet"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-2">
-                                        <div class="info-box bg-light">
-                                            <div class="info-box-content">
-                                                <span class="info-box-text text-center text-muted">Manpower</span>
-                                                <span class="info-box-number text-center text-muted mb-0" id="roProjectManpower"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-md-8 col-lg-8 order-1 order-md-1">
-                                <div class="text-muted">
-                                    <p class="text-sm">Customer Name
-                                        <b class="d-block" id="roCustomerName"></b>
-                                    </p>
-                                    <p class="text-sm">Project Name
-                                        <b class="d-block" id="roProjectName"></b>
-                                    </p>
-                                    <p class="text-sm">Start Date
-                                        <b class="d-block" id="roStartDate"></b>
-                                    </p>
-                                    <p class="text-sm">End Date
-                                        <b class="d-block" id="roEndDate"></b>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-4 col-lg-4 order-2 order-md-2">
-                                <div id="roFleetList">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row " data-spy="scroll" id="roEmployeeList">
-                        </div>
-                    </div>
-                </div>
-            </div>
+        
 </section>
 <script type="text/javascript">
     function editProject(projectid) {
@@ -468,6 +397,7 @@
             var div_data = "";
             emp_data.forEach(emp => {
                 employee_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + emp['id'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+                console.log(employee_json)
                 if (proj_emp_set.has(emp['id'])) {
                     div_data += `<option selected='selected' value='${employee_json['id']}'>${employee_json['name']}</option>`;
                 } else {
@@ -514,6 +444,7 @@
         // // fleet details
         // End of fleet list selection in edit page
     }
+
     function showProjectDetails(projectid) {
         // this is read only view of the project details section
         // shown only to user. admin & manager wil see the editProject / addEditProjectModal section
@@ -596,8 +527,9 @@
         $("#roEmployeeList").html(employee_div)
         $('#showProjectDetails').modal('show');
     }
-    function deleteProject() {
-    }
+
+    function deleteProject() {}
+
     function saveProject() {
         var projId = document.getElementById('projectId').value
         var selEmpList = document.getElementById('selEmpList').value
@@ -620,7 +552,7 @@
         // 4. If data saved successfully, show green toast and close modal
         // 5. If data does not save, show red toast and DO NOT close modal
         const today = new Date();
-       
+
         var projectObject = {
             "id": projId,
             "name": projectName,
