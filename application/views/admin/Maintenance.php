@@ -7,7 +7,7 @@
                         <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
                         <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" />
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
-                            <button id="NewDevice" data-toggle="modal" class="btn btn-block bg-info" onclick="editAddMaintenance(-1)">Add <?php echo $title; ?> <i class="fa fa-plus"></i></button>
+                            <button id="newMaintenance" data-toggle="modal" class="btn btn-block bg-info" onclick="editAddMaintenance(-1)">Add <?php echo $title; ?> <i class="fa fa-plus"></i></button>
 
                         <?php } ?>
                     </h4>
@@ -24,12 +24,12 @@
                                 </th>
 
                                 <th style="width: 15%">
-                                    Fleet Name
+                                    Fleet Details
                                 </th>
 
                                 <th style="width: 20%">
 
-                                    Fleet ID
+                                    Maintenance Cost
                                 </th>
 
 
@@ -45,7 +45,7 @@
                                 </th> -->
                             </tr>
                         </thead>
-                        <tbody id="deviceTableData">
+                        <tbody id="maintenanceTableData">
                             <?php
                             $index = 0;
 
@@ -82,7 +82,7 @@
             var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
             var maintenance_row_data = "";
             var maintenanceInfo = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/maintenance", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-
+            console.log(maintenanceInfo)
             if (maintenanceInfo.length > 0) {
                 toastr.success('Data Loaded!')
 
@@ -96,36 +96,33 @@
                     // Fleet object and fabrication
                     maintenance_row_data = maintenance_row_data + `<td class='deviceName'></i><small>${maintenance['maintenanceCost']}</small>`;
 
-
                     // Service type and interval
-                    maintenance_row_data = maintenance_row_data + `<td class='servicInterval'><small><b>Start:</b><i class='fa fa-calendar  text-primary' aria-hidden='true'></i></small> ${maintenance['maintenanceStartDate']}</br> `;
-                    maintenance_row_data = maintenance_row_data + `<small><b>End:</b><i class='fa fa-calendar  text-primary' aria-hidden='true'></i></small> ${maintenance['maintenanceEndDate']}</td>`
+                    maintenance_row_data = maintenance_row_data + `<td class='servicInterval'><small><b>Start  &nbsp;:&nbsp;</b><i class='fa fa-calendar  text-primary' aria-hidden='true'></i></small> ${maintenance['maintenanceStartDate']}</br> `;
+                    maintenance_row_data = maintenance_row_data + `<small><b>End  &nbsp;&nbsp;&nbsp; :&nbsp;</b><i class='fa fa-calendar  text-primary' aria-hidden='true'></i></small> ${maintenance['maintenanceEndDate']}</td>`
 
                     if (permission == "MANAGER" || permission == "ADMIN") {
                         maintenance_row_data = maintenance_row_data + "<td class='maintenanceInfo-actions text-right'>";
                         if (maintenanceInfo['maintenanceCompleted']) {
-                            maintenance_row_data = maintenance_row_data + `<i class='fas fa-eye text-info' onclick='editAddMaintenance(${maintenance['id']})'></i>&nbsp;&nbsp;&nbsp;`;
+                            maintenance_row_data = maintenance_row_data + `<i class='fas fa-eye text-info' onclick='showMaintenanceDetails(${maintenance['id']})'></i>&nbsp;&nbsp;&nbsp;`;
                             maintenance_row_data = maintenance_row_data + `<i class='fas fa-pencil-alt text-gray disabled'></i>&nbsp;&nbsp;&nbsp;`;
                             maintenance_row_data = maintenance_row_data + `<i class='fas fa-check text-green'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`;
                         } else {
-                            maintenance_row_data = maintenance_row_data + `<i class='fas fa-eye text-info' onclick='editAddMaintenance(${maintenance['id']})'></i>&nbsp;&nbsp;&nbsp;`;
+                            maintenance_row_data = maintenance_row_data + `<i class='fas fa-eye text-info' onclick='showMaintenanceDetails(${maintenance['id']})'></i>&nbsp;&nbsp;&nbsp;`;
                             maintenance_row_data = maintenance_row_data + `<i class='fas fa-pencil-alt text-orange' onclick='editAddMaintenance(${maintenance['id']})' ></i>&nbsp;&nbsp;&nbsp;`;
                             maintenance_row_data = maintenance_row_data + `<i class='fas fa-trash text-danger outline' onclick='deletemaintenance(${maintenance['id']})'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`;
                         }
                     } else {
-                        maintenance_row_data = maintenance_row_data + `<td><a href='#showdeviceDetails'><i class='fas fa-folder text-info'></i></a>`;
+                        maintenance_row_data = maintenance_row_data + `<td><a href='#showMaintenanceDetails'><i class='fas fa-folder text-info'></i></a>`;
                         maintenance_row_data = maintenance_row_data + `<i class='fas fa-eye text-info'></i>&nbsp;&nbsp;&nbsp;`;
                         maintenance_row_data = maintenance_row_data + `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`;
                     }
                     maintenance_row_data = maintenance_row_data + `</tr>`;
-                    $('#maintenanceRecords').DataTable().destroy()
-                    // console.log( maintenance_row_data)
-                    $('#maintenanceRecords').find('tbody').append(maintenance_row_data)
-                    
-                    $('#maintenanceRecords').DataTable().draw()
-
                 })
+                $('#maintenanceRecords').DataTable().destroy()
+                // console.log( maintenance_row_data)
+                $('#maintenanceRecords').find('tbody').append(maintenance_row_data)
 
+                $('#maintenanceRecords').DataTable().draw()
             } else {
                 toastr.error('Unable to get data!')
             }
@@ -133,6 +130,8 @@
 
         }
     </script>
+
+    <!-- show details  -->
     <div class="modal fade" id="maintanenceModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -169,36 +168,33 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label class="form-control-label">Maintenance Name </label>
+                                            <label class="form-control-label"> Name </label>
                                             <input type="text" placeholder=" Name" id="mainName" name="fleetName" required class="form-control" />
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <label class="form-control-label">Fleet Name </label>
-                                            <input type="text" placeholder="Fleet Name" id="fleetName" name="fleetName" required class="form-control" />
+                                            <input type="text" disabled placeholder="Fleet Name" id="fleetName" name="fleetName" required class="form-control" />
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <label class="form-control-label">Fleet Unique ID</label>
-                                            <input type="text" placeholder="Unique ID" id="uniqueID" name="uniqueID" required class="form-control" />
+                                            <input type="text" disabled placeholder="Unique ID" id="uniqueID" name="uniqueID" required class="form-control" />
                                         </div>
 
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label class="form-control-label">Maintenance Cost</label>
-                                            <input type="text" placeholder="Maintenance Cost" id="maintenanceCost" name="maintenanceCost" required class="form-control" />
+                                            <label class="form-control-label"> Cost</label>
+                                            <input type="text" placeholder=" Cost" id="maintenanceCost" name="maintenanceCost" required class="form-control" />
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <label class="form-control-label">Maintenance Pictures</label>
-                                            <input type="file" multiple id="gallery-photo-add">
-                                            <div class="gallery" data-spy="scroll" data-offset="0"></div>
-                                        </div>
-                                    </div>
+
+
+
+
 
                                 </div>
                                 <!-- /.card-body -->
@@ -206,7 +202,7 @@
                             <!-- /.card -->
                         </div>
                         <div class="col-md-6">
-                            <div class="card card-light ">
+                            <div class="card card-light " id="showDetails">
                                 <div class="card-header">
                                     <h3 class="card-title">Additional Data </h3>
 
@@ -219,29 +215,36 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label class="form-control-label">Maintenance Notes</label>
-                                            <textarea type="text" placeholder="maintenanceNotes" id="maintenanceNotes" name="maintenanceNotes" required class="form-control"></textarea>
+                                            <label class="form-control-label"> Notes</label>
+                                            <textarea type="text" placeholder="Notes" id="maintenanceNotes" name="maintenanceNotes" required class="form-control"></textarea>
                                         </div>
 
                                     </div>
                                     <div class="row">
 
-                                        <div class="col-sm-12">
-                                            <label class="form-control-label">Maintenance StartDate</label>
+                                        <div class="col-sm-6">
+
+
+
+
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label class="form-control-label"> StartDate</label>
                                             <input type="date" id="maintenanceStartDate" name="maintenanceStartDate" required class="form-control" />
                                         </div>
-
-
-
-                                    </div>
-                                    <div class="row">
-
-                                        <div class="col-sm-12">
-                                            <label class="form-control-label">Maintanence EndDate</label>
+                                        <div class="col-sm-6">
+                                            <label class="form-control-label"> EndDate</label>
                                             <input type="date" id="maintenanceEndDate" name="maintenanceEndDate" required class="form-control" />
                                         </div>
+
                                     </div>
-                                    <div class="col-sm-6">
+
+                                    <div class="col-sm-12">
                                         <label class="form-control-label">Status</label>
                                         <select name="Access" class="custom-select" id="status">
                                             <option value="2" selected>In progress</option>
@@ -249,7 +252,14 @@
                                             <option value="1">Completed</option>
                                         </select>
                                     </div>
+                                    <div class="row" id="maintImgGallery">
+                                        <label class="form-control-label"> Pictures</label>
+                                        <input type="file" multiple id="gallery-photo-add" class="form-control">
+                                        <!-- <div class="gallery" id="maintImgGallery" data-spy="scroll" data-offset="0"></div> -->
+                                    </div>
+
                                 </div>
+
                                 <!-- /.card-body -->
                             </div>
                             <!-- /.card -->
@@ -265,23 +275,49 @@
             </div>
         </div>
     </div>
-    </div>
-    </div>
-    </div>
-
     <script>
         // redirecting to maintanence page on plus icon click 
+        function showMaintenanceDetails(mainId) {
+            var mainData = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/maintenance/" + mainId, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+            document.getElementById("mainName").value = mainData['name']
+            document.getElementById("fleetName").value = mainData['deviceName']
+            document.getElementById("uniqueID").value = mainData['deviceId']
+            document.getElementById("maintenanceCost").value = mainData['maintenanceCost']
+            document.getElementById("maintenanceNotes").value = mainData['maintenanceNotes']
+            document.getElementById("maintenanceStartDate").value = mainData['maintenanceStartDate']
+            document.getElementById("maintenanceEndDate").value = mainData['maintenanceEndDate']
+            document.getElementById("maintenanceEndDate").value = mainData['maintenanceEndDate']
+            // disable
+            document.getElementById("mainName").disabled = true;
+            document.getElementById("fleetName").disabled = true;
+            document.getElementById("uniqueID").disabled = true;
+            document.getElementById("maintenanceCost").disabled = true;
+            document.getElementById("maintenanceNotes").disabled = true;
+            document.getElementById("maintenanceStartDate").disabled = true;
+            document.getElementById("maintenanceEndDate").disabled = true;
+            document.getElementById("maintenanceEndDate").disabled = true;
+            $("#maintanenceModal").modal("show")
+        }
 
         function editAddMaintenance(mainId) {
+            document.getElementById("mainName").disabled = false;
+            document.getElementById("fleetName").disabled = false;
+            document.getElementById("uniqueID").disabled = false;
+            document.getElementById("maintenanceCost").disabled = false;
+            document.getElementById("maintenanceNotes").disabled = false;
+            document.getElementById("maintenanceStartDate").disabled = false;
+            document.getElementById("maintenanceEndDate").disabled = false;
+            document.getElementById("maintenanceEndDate").disabled = false;
             var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
 
-             // document.getElementById("gallery").style.height=400
-            // document.getElementById("gallery").style.width=400
+            // document.getElementsByClassName("gallery").style.height=400
+            // document.getElementsByClassName("gallery").style.width=400
+            // document.getElementsByClassName("gallery").setAttribute("style","overflow:auto;")
             // document.getElementById("gallery").style.maxheight=400
             // document.getElementById("gallery").style.overflowY = "scroll";
             var main_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/maintenance/" + mainId, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-            
-           
+
+
             $(function() {
                 // Multiple images preview in browser
                 var imagesPreview = function(input, placeToInsertImagePreview) {
@@ -293,27 +329,39 @@
                             var reader = new FileReader();
 
                             reader.onload = function(event) {
-                                $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                                $($.parseHTML('<img>')).attr('src', event.target.result).attr('id', i).appendTo(placeToInsertImagePreview);
                                 $('img').width(100);
                                 $('img').height(100);
+
+
                             }
 
                             reader.readAsDataURL(input.files[i]);
                         }
                     }
 
+
                 };
-
-
-
-
-
-
                 $('#gallery-photo-add').on('change', function() {
                     imagesPreview(this, 'div.gallery');
+
+
                 });
+
             });
-            $("#maintanenceModal").modal("show")
+
+
+            if (document.getElementById('status').value == 0) {
+                document.getElementById("mainName").disabled = true;
+                document.getElementById("fleetName").disabled = true;
+                document.getElementById("uniqueID").disabled = true;
+                document.getElementById("maintenanceCost").disabled = true;
+                document.getElementById("maintenanceNotes").disabled = true;
+                document.getElementById("maintenanceStartDate").disabled = true;
+                document.getElementById("maintenanceEndDate").disabled = true;
+                document.getElementById("maintenanceEndDate").disabled = true;
+            }
+            // $("#maintanenceModal").modal("show")
             document.getElementById('mainId').value = mainId;
             if (mainId == -1) {
                 document.getElementById("mainName").value = ""
@@ -334,8 +382,57 @@
                 document.getElementById("maintenanceStartDate").value = mainData['maintenanceStartDate']
                 document.getElementById("maintenanceEndDate").value = mainData['maintenanceEndDate']
                 document.getElementById("maintenanceEndDate").value = mainData['maintenanceEndDate']
-                
-                
+                var images = mainData['maintenancePictures']
+                var gallery = document.getElementById("maintImgGallery")
+                // gallery.style.position = 'relative'
+                for (var i = 0; i < images.length; i++) {
+
+                    var innerDiv = document.createElement('div')
+                    var span = document.createElement('span')
+                  
+                    
+                    span.innerHTML = "<i class='badge bg-info fa fa-minus' aria-hidden='true'></i>"
+                    // innerDiv.appendChild(icon)
+                    innerDiv.className = "btn btn-app"
+                    innerDiv.className = "col-sm-2 btn btn-app"
+                    innerDiv.attr("data-toggle",'modal')
+                    var img = document.createElement('img')
+                    img.src = "data:image/png;base64," + performAPIAJAXCallGeneric("http://vghar.ddns.net:6060/ZFMS/" + images[i], "GET", "", document.getElementById("session_token").value).responsedata.responseText
+
+                    img.style.height = '40px'
+                    img.style.width = '50px'
+                    img.style.paddingTop = '3px'
+
+                    innerDiv.appendChild(img)
+                    innerDiv.appendChild(span)
+
+
+                    gallery.appendChild(innerDiv)
+                }
+                console.log(gallery)
+                // PICTURES POPUP
+                $(function() {
+                    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+                        event.preventDefault();
+                        $(this).ekkoLightbox({
+                            alwaysShowClose: true
+                        });
+                    });
+
+                    $('.filter-container').filterizr({
+                        gutterPixels: 3
+                    });
+                    $('.btn[data-filter]').on('click', function() {
+                        $('.btn[data-filter]').removeClass('active');
+                        $(this).addClass('active');
+                    });
+                })
+
+
+
+
+
+
             }
             // all fields blank
 
@@ -358,18 +455,18 @@
             // MAINTENANCE PUT AND POST
             var maintanenceObject = {
                 "createdDate": today.getUTCDay(),
-                "id":mainId,
+                "id": mainId,
                 "deviceId": document.getElementById('uniqueID').value,
                 "name": document.getElementById('mainName').value,
                 "deviceName": document.getElementById('fleetName').value,
                 "maintenanceStartDate": document.getElementById('maintenanceStartDate').value,
                 "maintenanceEndDate": document.getElementById('maintenanceEndDate').value,
-                "maintenanceCompleted": '',
-                "maintenanceTextStatus": '',
-                "maintenanceStatus": document.getElementById('status').value,
+                "maintenanceCompleted": 0,
+                "maintenanceTextStatus": document.getElementById('status').value,
+                "maintenanceStatus": 0,
                 "maintenanceCost": document.getElementById('maintenanceCost').value,
                 "maintenanceNotes": document.getElementById('maintenanceNotes').value,
-                "maintenancePictures": []
+                "maintenancePictures": imagesPreview
             }
             var resp = '';
             if (document.getElementById('mainId').value === "-1") {
@@ -397,14 +494,14 @@
 
         function deletemaintenance(mainId) {
             resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/maintenance/" + mainId, "DELETE", "", document.getElementById("session_token").value).responsedata;
-            
+
             if (resp.status === 200 || resp.status === 204) {
                 toastr.success("Deleted!")
                 $('#maintanenceModal').modal('hide')
-              
+
                 loadTableData()
             } else {
-                
+
                 toastr.error("Error!")
                 loadTableData()
             }
@@ -437,3 +534,13 @@
 <script src="assets/plugins/select2/js/select2.full.min.js"></script>
 <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/plugins/intl-tel-input/js/utils.js"></script>
+<script src="../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Ekko Lightbox -->
+<script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../dist/js/adminlte.min.js"></script>
+<!-- Filterizr-->
+<script src="../plugins/filterizr/jquery.filterizr.min.js"></script>
+<!-- AdminLTE for demo purposes -->

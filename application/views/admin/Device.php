@@ -129,12 +129,13 @@
                         device_row_data = device_row_data + `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`;
                     }
                     device_row_data = device_row_data + `</tr>`;
-                    $('#deviceRecords').DataTable().destroy()
-                    // console.log(device_row_data)
-                    $('#deviceRecords').find('tbody').append(device_row_data)
-                    $('#deviceRecords').DataTable().draw()
+
 
                 })
+                $('#deviceRecords').DataTable().destroy()
+                // console.log(device_row_data)
+                $('#deviceRecords').find('tbody').append(device_row_data)
+                $('#deviceRecords').DataTable().draw()
 
             } else {
                 toastr.error('Unable to get data!')
@@ -464,6 +465,8 @@
                     imagesPreview(this, 'div.gallery');
                 });
             });
+
+
             $("#maintanenceModal").modal("show")
         }
 
@@ -588,21 +591,21 @@
             }
             // MAINTENANCE PUT AND POST
             var maintanenceObject = {
-                "createdDate":today.getUTCDay() ,
+                "createdDate": today.getUTCDay(),
                 "id": '',
                 "deviceId": devId,
                 "name": name,
                 "deviceName": document.getElementById('fleetName').value,
-                "maintenanceStartDate":document.getElementById('maintenanceStartDate').value ,
+                "maintenanceStartDate": document.getElementById('maintenanceStartDate').value,
                 "maintenanceEndDate": document.getElementById('maintenanceEndDate').value,
                 "maintenanceCompleted": '',
                 "maintenanceTextStatus": '',
                 "maintenanceStatus": '',
                 "maintenanceCost": document.getElementById('maintenanceCost').value,
-                "maintenanceNotes":document.getElementById('maintenanceNotes').value ,
+                "maintenanceNotes": document.getElementById('maintenanceNotes').value,
                 "maintenancePictures": []
             }
-            var resp='';
+            var resp = '';
             if (document.getElementById('deviceId').value === "-1") {
                 // new customer. perform POST
                 resp = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/maintenance", "POST", JSON.stringify(maintanenceObject), document.getElementById("session_token").value).responsedata;

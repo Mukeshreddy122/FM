@@ -136,14 +136,14 @@
                             }
                             customer_row_data = customer_row_data + "</tr>";
                         })
-
-
                         $('#customerRecords').DataTable().destroy();
                         $('#customerRecords').find('tbody').append(customer_row_data)
                         $('#customerRecords').DataTable().draw();
+
                     } else {
                         toastr.error('Unable to get data!')
                     }
+
 
                 }
             </script>
@@ -279,7 +279,7 @@
 
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div class="row">
                                 <div class="col-12">
@@ -357,8 +357,8 @@
                     document.getElementById('Email').value = ""
 
                     $("#projectsList").hide()
-                    
-                    
+
+
 
 
                 } else {

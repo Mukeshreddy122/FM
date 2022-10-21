@@ -236,7 +236,7 @@ function performAPIAJAXCallGeneric(base_url, request_type, req_body, headers) {
 		data: req_body,
 		// dataType: "json",
 		crossDomain: true,
-		async: false,
+		async: true,
 		headers: {
 			// 'Accept': 'application/json',
 			// 'Content-Type': 'application/json',
