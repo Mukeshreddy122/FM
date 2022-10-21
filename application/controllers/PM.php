@@ -6,6 +6,7 @@ class PM extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+       
         $this->load->library('Mainlib');
         $userId = $this->session->userdata('uId');
         if ($userId == null) {
