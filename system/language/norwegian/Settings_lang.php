@@ -1,0 +1,35 @@
+<?php
+$lang['Universal']='Lagre';
+$lang['Save']='Opdatering';
+$lang['Update']='Oppdatert';
+$lang['Updated']='Opprettet';
+$lang['Created']='Suksessfult';
+$lang['Success']='Mislyktes';
+$lang['Failed']='Antall Prosjekter';
+$lang['NoProjects']='Antall Ansatte';
+$lang['NoEmployees']='Antall i Flåten';
+$lang['NoFleet']='Legge til kundeinformasjon';
+$lang['Add Customer Details']='Navn';
+$lang['Name']='Selskap';
+$lang['Company']='Legge til ansatt informasjon';
+$lang['Add employee Details']='';
+$lang['allready exit']='';
+$lang['Add Project Details']='Kostnad';
+$lang['Cost']='Arbeidskraft';
+$lang['Manpower']='Inntekt';
+$lang['Income']='Profitt';
+$lang['Profit']='Utvalgt Ansatte';
+$lang['Settings Screen Names']='Innstillinger';
+$lang['SettingsAppBar']='';
+$lang['TabBar Names']='Generell';
+$lang['SettingsTabGeneral']='';
+$lang['next tab names fetching form drawer names']='Språk';
+$lang['SettingsLanguage']='Instillinger';
+$lang['SettingsDropDown']='Instillinger kostnad';
+$lang['SettingsCost']='Instillinger lønn';
+$lang['SettingsSalary']='';
+$lang['Settings Float']='Lagre';
+$lang['Settings Screen Customer TabBar']='Kunde navn';
+$lang['Settings Screen Employee TabBar']='Ansatt navn';
+$lang['Settings Screen Project TabBar']='Prosjektnavn';
+?>

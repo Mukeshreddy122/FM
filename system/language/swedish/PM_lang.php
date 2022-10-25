@@ -1,0 +1,32 @@
+<?php
+$lang['Customers']='Kunder';
+$lang['Total Customers']='Alla Kunder';
+$lang['Customer Details']='Kunddetaljer';
+$lang['Open Projects']='öppna projekt';
+$lang['Projects Completed']='Avslutade Projekt';
+$lang['Projects Details']='Prosjekt detaljer';
+$lang['Fleet items on the road']='Totala Flottan';
+$lang['Track Your Fleet']='Spår Flottan';
+$lang['Employees']='Anställda';
+$lang['Employee Details']='Anställdas detaljer';
+$lang['CUSTOMERS']='Kunder';
+$lang['PROJECTS']='Projekt';
+$lang['FLEET']='Flottan';
+$lang['MAINTENANCE']='Service';
+$lang['EMPLOYEE']='Anställda';
+$lang['Save']='Spara';
+$lang['Update']='Uppdatering';
+$lang['Updated']='Uppdaterad';
+$lang['Created']='Skapade';
+$lang['Successfully']='Success';
+$lang['Failed']='Misslyckades';
+$lang['NO Projects']='Antal Projekt';
+$lang['NO Employees']='Antal Antällda';
+$lang['NO Fleet']='Antall i flottan';
+$lang['Names']='Lägga till kundinformasjon';
+$lang['Name']='Namn';
+$lang['Company']='Företag';
+$lang['Names']='Lägga till personaluppgifter';
+$lang['Fleet Details']='flotta detalj';
+$lang['Users']='users';
+?>

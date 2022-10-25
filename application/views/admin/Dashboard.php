@@ -24,45 +24,45 @@
                 <div class="inner">
                     <h4><?php echo $customerCount ?></h4>
 
-                    <p>Customers</p>
+                    <p><?php echo $this->lang->line('Customers'); ?> </p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-building"></i>
                 </div>
-                <a href="<?php echo base_url('Customer'); ?>" class="small-box-footer">Customer Details <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="<?php echo base_url('Customer'); ?>" class="small-box-footer"><?php $this->lang->line('Customer Details'); ?> <i class="fa fa-arrow-circle-right"></i></a>
             </div>
             <div class="small-box bg-green">
                 <div class="inner">
                     <h4><?php echo $projectCount ?></h4>
 
-                    <p>Open Projects</p>
+                    <p><?php echo $this->lang->line('Open Projects'); ?> </p>
                 </div>
                 <div class="icon ">
                     <i class="fas fa-project-diagram"></i>
                 </div>
-                <a href="Project" class="small-box-footer">Project Details <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="Project" class="small-box-footer"><?php echo $this->lang->line('Projects Details');?><i class="fa fa-arrow-circle-right"></i></a>
             </div>
             <div class="small-box bg-yellow">
                 <div class="inner">
                     <h4><?php echo $fleetCount ?></h4>
 
-                    <p>Fleet items on the road</p>
+                    <p><?php echo $this->lang->line('Fleet items on the road');?></p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-screwdriver"></i>
                 </div>
-                <a href="Device" class="small-box-footer">Fleet Details <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="Device" class="small-box-footer"><?php echo $this->lang->line('Fleet Details');?><i class="fa fa-arrow-circle-right"></i></a>
             </div>
             <div class="small-box bg-red collapsed-box">
                 <div class="inner">
                     <h4><?php echo $employeeCount ?></h4>
 
-                    <p>Users</p>
+                    <p><?php echo $this->lang->line('Users');?></p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-user"></i>
                 </div>
-                <a href="Employee" class="small-box-footer">Employee Details <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="Employee" class="small-box-footer"><?php echo $this->lang->line('Employee Details');?><i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </section>
         <!-- right col -->

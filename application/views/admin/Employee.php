@@ -23,26 +23,26 @@
                                     #
                                 </th>
                                 <th style="width: 13%">
-                                    Employee Name
+                                    <?php $this->lang->line('Employee Name'); ?>
                                 </th>
                                 <th style="width:15%">
-                                    Mail Address
+                                    <?php $this->lang->line('Mail Address'); ?>
                                 </th>
                                 <th style="width: 22%">
-                                    Email
+                                    <?php $this->lang->line('Email'); ?>
                                 </th>
 
                                 <th style="width: 10%">
-                                    Phone
+                                    <?php $this->lang->line('Phone'); ?>
                                 </th>
                                 <th style="width: 15%">
-                                    Company Role
+                                    <?php $this->lang->line('Company Role'); ?>
                                 </th>
                                 <!-- <th style="width: 15%">
                                     Company
                                 </th> -->
                                 <th style="width: 12%">
-                                    Access
+                                    <?php $this->lang->line('Access'); ?>
                                 </th>
                                 <th style="width: 25%">
 
@@ -147,7 +147,7 @@
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header bg-info">
-                                <h4 class="modal-title">Employee Details</h4>
+                                <h4 class="modal-title"> <?php $this->lang->line('Employee Details'); ?></h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -157,7 +157,7 @@
                                     <div class="col-md-6">
                                         <div class="card card-light">
                                             <div class="card-header">
-                                                <h3 class="card-title">General</h3>
+                                                <h3 class="card-title"> <?php $this->lang->line('General'); ?></h3>
 
                                                 <div class="card-tools">
                                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -171,30 +171,30 @@
                                                         <input type="hidden" id="empId" name="customerId" />
                                                     </div>
                                                     <div class="col-sm-12">
-                                                        <div class="form-group"><label class="form-control-label">Customer Name</label>
+                                                        <div class="form-group"><label class="form-control-label"> <?php $this->lang->line('Customer Name'); ?></label>
                                                             <select class="form-control select2 " id="customerName" style="width: 100%;" required>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12">
-                                                        <div class="form-group"><label class="form-control-label">Employee Name</label>
+                                                        <div class="form-group"><label class="form-control-label"> <?php $this->lang->line('Employee Name'); ?></label>
                                                             <input type="text" placeholder="Employee Name" id="employeeName" name="employeeName" required class="form-control" />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <label class="form-control-label">Mail Address</label>
+                                                        <label class="form-control-label"> <?php $this->lang->line('Mail Address'); ?></label>
                                                         <input type="text" placeholder="Mail Address" id="mailAddress" name="mailAddress" required class="form-control" />
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-6">
-                                                        <label class="form-control-label">Phone Number </label>
+                                                        <label class="form-control-label"> <?php $this->lang->line('Phone'); ?></label>
                                                         <input type="text" placeholder="Phone Number" id="phoneNumber" name="phoneNumber" required class="form-control" />
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="form-control-label">Company Role</label>
+                                                        <label class="form-control-label"> <?php $this->lang->line('Company Role'); ?></label>
                                                         <input type="text" placeholder="Company Role" id="companyRole" name="companyRole" required class="form-control" />
                                                     </div>
 
@@ -208,7 +208,7 @@
                                     <div class="col-md-6">
                                         <div class="card card-light ">
                                             <div class="card-header">
-                                                <h3 class="card-title"> Account</h3>
+                                                <h3 class="card-title">  <?php $this->lang->line('Account'); ?></h3>
 
                                                 <div class="card-tools">
                                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -219,15 +219,15 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-sm-6">
-                                                        <label class="form-control-label">Email</label>
+                                                        <label class="form-control-label"><?php $this->lang->line('Email'); ?></label>
                                                         <input type="text" placeholder="Email" id="email" name="Email" required class="form-control" />
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="form-control-label">Password</label>
+                                                        <label class="form-control-label"><?php $this->lang->line('Password'); ?></label>
                                                         <input type="text" placeholder="Password" id="password" name="Password" required class="form-control" />
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="form-control-label">Access</label>
+                                                        <label class="form-control-label"><?php $this->lang->line('Access'); ?></label>
                                                         <select name="Access" class="custom-select" id="permission">
                                                             <option value="USER" selected>USER</option>
                                                             <option value="MANAGER">MANAGER</option>
@@ -244,11 +244,11 @@
                                             <!-- /.card-body -->
                                         </div>
                                         <div id="projectsList">
-                                            <div class="form-group"><label class="form-control-label">Projects:</label></div>
+                                            <div class="form-group"><label class="form-control-label"><?php $this->lang->line('Projects'); ?>:</label></div>
                                             <div id="projects">
 
                                             </div>
-                                                        
+
 
                                         </div>
                                         <!-- /.card -->
@@ -256,8 +256,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                        <input type="submit" value="Save" id="btnSavecustomer" onclick="saveDevice()" class="btn bg-olive float-right">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal"><?php $this->lang->line('Close'); ?></button>
+                                        <input type="submit" value="<?php $this->lang->line('Save'); ?>" id="btnSavecustomer" onclick="saveDevice()" class="btn bg-olive float-right">
                                     </div>
                                 </div>
                             </div>
@@ -287,7 +287,7 @@
             for (let i = 0; i < customer_data.length; i++) {
                 div_data += `<option value=${customer_data[i]['id']}> ${customer_data[i]['name']} </option>`;
             }
-          
+
             $('#customerName').html(div_data);
         } else {
             // $('#customerName').select2().prop('disabled', true);
@@ -318,24 +318,24 @@
             });
             // displaying projects list 
             var projectsList = document.getElementById("projects")
-            var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/"+employeeId, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+            var emp_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + employeeId, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
             console.log(emp_data['Projects List'])
-           
-            if(emp_data['Projects List']!=0){
-                projectsList.innerHTML=`<li>${emp_data['Projects List']}</li>`
+
+            if (emp_data['Projects List'] != 0) {
+                projectsList.innerHTML = `<li>${emp_data['Projects List']}</li>`
                 console.log(projectsList)
-               
-                
-            }else{
-                projectsList.innerHTML="No open projects found"
-                projectsList.style.color="red"
-                
+
+
+            } else {
+                projectsList.innerHTML = "No open projects found"
+                projectsList.style.color = "red"
+
             }
-            
 
-           
 
-           
+
+
+
 
             for (var i = 1; i <= emp_data; i++) {
                 var li = document.createElement("li");
@@ -355,7 +355,7 @@
 
     }
 
-   
+
     // save employee function
     function saveDevice() {
         var empid = document.getElementById('empId').value;

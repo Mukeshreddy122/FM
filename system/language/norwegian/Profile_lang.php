@@ -1,0 +1,34 @@
+<?php
+$lang['Profile Screen Names']='Profil';
+$lang['ProfileAppBar']='Navn';
+$lang['ProfileName']='Email';
+$lang['ProfileEmail']='Mobile';
+$lang['ProfileMobile']='Tillatelser';
+$lang['ProfilePermission']='Mail adresse';
+$lang['ProfileMailAddress']='Tilbakestille passord';
+$lang['ProfileResetPassword']='';
+$lang['Profile Screen Inside Names']='Nåværende passord';
+$lang['ProfileCurrentPassword']='Nytt passord';
+$lang['ProfileNewPassword']='Bekrefte passord';
+$lang['ProfileConfirmPassword']='Endre passord';
+$lang['Universal']='Lagre';
+$lang['Save']='Opdatering';
+$lang['Update']='Oppdatert';
+$lang['Updated']='Opprettet';
+$lang['Created']='Suksessfult';
+$lang['Success']='Mislyktes';
+$lang['Failed']='Antall Prosjekter';
+$lang['NoProjects']='Antall Ansatte';
+$lang['NoEmployees']='Antall i Flåten';
+$lang['NoFleet']='Legge til kundeinformasjon';
+$lang['Add Customer Details']='Navn';
+$lang['Name']='Selskap';
+$lang['Company']='Legge til ansatt informasjon';
+$lang['Add employee Details']='';
+$lang['allready exit']='';
+$lang['Add Project Details']='Kostnad';
+$lang['Cost']='Arbeidskraft';
+$lang['Manpower']='Inntekt';
+$lang['Income']='Profitt';
+$lang['Profit']='Utvalgt Ansatte';
+?>
