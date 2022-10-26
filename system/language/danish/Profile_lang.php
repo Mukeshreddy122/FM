@@ -1,46 +1,36 @@
 <?php
-$lang['Profile Screen Names']='';
-$lang['ProfileAppBar']='Profil';
-$lang['ProfileName']='Navn';
-$lang['ProfileEmail']='Email';
-$lang['ProfileMobile']='Mobile';
-$lang['ProfilePermission']='Tilladelser';
-$lang['ProfileMailAddress']='Mail addresse';
-$lang['ProfileResetPassword']='Nulstille kodeord';
-
-$lang['Profile Screen Inside Names']='';
-$lang['ProfileCurrentPassword']='Nuværende kodeord';
-$lang['ProfileNewPassword']='Nyt kodeord';
-$lang['ProfileConfirmPassword']='Bekræft kodeord';
-$lang['ChangePassword']='Skift kodeord';
-
-$lang['ProjectName']='Projekt Navn';
-$lang['ProjectStartTime']='Prosjektstart';
-$lang['ProjectEndTime']='Prosjektets afslutning';
-$lang['ProjectCost']='Prosjektomkostninger';
-$lang['ManPowerCount']='Mandskab';
-$lang['DeviceCount']='Antall enheder';
-$lang['Save']='Gemma';
-$lang['Update']='Opdatering';
-$lang['Updated']='Opdatert';
-$lang['Created']='Oprettet';
-$lang['Success']='Vellykket';
-$lang['Failed']='Mislykkedes';
-$lang['NoProjects']='Antal Prosjekter';
-$lang['NoEmployees']='Antall Medarbejdere';
-$lang['NoFleet']='Antal i Flåde';
-$lang['Add Customer Details']='Tilføje kundeplysninger';
-$lang['Name']='Navn';
-$lang['Company']='Selskab';
-$lang['Add employee Details']='Tilføje medarbejderoplysinger';
-$lang['allready exit']='';
-$lang['Add Project Details']='';
-$lang['Cost']='Omskostning';
-$lang['Manpower']='Mandskab';
-$lang['Income']='Indkomst';
-$lang['Profit']='Profit';
-$lang['SelectEmployees']='Udvalgte Medarbeijdere';
-
-
-
+$lang['PROFILE']='Profil';
+$lang['Profile']='Profil';
+$lang['Name']='Namn';
+$lang['Email']='e-post ';
+$lang['Phone']='Telefon';
+$lang['Permission']='Behörigheter';
+$lang['MailAddress']='Mailadress';
+$lang[' Company Role']='Företagsroll';
+$lang['External Comapany']='externt företag';
+$lang['Project Connection']='projektAnslutning';
+$lang['ResetPassword']='Återställ lösenord';
+$lang['CurrentPassword']='Nuvarande lösenord';
+$lang['NewPassword']='Nytt lösenord';
+$lang['ConfirmPassword']='Bekräfta lösenord';
+$lang['ChangePassword']='ändra lösenord';
+$lang['Save']='Spara';
+$lang['Update']='Uppdatering';
+$lang['Updated']='Uppdaterad';
+$lang['Created']='Skapade';
+$lang['Success']='Success';
+$lang['Failed']='Misslyckades';
+$lang['Save']='Spara';
+$lang['Update']='Uppdatering';
+$lang['Updated']='Uppdaterad';
+$lang['Created']='Skapade';
+$lang['Successfully']='Success';
+$lang['Failed']='Misslyckades';
+$lang['NO Projects']='Antal Projekt';
+$lang['NO Employees']='Antal Antällda';
+$lang['NO Fleet']='Antall i flottan';
+$lang['Names']='Lägga till kundinformasjon';
+$lang['Name']='Namn';
+$lang['Company']='Företag';
+$lang['Names']='Lägga till personaluppgifter';
 ?>

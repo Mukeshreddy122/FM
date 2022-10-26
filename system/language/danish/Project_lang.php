@@ -1,61 +1,38 @@
 <?php
-$lang['ProjectName']='Projekt Navn';
-$lang['ProjectStartTime']='Prosjektstart';
-$lang['ProjectEndTime']='Prosjektets afslutning';
-$lang['ProjectCost']='Prosjektomkostninger';
-$lang['ManPowerCount']='Mandskab';
-$lang['DeviceCount']='Antall enheder';
-$lang['ProjectIncome']='';
-$lang['ProjectProfit']='';
-
-$lang['Project Screen']='';
-$lang['ProjectLIncome']='Projektindtægter';
-$lang['ProjectLManPower']='Prosjekt mandskap';
-$lang['ProjectLStartDate']='Prosjektstart';
-$lang['ProjectLEndDate']='Prosjektets afslutning';
-$lang['ProjectSelectEmployees']='Vælg medarbeidere';
-$lang['ProjectCompleted']='Prosjekt afsluttet';
-$lang['ProjectSave']='Gemma Projektet';
-$lang['ProjectUpdate']='Prosjektopdatering';
-
-$lang['Fleet Screen']='';
-$lang['Fabrication']='Fremstilling';
-$lang['SerialNumber']='Serienummer';
-$lang['Website']='Internet side';
-
-$lang['Maintenance Screen']='';
-$lang['DeviceName']='Enhedsnavn';
-$lang['CreatedDate']='Dato opprettet';
-$lang['Notes']='Noter';
-$lang['StartDate']='Service start';
-$lang['To']='Serviceafslutning';
-$lang['NoData']='Ingen data';
-
-$lang['Employee Screen']='';
-$lang['CompanyRole']='Virksomhedens rolle';
-$lang['MobileNumber']='Mobilnummer';
-$lang['Email']='Email adresse';
-
-$lang['Universal']='';
-$lang['Save']='Gemma';
-$lang['Update']='Opdatering';
-$lang['Updated']='Opdatert';
-$lang['Created']='Oprettet';
-$lang['Success']='Vellykket';
-$lang['Failed']='Mislykkedes';
-$lang['NoProjects']='Antal Prosjekter';
-$lang['NoEmployees']='Antall Medarbejdere';
-$lang['NoFleet']='Antal i Flåde';
-$lang['Add Customer Details']='Tilføje kundeplysninger';
-$lang['Name']='Navn';
-$lang['Company']='Selskab';
-$lang['Add employee Details']='Tilføje medarbejderoplysinger';
-$lang['allready exit']='';
-$lang['Add Project Details']='';
-$lang['Cost']='Omskostning';
-$lang['Manpower']='Mandskab';
+$lang['Budget']='Budget';
+$lang['general']='generel';
+$lang['Customer Name']='Kund namn';
+$lang['Fleet Name']='Flådens navn';
 $lang['Income']='Indkomst';
-$lang['Profit']='Profit';
-$lang['SelectEmployees']='Udvalgte Medarbeijdere';
-
+$lang['ManPower']='Manpower';
+$lang['StartDate']='Prosjektstart';
+$lang['EndDate']='Prosjekt slut';
+$lang['Select Employees']='Välj  Anställd';
+$lang['Project Completed']='Prosjektet avslutat';
+$lang['Project Save']='Spara Projectet';
+$lang['Project Update']='Prosjektuppdatering';
+$lang['Cost']='Kostnad';
+$lang['Manpower']='Arbetskraft';
+$lang['Income']='Inkomst';
+$lang['Profit']='Vinst';
+$lang['Manpower']='Välje Anställda';
+$lang['Save']='Gemme';
+$lang['Update']='Opdatering';
+$lang['Updated']='Opdateret';
+$lang['Created']='Oprettet';
+$lang['Success']='Succes';
+$lang['Failed']='mislykkedes';
+$lang['NO Projects']='INGEN projekter';
+$lang['NO Employees']='INGEN ansatte';
+$lang['NO Fleet']='INGEN flåde';
+$lang['Project Name']='Projekt navn';
+$lang['Project Start Time']='Projektstarttid';
+$lang['Project End Time']='Projektets sluttidspunkt';
+$lang['Project Cost']='Projekt omkostninger';
+$lang['ManPower Count']='Antal mandskab';
+$lang['Device Count']='Antal Enheter';
+$lang['StartDate']='Start datum';
+$lang['EndDate']='Slutdatum';
+$lang['Fleet']='flotta';
+$lang['Employees']='Anställda';
 ?>
