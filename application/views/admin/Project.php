@@ -7,7 +7,7 @@
                         <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
                         <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" />
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
-                            <button id="NewProject" data-toggle="modal" class="btn btn-block bg-info" onclick="editProject(-1)">Add <?php echo $title; ?> <i class="fa fa-plus"></i></button>
+                            <button id="NewProject" data-toggle="modal" class="btn btn-block bg-info" onclick="editProject(-1)"><?php echo $this->lang->line('Add'); echo $this->lang->line('title'); ?> <i class="fa fa-plus"></i></button>
                         <?php } ?>
                         <?php
                         $currencyForCost;
@@ -37,27 +37,27 @@
                                 </th>
                                 <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") { ?>
                                     <th style="width: 15%">
-                                        Customer Name
+                                    <?php echo $this->lang->line('Customer Name'); ?>
                                     </th>
                                     <th style="width: 20%">
-                                        Project Name
+                                    <?php echo $this->lang->line('Project Name'); ?>
                                     </th>
                                 <?php } else { ?>
                                     <th style="width: 35%">
-                                        Project Name
+                                    <?php echo $this->lang->line('Project Name'); ?>
                                     </th>
                                 <?php } ?>
                                 <th style="width: 5%">
-                                    Fleet
+                                <?php echo $this->lang->line('Fleet Name'); ?>
                                 </th>
                                 <th style="width: 5%">
-                                    Manpower
+                                <?php echo $this->lang->line('Manpower'); ?>
                                 </th>
                                 <th style="width: 10%">
-                                    Cost
+                                <?php echo $this->lang->line('Cost'); ?>
                                 </th>
                                 <th style="width: 10%">
-                                    Income
+                                <?php echo $this->lang->line('Income'); ?>
                                 </th>
                                 <th style="width: 8%">
                                     &nbsp;
@@ -244,7 +244,7 @@
                             <div class="col-md-6">
                                 <div class="card card-light">
                                     <div class="card-header">
-                                        <h3 class="card-title">General</h3>
+                                        <h3 class="card-title"><?php echo $this->lang->line('General'); ?></h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                                 <i class="fas fa-minus"></i>
@@ -257,7 +257,7 @@
                                                 <input type="hidden" id="projectId" name="projectId" />
                                             </div>
                                             <div class="col-sm-12">
-                                                <div class="form-group"><label class="form-control-label">Customer Name</label>
+                                                <div class="form-group"><label class="form-control-label"><?php echo $this->lang->line('Customer Name'); ?></label>
                                                     <select class="form-control select2 " id="customerName" style="width: 100%;" required>
                                                     </select>
                                                 </div>
@@ -265,17 +265,17 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <label class="form-control-label">Project Name</label>
+                                                <label class="form-control-label"><?php echo $this->lang->line('Project Name'); ?></label>
                                                 <input type="text" placeholder="Project Name" id="projectName" name="projectName" required class="form-control" />
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <label class="form-control-label">Start Date</label>
+                                                <label class="form-control-label"><?php echo $this->lang->line('StartDate'); ?></label>
                                                 <input type="date" id="startDate" name="startDate" required class="form-control" />
                                             </div>
                                             <div class="col-sm-6">
-                                                <label class="form-control-label">End Date</label>
+                                                <label class="form-control-label"><?php echo $this->lang->line('EndDate'); ?></label>
                                                 <input type="date" id="endDate" name="endDate" required class="form-control" />
                                             </div>
                                         </div>
@@ -287,7 +287,7 @@
                             <div class="col-md-6">
                                 <div class="card card-light ">
                                     <div class="card-header">
-                                        <h3 class="card-title">Budget</h3>
+                                        <h3 class="card-title"><?php echo $this->lang->line('Budget'); ?></h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                                 <i class="fas fa-minus"></i>
@@ -297,34 +297,34 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <label class="form-control-label">Project Cost</label>
+                                                <label class="form-control-label"></label>
                                                 <input type="text" placeholder="Project Cost" id="projectCost" name="projectCost" required class="form-control" />
                                             </div>
                                             <div class="col-sm-6">
-                                                <label class="form-control-label">Project Income</label>
+                                                <label class="form-control-label"><?php echo $this->lang->line('Income'); ?></label>
                                                 <input type="text" placeholder="Project Income" id="projectIncome" name="projectIncome" required class="form-control" />
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <label class="form-control-label">Manpower</label>
+                                                <label class="form-control-label"><?php echo $this->lang->line('ManPower'); ?></label>
                                                 <input type="text" placeholder="Manpower" id="projectManpower" name="projectManpower" required class="form-control" />
                                             </div>
                                             <div class="col-sm-6">
-                                                <label class="form-control-label">Fleet</label>
+                                                <label class="form-control-label"><?php echo $this->lang->line('Fleet Name'); ?></label>
                                                 <input type="text" placeholder="Fleet" id="projectFleet" name="projectFleet" required class="form-control" />
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group select2-info">
-                                                    <label>Employees</label>
+                                                    <label><?php echo $this->lang->line('Employees'); ?></label>
                                                     <select id="selEmpList" class="select2" multiple="multiple" data-placeholder="Select a Employee" data-dropdown-css-class="select2-info" style="width: 100%;">
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label class="form-control-label ">Fleet</label>
+                                                <label class="form-control-label "><?php echo $this->lang->line('Fleet'); ?></label>
                                                 <div class="form-select select2-info">
                                                     <select id="selFleetList" class="select2" data-dropdown-css-class="select2-info" multiple name="devices" data-dropdown-css-class="select2-info" class="custom-select">
                                                     </select>
@@ -339,8 +339,8 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                <input type="submit" value="Save" id="btnSaveProject" onclick="saveProject()" class="btn bg-olive float-right">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo $this->lang->line('Cancel'); ?></button>
+                                <input type="submit" value="<?php echo $this->lang->line('Save'); ?>" id="btnSaveProject" onclick="saveProject()" class="btn bg-olive float-right">
                             </div>
                         </div>
                     </div>

@@ -2,13 +2,14 @@
 $lang['CUSTOMERS']='Kunder';
 $lang['Customer Details']='Kunddetaljer';
 $lang['NEW Customer']='Ny Kund';
-$lang['general']='allmän';
+$lang['general']='Allmän';
+$lang['title']='Kunder';
 $lang['Customers']='Kunder';
 $lang['Customer Name']='Kund namn';
 $lang['Type Of Company']='Typ företag';
 $lang['Industry']='Bransje';
 $lang['No. Of Employees']='Antal Anställda';
-$lang['VAT Number']='Momsregistreringsnummer';
+$lang['VAT Number']='Momsregistrerings nummer';
 $lang['Post Address']='Postadress';
 $lang['Visit Address']='Besöksadress';
 $lang['ConfirmPassword']='Bekräfta lösenord';
@@ -33,4 +34,5 @@ $lang['Password']='Lösenord';
 $lang['Mailing Address']='Email adress';
 $lang['External Company']='Externt företag';
 $lang['Company Role']='Företags roll';
+$lang['Create Admin User Account']='Skapa Admin användarkonto';
 ?>

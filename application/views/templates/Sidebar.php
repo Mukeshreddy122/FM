@@ -11,7 +11,7 @@
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="info">
-                <a href="Profile" class="d-block">Welcome <?php echo $name; ?></a>
+                <a href="Profile" class="d-block"><?php echo $this->lang->line('Welcome');   ?> <?php echo $name; ?></a>
             </div>
         </div>
         <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -25,7 +25,7 @@
                                                                 echo 'class="nav-link "';
                                                             } ?>>
                         <i class="nav-icon fa fa-home"></i>
-                        <p>Home</p>
+                        <p><?php echo $this->lang->line('Home');?></p>
                     </a>
                 </li>
                 <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
@@ -36,7 +36,7 @@
                                                                             echo 'class="nav-link "';
                                                                         } ?>>
                             <i class="nav-icon fas fa-city"></i>
-                            <p>Customers</p>
+                            <p><?php echo $this->lang->line('Customers');?></p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -46,7 +46,7 @@
                                                                             echo 'class="nav-link "';
                                                                         } ?>>
                             <i class="nav-icon fa fa-user"></i>
-                            <p>Employees</p>
+                            <p><?php echo $this->lang->line('Employees');?></p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -56,7 +56,7 @@
                                                                         echo 'class="nav-link "';
                                                                     } ?>>
                             <i class="nav-icon fas fa-truck-pickup"></i>
-                            <p>Fleet</p>
+                            <p><?php echo $this->lang->line('Fleets');?></p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -66,7 +66,7 @@
                                                                         echo 'class="nav-link "';
                                                                     } ?>>
                             <i class="nav-icon fas fa-tools"></i>
-                            <p>Maintenance</p>
+                            <p><?php echo $this->lang->line('Maintenance');?></p>
                         </a>
                     </li>
                 <?php } ?>
@@ -77,7 +77,7 @@
                                                                         echo 'class="nav-link "';
                                                                     } ?>>
                         <i class="nav-icon fa fa-project-diagram"></i>
-                        <p>Projects</p>
+                        <p><?php echo $this->lang->line('Projects');?></p>
                     </a>
                 </li>
                 <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
@@ -88,7 +88,7 @@
                                                                         echo 'class="nav-link "';
                                                                     } ?>>
                             <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>Reports</p>
+                            <p><?php echo $this->lang->line('Reports');?></p>
                         </a>
                     </li>
                 <?php } ?>
@@ -98,7 +98,7 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-cog"></i>
                             <p>
-                                Settings
+                            <?php echo $this->lang->line('Settings');?>
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -106,44 +106,44 @@
                             <li class="nav-item">
                                 <a href="<?php echo base_url('Settings') . "#generalSettings"; ?>" class="nav-link">
                                     <i class="fa fa-language"></i>
-                                    <p>Language Settings</p>
+                                    <p><?php echo $this->lang->line('Language Settings');?></p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="<?php echo base_url('Settings') . "#customerSettings"; ?>" class="nav-link">
                                     <i class="fa fa-building"></i>
-                                    <p>Customer Settings</p>
+                                    <p><?php echo $this->lang->line('Customer Settings');?></p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="<?php echo base_url('Settings') . "#userSettings"; ?>" class="nav-link">
                                     <i class="fa fa-user"></i>
-                                    <p>Employee Settings</p>
+                                    <p><?php echo $this->lang->line('Employee Settings');?></p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="<?php echo base_url('Settings') . "#fleetSettings"; ?>" class="nav-link">
                                     <i class="fa fa-screwdriver"></i>
-                                    <p>Fleet Settings</p>
+                                    <p><?php echo $this->lang->line('Fleet Settings');?></p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="fa fa-tools"></i>
-                                    <p>Options & Settings</p>
+                                    <p><?php echo $this->lang->line('Options & Settings');?></p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="fa fa-sim-card nav-icon"></i>
-                                    <p>Fleet Sender Type</p>
+                                    <p><?php echo $this->lang->line('Fleet Sender Type');?></p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="fa fa-layer-plus nav-icon"></i>
                                     <p>
-                                        Fleet Object Category
+                                    <?php echo $this->lang->line('Fleet Object Category');?>
                                         <!-- <i class="right fas fa-angle-left"></i> -->
                                     </p>
                                 </a>
@@ -153,7 +153,7 @@
                     <li class="nav-item">
                         <a href="<?php echo base_url('logout'); ?>" class="nav-link ">
                             <i class="nav-icon fa fa-lock"></i>
-                            <p>Logout</p>
+                            <p><?php echo $this->lang->line('Logout');?></p>
                         </a>
                     </li>
             </ul>

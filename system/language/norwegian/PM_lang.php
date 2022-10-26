@@ -1,31 +1,33 @@
 <?php
+$lang['Customers']='Kunder';
+$lang['Total Customers']='Alla Kunder';
+$lang['Customer Details']='Kunddetaljer';
+$lang['Open Projects']='öppna projekt';
+$lang['Projects Completed']='Avslutade Projekt';
+$lang['Projects Details']='Prosjekt detaljer';
+$lang['Fleet items on the road']='Totala Flottan';
+$lang['Track Your Fleet']='Spår Flottan';
+$lang['Employees']='Anställda';
+$lang['Employee Details']='Anställdas detaljer';
 $lang['CUSTOMERS']='Kunder';
-$lang['PROJECTS']='Prosjekter';
-$lang['FLEET']='Flåte';
+$lang['PROJECTS']='Projekt';
+$lang['FLEET']='Flottan';
 $lang['MAINTENANCE']='Service';
-$lang['EMPLOYEE']='Ansatte';
-$lang['NEW Maintenance']='Ny Service';
-$lang['Customer Details']='Kundedetaljer';
-$lang['Projects Completed']='Avslutta Prosjekter';
-$lang['Projects Details']='Prosjektdetaljer';
-$lang['Fleet items on the road']='Total Flåte';
-$lang['Track Your Fleet']='Flåtesporing';
-$lang['Employees']='Ansatte';
-$lang['Employee Details']='Ansatt detaljer';
-$lang['Save']='Lagre';
-$lang['Update']='Opdatering';
-$lang['Updated']='Oppdatert';
-$lang['Created']='Opprettet';
-$lang['Successfully']='Suksessfult';
-$lang['Failed']='Mislyktes';
-$lang['NO Projects']='Antall Prosjekter';
-$lang['NO Employees']='Antall Ansatte';
-$lang['NO Fleet']='Antall i Flåten';
-$lang['Names']='Legge til kundeinformasjon';
-$lang['Name']='Navn';
-$lang['Company']='Selskap';
-$lang['Names']='Legge til ansatt informasjon';
-
-
-
+$lang['EMPLOYEE']='Anställda';
+$lang['Save']='Spara';
+$lang['Update']='Uppdatering';
+$lang['Updated']='Uppdaterad';
+$lang['Created']='Skapade';
+$lang['Successfully']='Success';
+$lang['Failed']='Misslyckades';
+$lang['NO Projects']='Antal Projekt';
+$lang['NO Employees']='Antal Antällda';
+$lang['NO Fleet']='Antall i flottan';
+$lang['Names']='Lägga till kundinformasjon';
+$lang['Name']='Namn';
+$lang['Company']='Företag';
+$lang['Names']='Lägga till personaluppgifter';
+$lang['Fleet Details']='flotta detalj';
+$lang['Users']='Användare';
+$lang['Details']='Detaljer';
 ?>

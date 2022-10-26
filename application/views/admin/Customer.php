@@ -8,7 +8,7 @@
                         <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" />
 
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
-                            <button id="NewCustomer" data-toggle="modal" class="btn btn-block bg-info" onclick="editCustomer(-1)">Add <?php echo $title; ?> <i class="fa fa-plus"></i></button>
+                            <button id="NewCustomer" data-toggle="modal" class="btn btn-block bg-info" onclick="editCustomer(-1)">Add   <?php echo $this->lang->line('title'); ?> <i class="fa fa-plus"></i></button>
                         <?php } ?>
                     </h4>
                 </div>
@@ -177,7 +177,7 @@
                                                 <div class="col-sm-12">
                                                     <!-- <label class="form-control-label">Customer Name</label>
                                                 <input type="text" placeholder="Customer Name" id="customerName" name="customerName" required class="form-control" /> -->
-                                                    <div class="form-group"><label class="form-control-label"><?php $this->lang->line('Customer Name'); ?></label>
+                                                    <div class="form-group"><label class="form-control-label"><?php echo $this->lang->line('Customer Name'); ?></label>
                                                         <input type="text" placeholder="Customer Name" id="customerName" name="customerName" required class="form-control" />
                                                     </div>
                                                 </div>
@@ -186,11 +186,11 @@
 
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <label class="form-control-label"><?php $this->lang->line('Type Of Company'); ?></label>
+                                                    <label class="form-control-label"><?php echo $this->lang->line('Type Of Company'); ?></label>
                                                     <input type="text" placeholder="Type of company" id="typeOfCompany" name="Type of company" required class="form-control" />
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="form-control-label"><?php $this->lang->line('Industry'); ?></label>
+                                                    <label class="form-control-label"><?php echo $this->lang->line('Industry'); ?></label>
                                                     <input type="text" placeholder="Industry" id="industry" name="industry" required class="form-control" />
                                                 </div>
                                             </div>
@@ -198,19 +198,19 @@
                                             <div class="row">
 
                                                 <div class="col-sm-6">
-                                                    <label class="form-control-label"><?php $this->lang->line('VAT Number'); ?></label>
+                                                    <label class="form-control-label"><?php echo $this->lang->line('VAT Number'); ?></label>
                                                     <input type="text" placeholder="VAT Number" id="vatNumber" name="vatNumber" required class="form-control" />
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="form-control-label"><?php $this->lang->line('No. Of Employees'); ?></label>
+                                                    <label class="form-control-label"><?php echo $this->lang->line('No. Of Employees'); ?></label>
                                                     <input type="text" placeholder="No. of Employees" id="numberOfEmployees" name="numberOfEmployees" required class="form-control" />
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="form-control-label"><?php $this->lang->line('Visit Address'); ?></label>
+                                                    <label class="form-control-label"><?php echo $this->lang->line('Visit Address'); ?></label>
                                                     <input type="text" placeholder="Visit Address" id="visitAddress" name="visitAddress" required class="form-control" />
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="form-control-label"><?php $this->lang->line('Post Address'); ?></label>
+                                                    <label class="form-control-label"><?php echo $this->lang->line('Post Address'); ?></label>
                                                     <input type="text" placeholder="Post address" id="postAddress" name="postAddress" required class="form-control" />
                                                 </div>
 
@@ -223,7 +223,7 @@
                                 <div class="col-md-6" id="managerUser">
                                     <div class="card card-light ">
                                         <div class="card-header">
-                                            <h3 class="card-title">Create Admin user account</h3>
+                                            <h3 class="card-title"><?php  echo $this->lang->line('Create Admin User Account')  ?></h3>
 
                                             <div class="card-tools">
                                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -234,7 +234,7 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <label class="form-control-label"><?php $this->lang->line('Employee Name'); ?></label>
+                                                    <label class="form-control-label"><?php echo $this->lang->line('Employee Name'); ?></label>
 
                                                     <input id="employeeName" type="text" placeholder="Employee Name" id="employeeName" name="employeeName" required class="form-control" />
 
@@ -242,25 +242,25 @@
 
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="form-control-label"><?php $this->lang->line('Mailing Address'); ?></label>
+                                                    <label class="form-control-label"><?php  echo $this->lang->line('Mailing Address'); ?></label>
                                                     <input type="text" placeholder="Mail Address" id="mailAddress" name="mailAddress" required class="form-control" />
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <label class="form-control-label"><?php $this->lang->line('Company Role'); ?></label>
+                                                    <label class="form-control-label"><?php echo $this->lang->line('Company Role'); ?></label>
                                                     <input type="text" placeholder="Company Role" id="companyRole" name="companyRole" required class="form-control" />
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="form-control-label"><?php $this->lang->line('External Company'); ?></label>
+                                                    <label class="form-control-label"><?php  echo $this->lang->line('External Company'); ?></label>
                                                     <input type="text" placeholder="External Company" id="externalCompany" required class="form-control" />
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="form-control-label"><?php $this->lang->line('Email'); ?></label>
+                                                    <label class="form-control-label"><?php echo $this->lang->line('Email'); ?></label>
                                                     <input type="text" placeholder="Email" id="Email" name="Email" required class="form-control" />
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="form-control-label"><?php $this->lang->line('Password'); ?></label>
+                                                    <label class="form-control-label"><?php echo $this->lang->line('Password'); ?></label>
                                                     <input type="text" placeholder="Password" id="Password" name="Password" required class="form-control" />
                                                 </div>
 
@@ -271,7 +271,7 @@
                                     </div>
                                     <!-- /.card -->
                                     <div id="projectsList">
-                                        <div class="form-group"><label class="form-control-label"><?php $this->lang->line('projekt'); ?>:</label></div>
+                                        <div class="form-group"><label class="form-control-label"><?php echo $this->lang->line('projekt'); ?>:</label></div>
                                         <div id="projects">
 
                                         </div>
@@ -283,8 +283,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal"><?php $this->lang->line('Cancel'); ?></button>
-                                    <input type="submit" value="<?php $this->lang->line('Save'); ?>" id="btnSavecustomer" onclick="savecustomer()" class="btn bg-olive float-right">
+                                    <input type="submit" class="btn btn-danger" data-dismiss="modal" value="<?php echo $this->lang->line('Cancel'); ?>">
+                                    <input type="submit" value="<?php echo $this->lang->line('Save'); ?>" id="btnSavecustomer" onclick="savecustomer()" class="btn bg-olive float-right">
                                 </div>
                             </div>
                         </div>

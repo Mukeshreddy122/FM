@@ -7,7 +7,7 @@
                         <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
                         <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" />
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
-                            <button id="newMaintenance" data-toggle="modal" class="btn btn-block bg-info" onclick="editAddMaintenance(-1)">Add <?php echo $title; ?> <i class="fa fa-plus"></i></button>
+                            <button id="newMaintenance" data-toggle="modal" class="btn btn-block bg-info" onclick="editAddMaintenance(-1)"><?php echo $this->lang->line('Add'); echo $this->lang->line('title'); ?> <i class="fa fa-plus"></i></button>
 
                         <?php } ?>
                     </h4>
@@ -20,22 +20,22 @@
                                     #
                                 </th>
                                 <th style="width: 15%">
-                                <?php $this->lang->line('DeviceName'); ?>
+                                <?php echo $this->lang->line('DeviceName'); ?>
                                 </th>
 
                                 <th style="width: 15%">
-                                <?php $this->lang->line('Fleet Details'); ?>
+                                <?php echo $this->lang->line('Fleet Details'); ?>
                                 </th>
 
                                 <th style="width: 20%">
 
-                                <?php $this->lang->line('Maintenance Cost'); ?>
+                                <?php echo  $this->lang->line('Maintenance Cost'); ?>
                                     
                                 </th>
 
 
                                 <th style="width: 20%">
-                                <?php $this->lang->line('Created Date'); ?>
+                                <?php echo $this->lang->line('Created Date'); ?>
                                 </th>
 
                                 <th style="width: 10%">
@@ -137,7 +137,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h4 class="modal-title"> <?php $this->lang->line('Maintenance Details'); ?></h4>
+                    <h4 class="modal-title"> <?php echo $this->lang->line('Maintenance Details'); ?></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -147,7 +147,7 @@
                         <div class="col-md-6">
                             <div class="card card-light">
                                 <div class="card-header">
-                                    <h3 class="card-title"> <?php $this->lang->line('general'); ?></h3>
+                                    <h3 class="card-title"> <?php echo $this->lang->line('general'); ?></h3>
 
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -169,26 +169,26 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label class="form-control-label"><?php $this->lang->line('name'); ?> </label>
+                                            <label class="form-control-label"><?php echo $this->lang->line('name'); ?> </label>
                                             <input type="text" placeholder=" Name" id="mainName" name="fleetName" required class="form-control" />
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label class="form-control-label"><?php $this->lang->line('Fleet Name'); ?> </label>
+                                            <label class="form-control-label"><?php echo $this->lang->line('Fleet Name'); ?> </label>
                                             <input type="text" disabled placeholder="Fleet Name" id="fleetName" name="fleetName" required class="form-control" />
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label class="form-control-label"><?php $this->lang->line('Fleet Unique Id'); ?></label>
+                                            <label class="form-control-label"><?php echo $this->lang->line('Fleet Unique Id'); ?></label>
                                             <input type="text" disabled placeholder="Unique ID" id="uniqueID" name="uniqueID" required class="form-control" />
                                         </div>
 
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label class="form-control-label"> <?php $this->lang->line('Maintenance Cost'); ?></label>
+                                            <label class="form-control-label"> <?php echo $this->lang->line('Maintenance Cost'); ?></label>
                                             <input type="text" placeholder=" Cost" id="maintenanceCost" name="maintenanceCost" required class="form-control" />
                                         </div>
                                     </div>
@@ -205,7 +205,7 @@
                         <div class="col-md-6">
                             <div class="card card-light " id="showDetails">
                                 <div class="card-header">
-                                    <h3 class="card-title"> <?php $this->lang->line('Additional Data'); ?></h3>
+                                    <h3 class="card-title"> <?php echo $this->lang->line('Additional Data'); ?></h3>
 
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -216,7 +216,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label class="form-control-label"><?php $this->lang->line('Maintenance Notes'); ?> </label>
+                                            <label class="form-control-label"><?php echo $this->lang->line('Maintenance Notes'); ?> </label>
                                             <textarea type="text" placeholder="Notes" id="maintenanceNotes" name="maintenanceNotes" required class="form-control"></textarea>
                                         </div>
 
@@ -235,18 +235,18 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <label class="form-control-label"> <?php $this->lang->line('StartDate'); ?></label>
+                                            <label class="form-control-label"> <?php echo $this->lang->line('StartDate'); ?></label>
                                             <input type="date" id="maintenanceStartDate" name="maintenanceStartDate" required class="form-control" />
                                         </div>
                                         <div class="col-sm-6">
-                                            <label class="form-control-label"> <?php $this->lang->line('EndDate'); ?></label>
+                                            <label class="form-control-label"> <?php echo $this->lang->line('EndDate'); ?></label>
                                             <input type="date" id="maintenanceEndDate" name="maintenanceEndDate" required class="form-control" />
                                         </div>
 
                                     </div>
 
                                     <div class="col-sm-12">
-                                        <label class="form-control-label"><?php $this->lang->line('Status'); ?></label>
+                                        <label class="form-control-label"><?php echo $this->lang->line('Status'); ?></label>
                                         <select name="Access" class="custom-select" id="status">
                                             <option value="2" selected>In progress</option>
                                             <option value="0">Pending</option>
@@ -254,7 +254,7 @@
                                         </select>
                                     </div>
                                     <div class="row" id="maintImgGallery">
-                                        <label class="form-control-label"><?php $this->lang->line('pictures'); ?> </label>
+                                        <label class="form-control-label"><?php echo $this->lang->line('pictures'); ?> </label>
                                         <input type="file" multiple id="gallery-photo-add" class="form-control">
                                         <!-- <div class="gallery" id="maintImgGallery" data-spy="scroll" data-offset="0"></div> -->
                                     </div>
@@ -268,8 +268,8 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><?php $this->lang->line('Cancel'); ?></button>
-                            <input type="submit" value="<?php $this->lang->line('Save'); ?>" id="btnSavecustomer" onclick="saveMaintenance()" class="btn bg-olive float-right">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo $this->lang->line('Cancel'); ?></button>
+                            <input type="submit" value="<?php echo $this->lang->line('Save'); ?>" id="btnSavecustomer" onclick="saveMaintenance()" class="btn bg-olive float-right">
                         </div>
                     </div>
                 </div>

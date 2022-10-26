@@ -6,6 +6,7 @@ class Maintenance extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->lang->load('Maintenance','swedish');
 		$this->load->library('Mainlib');
 		$this->load->library('ApiResponse');
 		$this->load->library('form_validation');
@@ -17,6 +18,7 @@ class Maintenance extends CI_Controller
 	}
 	public function index()
 	{
+		$this->lang->load('Sidebar','swedish');
 		$this->mainlib->header("Maintenance");
 		$this->maintenanceEntry();
 		$this->mainlib->footer();

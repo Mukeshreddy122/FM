@@ -10,7 +10,7 @@
                         <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
                         <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" />
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
-                            <button id="NewEmployee" data-toggle="modal" class="btn btn-block bg-info" onclick="editEmployee(-1)">Add <?php echo $title; ?> <i class="fa fa-plus"></i></button>
+                            <button id="NewEmployee" data-toggle="modal" class="btn btn-block bg-info" onclick="editEmployee(-1)"><?php echo $this->lang->line('Add'); echo $this->lang->line('title');   ?> <i class="fa fa-plus"></i></button>
 
                         <?php } ?>
                     </h4>
@@ -23,26 +23,26 @@
                                     #
                                 </th>
                                 <th style="width: 13%">
-                                    <?php $this->lang->line('Employee Name'); ?>
+                                    <?php echo $this->lang->line('Employee Name'); ?>
                                 </th>
                                 <th style="width:15%">
-                                    <?php $this->lang->line('Mail Address'); ?>
+                                    <?php echo $this->lang->line('Mail Address'); ?>
                                 </th>
                                 <th style="width: 22%">
-                                    <?php $this->lang->line('Email'); ?>
+                                    <?php echo $this->lang->line('Email'); ?>
                                 </th>
 
                                 <th style="width: 10%">
-                                    <?php $this->lang->line('Phone'); ?>
+                                    <?php echo $this->lang->line('Phone'); ?>
                                 </th>
                                 <th style="width: 15%">
-                                    <?php $this->lang->line('Company Role'); ?>
+                                    <?php echo $this->lang->line('Company Role'); ?>
                                 </th>
                                 <!-- <th style="width: 15%">
                                     Company
                                 </th> -->
                                 <th style="width: 12%">
-                                    <?php $this->lang->line('Access'); ?>
+                                    <?php echo $this->lang->line('Access'); ?>
                                 </th>
                                 <th style="width: 25%">
 
@@ -157,7 +157,7 @@
                                     <div class="col-md-6">
                                         <div class="card card-light">
                                             <div class="card-header">
-                                                <h3 class="card-title"> <?php $this->lang->line('General'); ?></h3>
+                                                <h3 class="card-title"> <?php echo $this->lang->line('General'); ?></h3>
 
                                                 <div class="card-tools">
                                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -171,30 +171,30 @@
                                                         <input type="hidden" id="empId" name="customerId" />
                                                     </div>
                                                     <div class="col-sm-12">
-                                                        <div class="form-group"><label class="form-control-label"> <?php $this->lang->line('Customer Name'); ?></label>
+                                                        <div class="form-group"><label class="form-control-label"> <?php echo $this->lang->line('Customer Name'); ?></label>
                                                             <select class="form-control select2 " id="customerName" style="width: 100%;" required>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12">
-                                                        <div class="form-group"><label class="form-control-label"> <?php $this->lang->line('Employee Name'); ?></label>
+                                                        <div class="form-group"><label class="form-control-label"> <?php echo $this->lang->line('Employee Name'); ?></label>
                                                             <input type="text" placeholder="Employee Name" id="employeeName" name="employeeName" required class="form-control" />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <label class="form-control-label"> <?php $this->lang->line('Mail Address'); ?></label>
+                                                        <label class="form-control-label"> <?php  echo $this->lang->line('Mail Address'); ?></label>
                                                         <input type="text" placeholder="Mail Address" id="mailAddress" name="mailAddress" required class="form-control" />
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-6">
-                                                        <label class="form-control-label"> <?php $this->lang->line('Phone'); ?></label>
+                                                        <label class="form-control-label"> <?php echo $this->lang->line('Phone'); ?></label>
                                                         <input type="text" placeholder="Phone Number" id="phoneNumber" name="phoneNumber" required class="form-control" />
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="form-control-label"> <?php $this->lang->line('Company Role'); ?></label>
+                                                        <label class="form-control-label"> <?php echo $this->lang->line('Company Role'); ?></label>
                                                         <input type="text" placeholder="Company Role" id="companyRole" name="companyRole" required class="form-control" />
                                                     </div>
 
@@ -208,7 +208,7 @@
                                     <div class="col-md-6">
                                         <div class="card card-light ">
                                             <div class="card-header">
-                                                <h3 class="card-title">  <?php $this->lang->line('Account'); ?></h3>
+                                                <h3 class="card-title">  <?php echo $this->lang->line('Account'); ?></h3>
 
                                                 <div class="card-tools">
                                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -219,15 +219,15 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-sm-6">
-                                                        <label class="form-control-label"><?php $this->lang->line('Email'); ?></label>
+                                                        <label class="form-control-label"><?php echo $this->lang->line('Email'); ?></label>
                                                         <input type="text" placeholder="Email" id="email" name="Email" required class="form-control" />
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="form-control-label"><?php $this->lang->line('Password'); ?></label>
+                                                        <label class="form-control-label"><?php echo $this->lang->line('Password'); ?></label>
                                                         <input type="text" placeholder="Password" id="password" name="Password" required class="form-control" />
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="form-control-label"><?php $this->lang->line('Access'); ?></label>
+                                                        <label class="form-control-label"><?php echo $this->lang->line('Access'); ?></label>
                                                         <select name="Access" class="custom-select" id="permission">
                                                             <option value="USER" selected>USER</option>
                                                             <option value="MANAGER">MANAGER</option>
@@ -244,7 +244,7 @@
                                             <!-- /.card-body -->
                                         </div>
                                         <div id="projectsList">
-                                            <div class="form-group"><label class="form-control-label"><?php $this->lang->line('Projects'); ?>:</label></div>
+                                            <div class="form-group"><label class="form-control-label"><?php echo $this->lang->line('Projects'); ?>:</label></div>
                                             <div id="projects">
 
                                             </div>
@@ -256,8 +256,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal"><?php $this->lang->line('Close'); ?></button>
-                                        <input type="submit" value="<?php $this->lang->line('Save'); ?>" id="btnSavecustomer" onclick="saveDevice()" class="btn bg-olive float-right">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo $this->lang->line('Close'); ?></button>
+                                        <input type="submit" value="<?php echo $this->lang->line('Save'); ?>" id="btnSavecustomer" onclick="saveDevice()" class="btn bg-olive float-right">
                                     </div>
                                 </div>
                             </div>

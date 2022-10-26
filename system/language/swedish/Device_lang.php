@@ -46,5 +46,6 @@ $lang['Addtional Data']='Ytterligare data';
 $lang['Maintenance Notes']='Underhållsanmärkningar';
 $lang['StartDate']='Start datum';
 $lang['EndDate']='Slutdatum';
-
+$lang['title']='Enhet';
+$lang['Add']='Lägg till';
 ?>

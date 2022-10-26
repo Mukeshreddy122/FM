@@ -2,11 +2,13 @@
 $lang['PROFILE']='Profil';
 $lang['Profile']='Profil';
 $lang['Name']='Namn';
-$lang['Email']='Email';
-$lang['Mobile']='Mobile';
+$lang['Email']='e-post ';
+$lang['Phone']='Telefon';
 $lang['Permission']='Behörigheter';
 $lang['MailAddress']='Mailadress';
 $lang[' Company Role']='Företagsroll';
+$lang['External Comapany']='externt företag';
+$lang['Project Connection']='projektAnslutning';
 $lang['ResetPassword']='Återställ lösenord';
 $lang['CurrentPassword']='Nuvarande lösenord';
 $lang['NewPassword']='Nytt lösenord';

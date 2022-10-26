@@ -19,9 +19,9 @@
                 <!-- /.box -->
 
         </section>
-        <section class="col-med-2 connectedSortable">
-            <div class="small-box bg-info">
-                <div class="inner">
+        <section class="col-lg-2 connectedSortable">
+            <div class="small-box bg-info ">
+                <div class="inner col-lg-6">
                     <h4><?php echo $customerCount ?></h4>
 
                     <p><?php echo $this->lang->line('Customers'); ?> </p>
@@ -29,7 +29,7 @@
                 <div class="icon">
                     <i class="fas fa-building"></i>
                 </div>
-                <a href="<?php echo base_url('Customer'); ?>" class="small-box-footer"><?php $this->lang->line('Customer Details'); ?> <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="<?php echo base_url('Customer'); ?>" class="small-box-footer"> <i class="fa fa-arrow-circle-right"></i> <?php echo $this->lang->line('Details'); ?></a>
             </div>
             <div class="small-box bg-green">
                 <div class="inner">
@@ -40,7 +40,7 @@
                 <div class="icon ">
                     <i class="fas fa-project-diagram"></i>
                 </div>
-                <a href="Project" class="small-box-footer"><?php echo $this->lang->line('Projects Details');?><i class="fa fa-arrow-circle-right"></i></a>
+                <a href="Project" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i> <?php echo $this->lang->line('Details'); ?></a>
             </div>
             <div class="small-box bg-yellow">
                 <div class="inner">
@@ -51,7 +51,7 @@
                 <div class="icon">
                     <i class="fa fa-screwdriver"></i>
                 </div>
-                <a href="Device" class="small-box-footer"><?php echo $this->lang->line('Fleet Details');?><i class="fa fa-arrow-circle-right"></i></a>
+                <a href="Device" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i> <?php echo $this->lang->line('Details'); ?></a>
             </div>
             <div class="small-box bg-red collapsed-box">
                 <div class="inner">
@@ -62,7 +62,7 @@
                 <div class="icon">
                     <i class="fa fa-user"></i>
                 </div>
-                <a href="Employee" class="small-box-footer"><?php echo $this->lang->line('Employee Details');?><i class="fa fa-arrow-circle-right"></i></a>
+                <a href="Employee" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i> <?php echo $this->lang->line('Details'); ?></a>
             </div>
         </section>
         <!-- right col -->
@@ -80,7 +80,6 @@
 
 <script>
     var zoom = 18;
-    setInterval(mapCaller, 3000)
     var map = L.map('map').setView([20.5937, 78.9629], 5);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         // maxZoom: 19,
@@ -89,40 +88,22 @@
     var markerLayerGroup;
     mapCaller()
     var result, data;
-    var marker_points = new Array();
-
+    var marker;
     function mapCaller() {
+        
         // var arr = {"USER_API_TOKEN":"9e90b62c-b640-420c-a5c9-b79c831705b0"};
         result = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/location", "GET", "", document.getElementById('USER_API_TOKEN').value);
         data = (result.responsedata.responseJSON)
-
-        // map.removeLayer(markerLayerGroup);
-
-        // markerLayerGroup.eachLayer(function(layer) {
-        //     markerLayerGroup.removeLayer(layer);
-        // });
-
-        if ($(marker_points).length > 0) {
-            marker_points.forEach(element => {
-                map.removeLayer(element);
-            });
+        
+        for(let i=0;i<data.length;i++){
+             marker = L.marker([data[i].latitude, data[i].longitude]).addTo(map);
+            marker.bindPopup(`<strong>Name:</strong>${data[i].deviceName} <br><strong>Updated Time:</strong>${data[i].locationTime}`)
+            
         }
-        marker_points = [];
-        for (let i = 0; i < data.length; i++) {
-            var str = `<b>${data[i].deviceName}</b><br>at ${data[i].locationTime}`;
-            var marker = L.marker([data[i].latitude, data[i].longitude], {
-                title: data[i].deviceName
-            }).bindPopup(str).on('click', panAndZoom);
-            // marker.bindPopup(str);
-            marker.bindTooltip(str);
-            marker_points.push(marker);
-            // map.on('click', onMapClick);
-        }
-        markerLayerGroup = L.layerGroup(marker_points);
+        marker=[]
+        marker.remove()
+        setInterval(mapCaller,3000)
     }
-
-    function panAndZoom(e) {
-        map.setView(e.target.getLatLng(), 8);
-    }
-    result = ""
+    
+    
 </script>

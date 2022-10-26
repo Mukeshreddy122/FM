@@ -1,6 +1,9 @@
 <?php
-$lang['CUSTOMERS']='Customers';
-$lang['NEW Customer']='New Customer';
+$lang['CUSTOMERS']='CUSTOMERS';
+$lang['Customer Details']='Customer Details';
+$lang['NEW Customer']='NEW Customer';
+$lang['general']='general';
+$lang['title']='title';
 $lang['Customers']='Customers';
 $lang['Customer Name']='Customer Name';
 $lang['Type Of Company']='Type Of Company';
@@ -12,6 +15,7 @@ $lang['Visit Address']='Visit Address';
 $lang['ConfirmPassword']='ConfirmPassword';
 $lang['Sister Companie']='Sister Companie';
 $lang['Save']='Save';
+$lang['Cancel']='Cancel';
 $lang['Update']='Update';
 $lang['Updated']='Updated';
 $lang['Created']='Created';
@@ -24,4 +28,11 @@ $lang['Names']='Names';
 $lang['Name']='Name';
 $lang['Company']='Company';
 $lang['Names']='Names';
+$lang['Employee Name']='Employee Name';
+$lang['Email']='Email';
+$lang['Password']='Password';
+$lang['Mailing Address']='Mailing Address';
+$lang['External Company']='External Company';
+$lang['Company Role']='Company Role';
+$lang['Create Admin User Account']='Create Admin User Account';
 ?>

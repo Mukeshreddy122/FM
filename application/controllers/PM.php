@@ -7,6 +7,7 @@ class PM extends CI_Controller
     {
         parent::__construct();
        
+        $this->lang->load('PM','english');
         $this->load->library('Mainlib');
         $userId = $this->session->userdata('uId');
         if ($userId == null) {
@@ -16,6 +17,7 @@ class PM extends CI_Controller
     }
     public function index()
     {
+        $this->lang->load('Sidebar','english');
         $this->mainlib->header("PM-Dashboard");
         $this->dashboard();
         $this->mainlib->footer();

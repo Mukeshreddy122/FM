@@ -22,33 +22,33 @@ if ($_SESSION['administrator'] == 1 && $_SESSION['userLimit'] == 0) {
                 </div>
                 <div class="col-sm-3">
                     <input type="hidden" id="employeeId" name="employeeId" value="<?php echo (array_key_exists('uId', $_SESSION)) ? $_SESSION['uId'] : ""; ?>" />
-                    <label class="form-control-label"><?php $this->lang->line('Name'); ?></label>
+                    <label class="form-control-label"><?php echo $this->lang->line('Name'); ?></label>
                     <input type="text" placeholder="employee Name" id="employeeName" name="employeeName" readonly class="form-control" value="<?php echo (array_key_exists('name', $_SESSION)) ? $_SESSION['name'] : ""; ?>" />
                 </div>
                 <div class="col-sm-3">
-                    <label class="form-control-label"><?php $this->lang->line('MailAddress'); ?></label>
+                    <label class="form-control-label"><?php echo $this->lang->line('MailAddress'); ?></label>
                     <input type="text" placeholder="Mail Address" id="mailAddress" name="mailAddress" class="form-control" value="<?php echo (array_key_exists('Mail Address', $_SESSION)) ? $_SESSION['Mail Address'] : ""; ?>" />
                 </div>
                 <div class="col-sm-3">
-                    <label class="form-control-label"><?php $this->lang->line('MailAddress'); ?></label>
+                    <label class="form-control-label"><?php echo $this->lang->line('Phone'); ?></label>
                     <input type="text" placeholder="Phone Number" id="phoneNumber" name="phoneNumber" class="form-control" value="<?php echo (array_key_exists('Phone Number', $_SESSION)) ? $_SESSION['Phone Number'] : ""; ?>" />
                 </div>
                 <div class="col-sm-3 invisible-section">
-                    <label class="form-control-label"><?php $this->lang->line('MailAddress'); ?></label>
+                    <label class="form-control-label"><?php echo $this->lang->line('Email'); ?></label>
                     <input type="text" placeholder="Email" id="emailId" name="emailId" required class="form-control" value="<?php echo $_SESSION['email']; ?>" />
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col-sm-3">
-                    <label class="form-control-label"><?php $this->lang->line('MailAddress'); ?></label>
+                    <label class="form-control-label"><?php echo $this->lang->line(' Company Role'); ?></label>
                     <input type="text" placeholder="Company Role" id="companyRole" name="companyRole" class="form-control" readonly value="<?php echo (array_key_exists('Company Role', $_SESSION)) ? $_SESSION['Company Role'] : ""; ?>" />
                 </div>
                 <div class="col-sm-3">
-                    <label class="form-control-label"><?php $this->lang->line('MailAddress'); ?></label>
+                    <label class="form-control-label"><?php echo $this->lang->line('External Comapany'); ?></label>
                     <input type="text" placeholder="External Company" id="externalCompany" name="externalCompany" class="form-control" readonly value="<?php echo (array_key_exists('External Company', $_SESSION)) ? $_SESSION['External Company'] : ""; ?>" />
                 </div>
                 <div class="col-sm-3">
-                    <label class="form-control-label"><?php $this->lang->line('MailAddress'); ?></label>
+                    <label class="form-control-label"><?php echo $this->lang->line('Project Connection'); ?></label>
                     <input type="text" placeholder="projectConnection" id="projectConnection" name="projectConnection" class="form-control" readonly value="<?php echo (array_key_exists('Project Connection', $_SESSION)) ? $_SESSION['Project Connection'] : ""; ?>" />
                 </div>
                 <!--    <div class="col-sm-3">
@@ -74,8 +74,8 @@ if ($_SESSION['administrator'] == 1 && $_SESSION['userLimit'] == 0) {
                 <div class="col-sm-3">
                 </div>
                 <div class="col-sm-3">
-                    <label class="form-control-label"></label>
-                    <button type="submit" class="btn btn-info">Update</button>
+                    <label class="form-control-label"><?php echo $this->lang->line('Project Connection'); ?></label>
+                    <button type="submit" class="btn btn-info"></button>
                 </div>
             </div>
         </div>

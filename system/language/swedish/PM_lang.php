@@ -28,5 +28,6 @@ $lang['Name']='Namn';
 $lang['Company']='Företag';
 $lang['Names']='Lägga till personaluppgifter';
 $lang['Fleet Details']='flotta detalj';
-$lang['Users']='users';
+$lang['Users']='Användare';
+$lang['Details']='Detaljer';
 ?>

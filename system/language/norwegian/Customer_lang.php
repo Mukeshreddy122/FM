@@ -1,27 +1,37 @@
 <?php
-$lang['Customer Details']='Kundedetalje';
-$lang['Customer Name']='Kundedetalje';
-$lang['Projects Completed']='Avslutta Prosjekter';
-$lang['Projects Details']=' Prosjektdetaljer';
-$lang['DeviceName']='Enhetsnavn';
-$lang['CreatedDate']='Dato opprettet';
-$lang['Notes']='Notater';
-$lang['StartDate']='Service start';
-$lang['To']='Service avsluttet';
-$lang['No Data']='Ingen data';
+$lang['CUSTOMERS']='KUNDER';
+$lang['Customer Details']='Kunddetaljer';
+$lang['NEW Customer']='Ny Kund';
+$lang['general']='generell';
+$lang['title']='Kunder';
+$lang['Customers']='Kunder';
+$lang['Customer Name']='Kunde navn';
+$lang['Type Of Company']='Type selskap';
+$lang['Industry']='Industri';
+$lang['No. Of Employees']='Antall ansatte';
+$lang['VAT Number']='MVA-nummer';
+$lang['Post Address']='Postadresse';
+$lang['Visit Address']='Besøksadresse';
+$lang['ConfirmPassword']=' Bekreft passord';
+$lang['Sister Company']='Søsterselskap';
 $lang['Save']='Lagre';
-$lang['Update']='Opdatering';
+$lang['Cancel']='Avbryt';
+$lang['Update']='Update';
 $lang['Updated']='Oppdatert';
 $lang['Created']='Opprettet';
-$lang['Successfully']='Suksessfult';
+$lang['Successfully']='Vellykket';
 $lang['Failed']='Mislyktes';
-$lang['NO Projects']='Antall Prosjekter';
-$lang['NO Employees']='Antall Ansatte';
-$lang['NO Fleet']='Antall i Flåten';
-$lang['Names']='Legge til kundeinformasjon';
+$lang['NO Projects']='NO prosjekter';
+$lang['NO Employees']='INGEN ansatte';
+$lang['NO Fleet']='INGEN flåte';
+$lang['Names']='Navn';
 $lang['Name']='Navn';
 $lang['Company']='Selskap';
-$lang['Email']='Email';
-
-
+$lang['Employee Name']='ansattes navn';
+$lang['Email']='E-post';
+$lang['Password']='Passord';
+$lang['Mailing Address']='Post adresse';
+$lang['External Company']='Eksternt selskap';
+$lang['Company Role']='Bedriftens rolle';
+$lang['Create Admin User Account']='Opprett administrator brukerkonto';
 ?>
