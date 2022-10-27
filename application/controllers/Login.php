@@ -20,16 +20,22 @@ class Login extends CI_Controller
 
     public function index()
     {
-        if (
-            $_SESSION['uId'] != null
-            && $_SESSION['name'] != null
-            && $_SESSION['permission'] != null
-            && $_SESSION['USER_API_TOKEN'] != null
-            && $_SESSION['customerId'] != null
-            // && $_SESSION['myCustomerName'] != null
-        ) {
-            redirect(base_url() . 'PM');
-        } else {
+        try {
+            //code...
+            if (
+                isset($_SESSION['uId']) 
+                && isset($_SESSION['name'])
+                && isset($_SESSION['permission'])
+                && isset($_SESSION['USER_API_TOKEN'])
+                && isset($_SESSION['customerId'])
+                // && $_SESSION['myCustomerName'] != null
+            ) {
+                redirect(base_url() . 'PM');
+            } else {
+                $this->load->view('Login');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
             $this->load->view('Login');
         }
     }
