@@ -7,7 +7,8 @@
                         <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
                         <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" />
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
-                            <button id="NewProject" data-toggle="modal" class="btn btn-block bg-info" onclick="editProject(-1)"><?php echo $this->lang->line('Add'); echo $this->lang->line('title'); ?> <i class="fa fa-plus"></i></button>
+                            <button id="NewProject" data-toggle="modal" class="btn btn-block bg-info" onclick="editProject(-1)"><?php echo $this->lang->line('Add');
+                                                                                                                                echo $this->lang->line('title'); ?> <i class="fa fa-plus"></i></button>
                         <?php } ?>
                         <?php
                         $currencyForCost;
@@ -37,27 +38,27 @@
                                 </th>
                                 <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") { ?>
                                     <th style="width: 15%">
-                                    <?php echo $this->lang->line('Customer Name'); ?>
+                                        <?php echo $this->lang->line('Customer Name'); ?>
                                     </th>
                                     <th style="width: 20%">
-                                    <?php echo $this->lang->line('Project Name'); ?>
+                                        <?php echo $this->lang->line('Project Name'); ?>
                                     </th>
                                 <?php } else { ?>
                                     <th style="width: 35%">
-                                    <?php echo $this->lang->line('Project Name'); ?>
+                                        <?php echo $this->lang->line('Project Name'); ?>
                                     </th>
                                 <?php } ?>
                                 <th style="width: 5%">
-                                <?php echo $this->lang->line('Fleet Name'); ?>
+                                    <?php echo $this->lang->line('Fleet Name'); ?>
                                 </th>
                                 <th style="width: 5%">
-                                <?php echo $this->lang->line('Manpower'); ?>
+                                    <?php echo $this->lang->line('Manpower'); ?>
                                 </th>
                                 <th style="width: 10%">
-                                <?php echo $this->lang->line('Cost'); ?>
+                                    <?php echo $this->lang->line('Cost'); ?>
                                 </th>
                                 <th style="width: 10%">
-                                <?php echo $this->lang->line('Income'); ?>
+                                    <?php echo $this->lang->line('Income'); ?>
                                 </th>
                                 <th style="width: 8%">
                                     &nbsp;
@@ -184,6 +185,24 @@
                         $(".dataTables_empty").empty();
                         var project_json = " ";
                         <?php
+                        $currency_symbol = '';
+                        // print_r("currency for cost " .$_SESSION['currencyForCost']);
+                        // die;
+                        switch ($_SESSION['currencyForCost']) {
+                            case 'Dollar':
+                                $currency_symbol = '$';
+                                break;
+                            case 'Pound':
+                                $currency_symbol = '£';
+                                break;
+                            case 'Euro':
+                                $currency_symbol = '€';
+                                break;
+                            default:
+                                # code...
+                                $currency_symbol = '$';
+                                break;
+                        }
                         if (sizeof($projectInfo) > 0) {
                             echo "toastr.success('Data Loaded!');";
                             $project_row_data = "";
@@ -198,8 +217,8 @@
                                 $project_row_data = $project_row_data . "<td id='deviceCount'>{$project['deviceCount']}</td>";
                                 $project_row_data = $project_row_data . "<td id='manpower'>{$project['manpower']}</td>";
                                 // echo "<td class='projectTime'>{$project['projectStartDate']} - {$project['projectEndDate']}</td>";
-                                $project_row_data = $project_row_data . "<td id='projectCost'>{$currencyForCost} {$project['projectCost']}</td>";
-                                $project_row_data = $project_row_data . "<td id='projectIncome'>{$currencyForCost} {$project['projectIncome']}</td>";
+                                $project_row_data = $project_row_data . "<td id='projectCost'>{$currency_symbol} {$project['projectCost']}</td>";
+                                $project_row_data = $project_row_data . "<td id='projectIncome'>{$currency_symbol} {$project['projectIncome']}</td>";
                                 // echo "<td class='projectReport'><a href='#'>Report</a></td>";
                                 if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {
                                     $project_row_data = $project_row_data . "<td class='project-actions text-right'>";
@@ -347,7 +366,7 @@
                 </div>
             </div>
         </div>
-        
+
 </section>
 <script type="text/javascript">
     function editProject(projectid) {
