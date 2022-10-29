@@ -86,7 +86,8 @@ class Login extends CI_Controller
                     'permission' => $permission,
                     'USER_API_TOKEN' => $user_api_token,
                     'customerId' => $customerId,
-                    'myCustomerName' => $myCustomerName
+                    'myCustomerName' => $myCustomerName,
+                    
                     // 'settings_customerName' => $settings_customerName,
                 );
 

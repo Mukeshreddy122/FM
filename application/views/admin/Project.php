@@ -349,7 +349,7 @@
         </div>
         
 </section>
-<script type="text/javascript">
+<script>
     function editProject(projectid) {
         document.getElementById('projectId').value = projectid;
         var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;

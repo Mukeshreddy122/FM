@@ -28,6 +28,7 @@ $lang['Customer Settings']='Kundinställningar';
 $lang['Customer Settings']='Kundinställningar';
 $lang['Customer Name']='Kund namn';
 $lang['Industry']='Industri';
+$lang['Currency on Cost']='Valuta på kostnad';
 $lang['No. Of Employees']='Antal Anställda';
 $lang['Visit Address']='Besöksadress';
 $lang['Post Address']='Postadress';
