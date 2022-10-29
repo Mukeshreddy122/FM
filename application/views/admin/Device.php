@@ -1,13 +1,14 @@
 <section class="content">
-    <div class="row">
-        <div class="col-12">
+    <div class="row" id="fleetListParentDiv">
+        <div class="col-12" id="fleetListColumnDiv">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">
                         <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
                         <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" />
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
-                            <button id="NewDevice" data-toggle="modal" class="btn btn-block bg-info" onclick="editAddDevice(-1)"><?php echo  $this->lang->line('Add'); $this->lang->line('title'); ?> <i class="fa fa-plus"></i></button>
+                            <button id="NewDevice" data-toggle="modal" class="btn btn-block bg-info" onclick="editAddDevice(-1)"><?php echo  $this->lang->line('Add');
+                                                                                                                                    $this->lang->line('title'); ?> <i class="fa fa-plus"></i></button>
 
                         <?php } ?>
                     </h4>
@@ -20,7 +21,7 @@
                                     #
                                 </th>
                                 <th style="width: 20%">
-                                    <?php  echo $this->lang->line('Fleet'); ?>
+                                    <?php echo $this->lang->line('Fleet'); ?>
                                 </th>
 
                                 <th style="width: 20%">
@@ -51,6 +52,23 @@
                             ?>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+        <div id="fleetDetailsDiv">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">
+                       
+                    </h4>
+                    <button type="button" onclick="closeDetailSection()" class="close btn-close-red" aria-label="Close" style="display: block;float:right;position:relative;  top:-10px; right: -10px; height: 20px;">
+
+
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div id="detailBody"></div>
                 </div>
             </div>
         </div>
@@ -109,9 +127,9 @@
                     // Service type and interval
                     device_row_data = device_row_data + `<td class='servicInterval'><small><i class='fa fa-calendar  text-primary' aria-hidden='true'></i></small> ${device['Service Interval']}-${device['serviceIntervalType']} `;
                     if (device['underMaintenance']) {
-                        device_row_data = device_row_data + `<br> <small><i class='fa fa-suitcase text-red' aria-hidden='true'></i></small> &nbsp; Maintanence &nbsp; <small><i class='fa fa-times text-red' aria-hidden='true'></i></small></td>`;
+                        device_row_data = device_row_data + `<br> <small><i class='fa fa-suitcase text-red' onclick='showMaintenanceDetails(${device['id']})' aria-hidden='true'></i></small> &nbsp; Maintenance &nbsp; <small><i class='fa fa-times text-red' aria-hidden='true'></i></small></td>`;
                     } else {
-                        device_row_data = device_row_data + `<br> <small><i class='fa fa-suitcase text-green' aria-hidden='true'></i> </small> &nbsp; Maintanence &nbsp; <small><i class='fa fa-plus text-green' aria-hidden='true' onclick='showMaintanence(${device['id']})'></i></small></td>`;
+                        device_row_data = device_row_data + `<br> <small><i class='fa fa-suitcase text-green' onclick='showMaintenanceDetails(${device['id']})' aria-hidden='true'></i> </small> &nbsp; Maintenance &nbsp; <small><i class='fa fa-plus text-green' aria-hidden='true' onclick='showMaintenance(${device['id']})'></i></small></td>`;
                     }
                     if (permission == "MANAGER" || permission == "ADMIN") {
                         device_row_data = device_row_data + "<td class='device-actions text-right'>";
@@ -149,7 +167,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h4 class="modal-title"><small class="text-muted"></small>  <?php echo $this->lang->line('Details'); ?></h4>
+                    <h4 class="modal-title"><small class="text-muted"></small> <?php echo $this->lang->line('Details'); ?></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -191,7 +209,7 @@
                                             <input type="text" placeholder="Unique ID" id="uniqueID" name="uniqueID" required class="form-control" />
                                         </div>
                                         <div class="col-sm-6">
-                                            <label class="form-control-label"><?php  echo $this->lang->line('Fleet Website'); ?></label>
+                                            <label class="form-control-label"><?php echo $this->lang->line('Fleet Website'); ?></label>
                                             <input type="text" placeholder="Fleet Website" id="fleetWebsite" name="fleetWebsite" required class="form-control" />
                                         </div>
 
@@ -246,11 +264,11 @@
                                             <input type="text" placeholder="Interval Type" id="serviceIntervalType" name="serviceIntervalType" required class="form-control" />
                                         </div>
                                         <div class="col-sm-12">
-                                            <label class="form-control-label"><?php  echo $this->lang->line('Name of Tool/Container'); ?></label>
+                                            <label class="form-control-label"><?php echo $this->lang->line('Name of Tool/Container'); ?></label>
                                             <input type="text" placeholder="Name of Tool/Container" id="nameOfContainer" name="nameOfContainer" required class="form-control" />
                                         </div>
                                         <div class="col-sm-6">
-                                            <label class="form-control-label"><?php  echo $this->lang->line('Device Model'); ?></label>
+                                            <label class="form-control-label"><?php echo $this->lang->line('Device Model'); ?></label>
                                             <input type="text" placeholder="Device Model" id="deviceModel" name="deviceModel" required class="form-control" />
                                         </div>
                                         <div class="col-sm-6">
@@ -349,7 +367,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label class="form-control-label"><?php  echo $this->lang->line('Maintenance Cost'); ?></label>
+                                            <label class="form-control-label"><?php echo $this->lang->line('Maintenance Cost'); ?></label>
                                             <input type="text" placeholder="Maintenance Cost" id="maintenanceCost" name="maintenanceCost" required class="form-control" />
                                         </div>
                                     </div>
@@ -388,7 +406,7 @@
                                     <div class="row">
 
                                         <div class="col-sm-12">
-                                            <label class="form-control-label"><?php  echo $this->lang->line('StartDate'); ?></label>
+                                            <label class="form-control-label"><?php echo $this->lang->line('StartDate'); ?></label>
                                             <input type="date" id="maintenanceStartDate" name="maintenanceStartDate" required class="form-control" />
                                         </div>
 
@@ -426,8 +444,48 @@
     </div>
     </div>
     <script>
+        // show maintenace details 9side bar )
+        function showMaintenanceDetails(devId) {
+            $('#fleetListColumnDiv').removeClass('col-md-12');
+            $('#fleetListColumnDiv').addClass('col-md-9');
+            // side view 
+            $('#fleetDetailsDiv').addClass('col-md-3')
+            var maintenance_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + devId + "/maintenance", "GET", "", document.getElementById("session_token").value).responsedata;
+            var maintenances = maintenance_data.responseJSON
+            // console.log(maintenance_data.status)
+            if (maintenance_data.status == 200) {
+                // toastr.success("Device Maintenance!")
+                maintenances.forEach(maintenance => {
+                    $(".card-header").addClass('bg-info')
+                    $('#detailBody').text(maintenance.name);
+                    
+
+                })
+            } else {
+                if (maintenances == null) {
+                    toastr.error("No Maintenance!")
+                    $('#fleetListColumnDiv').addClass('col-md-12');
+
+                }
+            }
+           
+            $('fleetDetailsDiv').addClass('col-md-9');
+            $('#detailTitle').text(maintenances.deviceName[0]);
+            
+        }
+
+        function closeDetailSection() {
+            $('#fleetListColumnDiv').removeClass('col-md-9');
+            $('#fleetListColumnDiv').addClass('col-md-12');
+
+            $('fleetDetailsDiv').removeClass('col-md-3');
+            $(".close").click(function() {
+                $(this).parent().hide();
+            });
+
+        }
         // redirecting to maintanence page on plus icon click 
-        function showMaintanence(devId) {
+        function showMaintenance(devId) {
             // document.getElementById("gallery").style.height=400
             // document.getElementById("gallery").style.width=400
             // document.getElementById("gallery").style.maxheight=400

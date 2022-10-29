@@ -377,25 +377,25 @@
                                             if ($currencyCost == $currencyCostSelected) {
                                                 switch ($currencyCost) {
                                                     case "Dollar":
-                                                        echo '<option selected value="Dollar"> $ ' . $currencyCost . '</option>';
+                                                        echo '<option selected value="Dollar">  ' . $currencyCost . '</option>';
                                                         break;
                                                     case "Pound":
-                                                        echo '<option selected value="Pound"> £ ' . $currencyCost . '</option>';
+                                                        echo '<option selected value="Pound">  ' . $currencyCost . '</option>';
                                                         break;
                                                     case "Euro":
-                                                        echo '<option selected value="Euro"> € ' . $currencyCost . '</option>';
+                                                        echo '<option selected value="Euro">  ' . $currencyCost . '</option>';
                                                         break;
                                                 }
                                             } else {
                                                 switch ($currencyCost) {
                                                     case "Dollar":
-                                                        echo '<option value="Dollar"> $ ' . $currencyCost . '</option>';
+                                                        echo '<option value="Dollar">  ' . $currencyCost . '</option>';
                                                         break;
                                                     case "Pound":
-                                                        echo '<option value="Pound"> £ ' . $currencyCost . '</option>';
+                                                        echo '<option value="Pound">  ' . $currencyCost . '</option>';
                                                         break;
                                                     case "Euro":
-                                                        echo '<option value="Euro"> € ' . $currencyCost . '</option>';
+                                                        echo '<option value="Euro">  ' . $currencyCost . '</option>';
                                                         break;
                                                 }
                                             }
@@ -414,25 +414,25 @@
                                             if ($currencySalary == $currencySalarySelected) {
                                                 switch ($currencySalary) {
                                                     case "Dollar":
-                                                        echo '<option selected> $ ' . $currencySalary . '</option>';
+                                                        echo '<option selected>  ' . $currencySalary . '</option>';
                                                         break;
                                                     case "Pound":
-                                                        echo '<option selected> £ ' . $currencySalary . '</option>';
+                                                        echo '<option selected>  ' . $currencySalary . '</option>';
                                                         break;
                                                     case "Euro":
-                                                        echo '<option selected> € ' . $currencySalary . '</option>';
+                                                        echo '<option selected>  ' . $currencySalary . '</option>';
                                                         break;
                                                 }
                                             } else {
                                                 switch ($currencySalary) {
                                                     case "Dollar":
-                                                        echo '<option > $ ' . $currencySalary . '</option>';
+                                                        echo '<option >  ' . $currencySalary . '</option>';
                                                         break;
                                                     case " Pound":
-                                                        echo '<option > £ ' . $currencySalary . '</option>';
+                                                        echo '<option >  ' . $currencySalary . '</option>';
                                                         break;
                                                     case "Euro":
-                                                        echo '<option > € ' . $currencySalary    . '</option>';
+                                                        echo '<option > ' . $currencySalary    . '</option>';
                                                         break;
                                                 }
                                             }
