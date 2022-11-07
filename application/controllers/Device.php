@@ -6,7 +6,7 @@ class Device extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->lang->load('Device','swedish');
+		$this->lang->load('Device','english');
 		$this->load->library('Mainlib');
 		$this->load->library('ApiResponse');
 		$this->load->library('form_validation');
@@ -18,7 +18,7 @@ class Device extends CI_Controller
 	}
 	public function index()
 	{
-		$this->lang->load('Sidebar','swedish');
+		$this->lang->load('Sidebar','english');
 		$this->mainlib->header("Device");
 		$this->deviceEntry();
 		$this->mainlib->footer();

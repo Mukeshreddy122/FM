@@ -1,4 +1,5 @@
 <?php
+$lang['Cancel']='Cancel';
 $lang['DeviceName']='DeviceName';
 $lang['CreatedDate']='CreatedDate';
 $lang['Notes']='Notes';
@@ -24,7 +25,7 @@ $lang['Maintenance Pictures']='Maintenance Pictures';
 $lang['Addtional Data']='Addtional Data';
 $lang['Maintenance Notes']='Maintenance Notes';
 $lang['Created Date']='Created Date';
-$lang['general']='general';
+$lang['general']='General';
 $lang['name']='name';
 $lang['Fleet Name']='Fleet Name';
 $lang['Fleet Unique Id']='Fleet Unique Id ';
@@ -34,4 +35,5 @@ $lang[' StartDate']='StartDate';
 $lang[' EndDate']='EndDate';
 $lang['Status']='Status';
 $lang['pictures']='pictures';
+$lang['Add']='Add';
 ?>

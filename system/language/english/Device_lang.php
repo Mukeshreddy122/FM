@@ -1,5 +1,6 @@
 <?php
 $lang['Save']='Save';
+$lang['Additional Data']='Additional Data';
 $lang['Cancel']='Cancel';
 $lang['Update']='Update';
 $lang['Updated']='Updated';
@@ -23,7 +24,7 @@ $lang['Fleet ID']='Fleet ID';
 $lang['Object Details']='Object Details';
 $lang['ServiceInterval']='ServiceInterval';
 $lang['Details']='Details';
-$lang['general']='general';
+$lang['general']='General';
 $lang['Customer Name']='Customer Name';
 $lang['Fleet Name']='Fleet Name';
 $lang['Fleet Unique Id']='Fleet Unique Id';

@@ -35,4 +35,5 @@ $lang['Mailing Address']='Mailing Address';
 $lang['External Company']='External Company';
 $lang['Company Role']='Company Role';
 $lang['Create Admin User Account']='Create Admin User Account';
+$lang['Add']="Add";
 ?>

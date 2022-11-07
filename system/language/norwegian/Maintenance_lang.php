@@ -1,4 +1,6 @@
 <?php
+$lang['Close']='Lukk';
+$lang['Add']="legge til";
 $lang['DeviceName']='Enhetsnamn';
 $lang['CreatedDate']='Opprettet dato';
 $lang['Notes']='Notater';

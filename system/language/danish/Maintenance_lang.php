@@ -1,4 +1,5 @@
 <?php
+$lang['Cancel']='Avbryt';
 $lang['DeviceName']='Enhetsnamn';
 $lang['CreatedDate']='Datum Skapat';
 $lang['Notes']='Antackningar';
@@ -34,4 +35,5 @@ $lang[' StartDate']='Start datum';
 $lang[' EndDate']='Slutdatum';
 $lang['Status']='status';
 $lang['pictures']='bilder';
+$lang['Add']='tilføje';
 ?>

@@ -4,6 +4,7 @@ $lang['Customer Details']='Kunddetaljer';
 $lang['NEW Customer']='Ny Kund';
 $lang['general']='Allmän';
 $lang['title']='Kunder';
+$lang['Add']='Lägg ';
 $lang['Customers']='Kunder';
 $lang['Customer Name']='Kund namn';
 $lang['Type Of Company']='Typ företag';

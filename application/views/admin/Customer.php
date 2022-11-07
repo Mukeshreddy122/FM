@@ -8,7 +8,7 @@
                         <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" />
 
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
-                            <button id="NewCustomer" data-toggle="modal" class="btn btn-block bg-info" onclick="editCustomer(-1)">Add   <?php echo $this->lang->line('title'); ?> <i class="fa fa-plus"></i></button>
+                            <button id="NewCustomer" data-toggle="modal" class="btn btn-block bg-info" onclick="editCustomer(-1)">  <?php echo $this->lang->line('Add'); ?> <i class="fa fa-plus"></i></button>
                         <?php } ?>
                     </h4>
                 </div>

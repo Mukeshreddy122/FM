@@ -7,7 +7,7 @@
                         <input type="hidden" id="session_token" value="<?php echo $_SESSION['USER_API_TOKEN'] ?>" />
                         <input type="hidden" id="cname" value="<?php echo $_SESSION['myCustomerName'] ?>" />
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
-                            <button id="newMaintenance" data-toggle="modal" class="btn btn-block bg-info" onclick="editAddMaintenance(-1)"><?php echo $this->lang->line('Add'); echo $this->lang->line('title'); ?> <i class="fa fa-plus"></i></button>
+                            <button id="newMaintenance" data-toggle="modal" class="btn btn-block bg-info" onclick="editAddMaintenance(-1)"><?php echo $this->lang->line('Add'); ?> <i class="fa fa-plus"></i></button>
 
                         <?php } ?>
                     </h4>

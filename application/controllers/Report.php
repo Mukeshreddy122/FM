@@ -16,7 +16,7 @@ class Report extends CI_Controller
 	}
 	public function index()
 	{
-		$this->lang->load('Sidebar','swedish');
+		$this->lang->load('Sidebar','english');
 		$this->mainlib->header("Report");
 		$this->reportEntry();
 		$this->mainlib->footer();

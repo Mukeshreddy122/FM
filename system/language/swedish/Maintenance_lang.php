@@ -26,6 +26,7 @@ $lang['Maintenance Notes']='Underhållsanmärkningar';
 $lang['Created Date']='Skapat Datum';
 $lang['general']='Allmän';
 $lang['name']='namn';
+$lang['Add']='Lägg ';
 $lang['Fleet Name']='Flotta namn';
 $lang['Fleet Unique Id']='flotta orolig ide ';
 $lang['Fleet Website']='Flotta hemsida';
@@ -34,4 +35,5 @@ $lang[' StartDate']='Start datum';
 $lang[' EndDate']='Slutdatum';
 $lang['Status']='status';
 $lang['pictures']='bilder';
+$lang['Close']='stänga';
 ?>

@@ -72,8 +72,37 @@
                         </tbody>
                     </table>
                 </div>
+                <div id="projectDetailsDiv">
+                    <div class="card" id="card">
+                        <div class="card-header" id="card-header">
+                            <h4 class="card-title" id="card-title">
+
+                            </h4>
+                            <button type="button" onclick="closeDetailSection()" class="close btn-close-red" aria-label="Close" style="display: block;float:right;position:relative;  top:-10px; right: -10px; height: 20px;">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="card-body" id="card-body">
+                            <div id="detailBody"></div>
+                        </div>
+                    </div>
+                </div>
                 <script>
-                    // 
+                    // project details
+                    function showProjectDetails(projId) {
+                        var project_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/projects/" + projId + "/maintenance", "GET", "", document.getElementById("session_token").value).responsedata;
+                        var projects = project_data.responseJSON
+                        console.log(projects)
+                        $('#projectListColumnDiv').removeClass('col-md-12');
+                        $('#projectListColumnDiv').addClass('col-md-9');
+                        // side view 
+                        $('#projectDetailsDiv').addClass('col-md-3')
+                        $('#projectDetailsDiv').show()
+                        $("#card-header").addClass('bg-info text-light')
+
+
+                    }
+                    // delete project
                     function deleteProject(project_id) {
                         varfleet = performAPIAJAXCall(`http://vghar.ddns.net:6060/ZFMS/project/${project_id}`, "DELETE", "", document.getElementById("session_token").value);
                         $('#projectRecords').DataTable().clear();
@@ -180,11 +209,13 @@
                     });
 
                     function loadTableData() {
-                        var projectInfo = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-                        console.log(projectInfo)
+                        // var projectInfo = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+                        // console.log(projectInfo)
                         $(".dataTables_empty").empty();
                         var project_json = " ";
                         <?php
+
+                        
                         $currency_symbol = '';
                         // print_r("currency for cost " .$_SESSION['currencyForCost']);
                         // die;
@@ -253,7 +284,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header bg-info">
-                        <h4 class="modal-title" id="addEditTitle">Add / Edit Project</h4>
+                        <h4 class="modal-title" id="addEditTitle"><?php echo $this->lang->line('general'); ?></h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -263,7 +294,7 @@
                             <div class="col-md-6">
                                 <div class="card card-light">
                                     <div class="card-header">
-                                        <h3 class="card-title"><?php echo $this->lang->line('General'); ?></h3>
+                                        <h3 class="card-title"><?php echo $this->lang->line('general'); ?></h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                                 <i class="fas fa-minus"></i>
@@ -464,88 +495,85 @@
         // End of fleet list selection in edit page
     }
 
-    function showProjectDetails(projectid) {
-        // this is read only view of the project details section
-        // shown only to user. admin & manager wil see the editProject / addEditProjectModal section
-        var project_response = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projectid, "GET", "", document.getElementById("session_token").value).responsedata.responseText;
-        var project_json = JSON.parse(project_response);
-        customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + project_json['customerId'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-        var currency_val = document.getElementById('currencyForCost').value;
-        // Mukesh to add all other values
-        $('#roProjectCost').html(currency_val + " " + project_json['projectCost']);
-        $('#roProjectIncome').html(currency_val + " " + project_json['projectIncome']);
-        $('#roProjectFleet').html(currency_val + " " + project_json['deviceCount']);
-        $('#roProjectManpower').html(currency_val + " " + project_json['manpower']);
-        $('#roCustomerName').html(document.getElementById('cname').value);
-        $('#roProjectManpower').html(project_json['manpower']);
-        $('#roStartDate').html(project_json['projectStartDate']);
-        $('#roEndDate').html(project_json['projectEndDate']);
-        $('#roProjectName').html(project_json['name']);
-        // employee details 
-        var employees_array = [];
-        employees_array = project_json['employeesList'];
-        var employee_div = "";
-        employees_array.forEach(emp => {
-            var employee_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + emp, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-            employee_div += `<option selected='selected'>${employee_json['name']}</option>`
-        });
-        $("#selEmpList").html(employee_div)
-        // End of emp list selection in edit page
-        // fleet details
-        var fleets_array = [];
-        fleets_array = project_json['devicesList'];
-        var fleet_div = "";
-        fleets_array.forEach(fleet => {
-            var fleet_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + fleet, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-            fleet_div += `<option selected='selected'>${fleet_json['name']}</option>`
-        });
-        $("#selFleetList").html(fleet_div)
-        // End of fleet list selection in edit page
-        $('#showProjectDetails').modal('show');
-        var device_array = [];
-        device_array = project_json['devicesList'];
-        var device_div = "";
-        device_array.forEach(element => {
-            var device_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + element, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-            var device_img = performAPIAJAXCallGeneric("http://vghar.ddns.net:6060/ZFMS/fleet/" + element + "/image", "GET", "", document.getElementById("session_token").value).responsedata.responseText;
-            device_div += "<div class='post'>";
-            device_div += "<div class='user-block'>";
-            device_div += "<img class='img-circle img-bordered-sm' src='data:image/png;base64, " + device_img + "' alt=''>";
-            if (device_json['underMaintenance']) {
-                device_div += "<span class='username'><p>" + device_json['name'];
-                device_div += " <i class='fa fa-solid fa-toolbox text-red'></i>" + "</p></span>";
-            } else {
-                device_div += "<span class='username'><p>" + device_json['name'];
-                device_div += " <i class='fa fa-solid fa-toolbox text-green'></i>" + "</p></span>";
-            }
-            if (device_json['deviceOnline']) {
-                device_div += "<span class='description'><i class='fa fa-map-marker text-green'></i>&nbsp;Online";
-            } else {
-                device_div += "<span class='description'><i class='fa fa-map-marker text-red'></i>&nbsp;Offline";
-            }
-            device_div += "<p>Last Online Time: " + device_json['lastOnlineTime'] + "</p></span>";
-            device_div += "</div>";
-        });
-        $('#roFleetList').html(device_div);
-        // adding the employee details
-        var employees_array = [];
-        employees_array = project_json['employeesList'];
-        var employee_div = "";
-        employees_array.forEach(emp => {
-            var employee_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + emp, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-            employee_div += "<div class='class='col-3 col-md-3 col-sm'>"
-            employee_div += "<ul class='users-list clearfix'>"
-            employee_div += "<li>"
-            employee_div += "<i class='fas fa-user' alt='User Image'></i>"
-            employee_div += employee_json['name']
-            employee_div += "<span class='users-list-date'>Employee</span>"
-            employee_div += "</li>"
-            employee_div += "</ul>"
-            employee_div += "</option>"
-        });
-        $("#roEmployeeList").html(employee_div)
-        $('#showProjectDetails').modal('show');
-    }
+    // function showProjectDetails(projectid) {
+    //     var project_response = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/project/" + projectid, "GET", "", document.getElementById("session_token").value).responsedata.responseText;
+    //     var project_json = JSON.parse(project_response);
+    //     customer = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + project_json['customerId'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+    //     var currency_val = document.getElementById('currencyForCost').value;
+
+    //     $('#roProjectCost').html(currency_val + " " + project_json['projectCost']);
+    //     $('#roProjectIncome').html(currency_val + " " + project_json['projectIncome']);
+    //     $('#roProjectFleet').html(currency_val + " " + project_json['deviceCount']);
+    //     $('#roProjectManpower').html(currency_val + " " + project_json['manpower']);
+    //     $('#roCustomerName').html(document.getElementById('cname').value);
+    //     $('#roProjectManpower').html(project_json['manpower']);
+    //     $('#roStartDate').html(project_json['projectStartDate']);
+    //     $('#roEndDate').html(project_json['projectEndDate']);
+    //     $('#roProjectName').html(project_json['name']);
+
+    //     var employees_array = [];
+    //     employees_array = project_json['employeesList'];
+    //     var employee_div = "";
+    //     employees_array.forEach(emp => {
+    //         var employee_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + emp, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+    //         employee_div += `<option selected='selected'>${employee_json['name']}</option>`
+    //     });
+    //     $("#selEmpList").html(employee_div)
+
+    //     var fleets_array = [];
+    //     fleets_array = project_json['devicesList'];
+    //     var fleet_div = "";
+    //     fleets_array.forEach(fleet => {
+    //         var fleet_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + fleet, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+    //         fleet_div += `<option selected='selected'>${fleet_json['name']}</option>`
+    //     });
+    //     $("#selFleetList").html(fleet_div)
+
+    //     $('#showProjectDetails').modal('show');
+    //     var device_array = [];
+    //     device_array = project_json['devicesList'];
+    //     var device_div = "";
+    //     device_array.forEach(element => {
+    //         var device_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + element, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+    //         var device_img = performAPIAJAXCallGeneric("http://vghar.ddns.net:6060/ZFMS/fleet/" + element + "/image", "GET", "", document.getElementById("session_token").value).responsedata.responseText;
+    //         device_div += "<div class='post'>";
+    //         device_div += "<div class='user-block'>";
+    //         device_div += "<img class='img-circle img-bordered-sm' src='data:image/png;base64, " + device_img + "' alt=''>";
+    //         if (device_json['underMaintenance']) {
+    //             device_div += "<span class='username'><p>" + device_json['name'];
+    //             device_div += " <i class='fa fa-solid fa-toolbox text-red'></i>" + "</p></span>";
+    //         } else {
+    //             device_div += "<span class='username'><p>" + device_json['name'];
+    //             device_div += " <i class='fa fa-solid fa-toolbox text-green'></i>" + "</p></span>";
+    //         }
+    //         if (device_json['deviceOnline']) {
+    //             device_div += "<span class='description'><i class='fa fa-map-marker text-green'></i>&nbsp;Online";
+    //         } else {
+    //             device_div += "<span class='description'><i class='fa fa-map-marker text-red'></i>&nbsp;Offline";
+    //         }
+    //         device_div += "<p>Last Online Time: " + device_json['lastOnlineTime'] + "</p></span>";
+    //         device_div += "</div>";
+    //     });
+    //     $('#roFleetList').html(device_div);
+
+    //     var employees_array = [];
+    //     employees_array = project_json['employeesList'];
+    //     var employee_div = "";
+    //     employees_array.forEach(emp => {
+    //         var employee_json = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/employee/" + emp, "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
+    //         employee_div += "<div class='class='col-3 col-md-3 col-sm'>"
+    //         employee_div += "<ul class='users-list clearfix'>"
+    //         employee_div += "<li>"
+    //         employee_div += "<i class='fas fa-user' alt='User Image'></i>"
+    //         employee_div += employee_json['name']
+    //         employee_div += "<span class='users-list-date'>Employee</span>"
+    //         employee_div += "</li>"
+    //         employee_div += "</ul>"
+    //         employee_div += "</option>"
+    //     });
+    //     $("#roEmployeeList").html(employee_div)
+    //     $('#showProjectDetails').modal('show');
+    // }
 
     function deleteProject() {}
 

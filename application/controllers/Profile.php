@@ -6,7 +6,7 @@ class Profile extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->lang->load('Profile','swedish');
+		$this->lang->load('Profile','english');
 		$this->load->library('Mainlib');
 		$this->load->library('form_validation');
 		$userId = $this->session->userdata('uId');
@@ -17,7 +17,7 @@ class Profile extends CI_Controller
 	}
 	public function index()
 	{
-		$this->lang->load('Sidebar','swedish');
+		$this->lang->load('Sidebar','english');
 		$this->mainlib->header("Profile");
 		$this->profileEntry();
 		$this->mainlib->footer();

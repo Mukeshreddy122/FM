@@ -1,6 +1,6 @@
 <?php
 $lang['Budget']='Budget';
-$lang['general']='general';
+$lang['general']='General';
 $lang['Customer Name']='Customer Name';
 $lang['Fleet Name']='Fleet Name';
 $lang['Income']='Income';

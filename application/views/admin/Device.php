@@ -9,7 +9,6 @@
                         <?php if ($_SESSION['permission'] == "MANAGER" || $_SESSION['permission'] == "ADMIN") {; ?>
                             <button id="NewDevice" data-toggle="modal" class="btn btn-block bg-info" onclick="editAddDevice(-1)"><?php echo  $this->lang->line('Add');
                                                                                                                                     $this->lang->line('title'); ?> <i class="fa fa-plus"></i></button>
-
                         <?php } ?>
                     </h4>
                 </div>
@@ -23,22 +22,16 @@
                                 <th style="width: 20%">
                                     <?php echo $this->lang->line('Fleet'); ?>
                                 </th>
-
                                 <th style="width: 20%">
                                     <?php echo $this->lang->line('Fleet ID'); ?>
-
                                 </th>
-
                                 <th style="width: 20%">
-
                                     <?php echo $this->lang->line('Object Details'); ?>
                                 </th>
                                 <th style="width: 20%">
                                     <?php echo $this->lang->line('ServiceInterval'); ?>
                                 </th>
-
                                 <th style="width: 15%">
-
                                 </th>
                                 <!-- <th style="width: 8%">
                                     &nbsp;
@@ -48,7 +41,6 @@
                         <tbody id="deviceTableData">
                             <?php
                             $index = 0;
-
                             ?>
                         </tbody>
                     </table>
@@ -56,30 +48,26 @@
             </div>
         </div>
         <div id="fleetDetailsDiv">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">
-                       
+            <div class="card" id="card">
+                <div class="card-header" id="card-header">
+                    <h4 class="card-title" id="card-title">
+
                     </h4>
                     <button type="button" onclick="closeDetailSection()" class="close btn-close-red" aria-label="Close" style="display: block;float:right;position:relative;  top:-10px; right: -10px; height: 20px;">
-
-
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="card-body">
                     <div id="detailBody"></div>
                 </div>
             </div>
         </div>
     </div>
-
     <script>
         $(document).ready(function() {
             // loadTableData()
             var customerData = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet ", "GET", "", document.getElementById("session_token").value)
             var cust_result = customerData.responsedata.responseJSON
-
             $('#deviceRecords').DataTable({
                 "paging": true,
                 "lengthChange": false,
@@ -88,25 +76,22 @@
                 "info": true,
                 "autoWidth": false,
                 "responsive": false,
-
                 order: [
                     [1, 'desc']
                 ]
-
             });
             loadTableData()
         });
 
         function loadTableData() {
+            $('#fleetDetailsDiv').hide()
             $('#deviceRecords').DataTable().clear().draw();
             var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
             var device_row_data = "";
             var deviceInfo = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet", "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
-
             // console.log(deviceInfo)
             if (deviceInfo.length > 0) {
                 toastr.success('Data Loaded!')
-
                 deviceInfo.forEach(device => {
                     device_row_data = device_row_data + `<tr>`;
                     device_row_data = device_row_data + `<td class='deviceId'>${device['id']}</td>`;
@@ -123,7 +108,6 @@
                     // Fleet object and fabrication
                     device_row_data = device_row_data + `<td class='deviceName'></i><small><b>Category: &nbsp;</b>${device['Object Category']}</small>`;
                     device_row_data = device_row_data + `<br/><small><b>Fabrication: &nbsp;</b>${device['Fabrication']}</small></td>`;
-
                     // Service type and interval
                     device_row_data = device_row_data + `<td class='servicInterval'><small><i class='fa fa-calendar  text-primary' aria-hidden='true'></i></small> ${device['Service Interval']}-${device['serviceIntervalType']} `;
                     if (device['underMaintenance']) {
@@ -148,19 +132,14 @@
                         device_row_data = device_row_data + `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`;
                     }
                     device_row_data = device_row_data + `</tr>`;
-
-
                 })
                 $('#deviceRecords').DataTable().destroy()
                 // console.log(device_row_data)
                 $('#deviceRecords').find('tbody').append(device_row_data)
                 $('#deviceRecords').DataTable().draw()
-
             } else {
                 toastr.error('Unable to get data!')
             }
-
-
         }
     </script>
     <div class="modal fade" id="addEditDeviceModal">
@@ -177,8 +156,7 @@
                         <div class="col-md-6">
                             <div class="card card-light">
                                 <div class="card-header">
-                                    <h3 class="card-title"><?php echo $this->lang->line('genral'); ?></h3>
-
+                                    <h3 class="card-title"><?php echo $this->lang->line('general'); ?></h3>
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                             <i class="fas fa-minus"></i>
@@ -212,10 +190,8 @@
                                             <label class="form-control-label"><?php echo $this->lang->line('Fleet Website'); ?></label>
                                             <input type="text" placeholder="Fleet Website" id="fleetWebsite" name="fleetWebsite" required class="form-control" />
                                         </div>
-
                                     </div>
                                     <div class="row">
-
                                         <div class="col-sm-6">
                                             <label class="form-control-label"><?php echo $this->lang->line('Object Category'); ?>y</label>
                                             <input type="text" placeholder="Object Category" id="objectCategory" name="objectCategory" required class="form-control" />
@@ -224,8 +200,6 @@
                                             <label class="form-control-label"><?php echo $this->lang->line('Fabrication'); ?></label>
                                             <input type="text" placeholder="Fabrication" id="fabrication" name="Fabrication" required class="form-control" />
                                         </div>
-
-
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
@@ -236,7 +210,6 @@
                             <div class="card card-light ">
                                 <div class="card-header">
                                     <h3 class="card-title"><?php echo $this->lang->line('Additional Data'); ?></h3>
-
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                             <i class="fas fa-minus"></i>
@@ -275,25 +248,19 @@
                                             <label class="form-control-label"><?php echo $this->lang->line('Serial Number'); ?></label>
                                             <input type="text" placeholder="Serial Number" id="serialNumber" name="serialNumber" required class="form-control" />
                                         </div>
-
                                     </div>
                                     <!-- <div class="row">
-
                                             <div class="col-md-6">
                                                 <div class="form-group select2-info">
                                                     <label>Employees</label>
                                                     <select id="selEmpList" class="select2" multiple="multiple" data-placeholder="Select a Employee" data-dropdown-css-class="select2-info" style="width: 100%;">
-
-
                                                     </select>
                                                 </div>
                                             </div>
-
                                             <div class="col-sm-6">
                                                 <label class="form-control-label ">Fleet</label>
                                                 <div class="form-select select2-info">
                                                     <select id="selFleetList" class="select2" data-placeholder="Select a E" data-dropdown-css-class="select2-info" multiple name="devices" data-dropdown-css-class="select2-info" class="custom-select">
-
                                                     </select>
                                                 </div>
                                             </div>
@@ -333,7 +300,6 @@
                             <div class="card card-light">
                                 <div class="card-header">
                                     <h3 class="card-title"><?php echo $this->lang->line('general'); ?></h3>
-
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                             <i class="fas fa-minus"></i>
@@ -363,7 +329,6 @@
                                             <label class="form-control-label"><?php echo $this->lang->line('Fleet Unique Id'); ?></label>
                                             <input type="text" placeholder="Unique ID" id="uniqueID" name="uniqueID" required class="form-control" />
                                         </div>
-
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -378,7 +343,6 @@
                                             <div class="gallery" data-spy="scroll" data-offset="0"></div>
                                         </div>
                                     </div>
-
                                 </div>
                                 <!-- /.card-body -->
                             </div>
@@ -387,8 +351,7 @@
                         <div class="col-md-6">
                             <div class="card card-light ">
                                 <div class="card-header">
-                                    <h3 class="card-title"><?php echo $this->lang->line('Maintenance Pictures'); ?> </h3>
-
+                                    <h3 class="card-title"><?php echo $this->lang->line('Additional data'); ?> </h3>
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                             <i class="fas fa-minus"></i>
@@ -401,29 +364,19 @@
                                             <label class="form-control-label"><?php echo $this->lang->line('Maintenance Details'); ?></label>
                                             <textarea type="text" placeholder="maintenanceNotes" id="maintenanceNotes" name="maintenanceNotes" required class="form-control"></textarea>
                                         </div>
-
                                     </div>
                                     <div class="row">
-
                                         <div class="col-sm-12">
                                             <label class="form-control-label"><?php echo $this->lang->line('StartDate'); ?></label>
                                             <input type="date" id="maintenanceStartDate" name="maintenanceStartDate" required class="form-control" />
                                         </div>
-
-
-
                                     </div>
                                     <div class="row">
-
                                         <div class="col-sm-12">
                                             <label class="form-control-label"><?php echo $this->lang->line(' EndDate'); ?></label>
                                             <input type="date" id="maintanenceEndDate" name="maintenanceEndDate" required class="form-control" />
                                         </div>
-
-
                                     </div>
-
-
                                 </div>
                                 <!-- /.card-body -->
                             </div>
@@ -432,8 +385,8 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo $this->lang->line(' Close'); ?></button>
-                            <input type="submit" value="<?php echo $this->lang->line(' Save'); ?>" id="btnSavecustomer" onclick="saveDevice()" class="btn bg-olive float-right">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo $this->lang->line('Cancel'); ?></button>
+                            <input type="submit" value="<?php echo $this->lang->line('Save'); ?>" id="btnSavecustomer" onclick="saveDevice()" class="btn bg-olive float-right">
                         </div>
                     </div>
                 </div>
@@ -446,43 +399,61 @@
     <script>
         // show maintenace details 9side bar )
         function showMaintenanceDetails(devId) {
+            var maintenance_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + devId + "/maintenance", "GET", "", document.getElementById("session_token").value).responsedata;
+            var maintenances = maintenance_data.responseJSON
             $('#fleetListColumnDiv').removeClass('col-md-12');
             $('#fleetListColumnDiv').addClass('col-md-9');
             // side view 
             $('#fleetDetailsDiv').addClass('col-md-3')
-            var maintenance_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + devId + "/maintenance", "GET", "", document.getElementById("session_token").value).responsedata;
-            var maintenances = maintenance_data.responseJSON
+            $('#fleetDetailsDiv').show()
+            $("#card-header").addClass('bg-info text-light')
+            $("#card-header").append(`<b>Maintenance:&nbsp;</b>${maintenances[0].deviceName}`)
+
+            var data
             // console.log(maintenance_data.status)
             if (maintenance_data.status == 200) {
                 // toastr.success("Device Maintenance!")
                 maintenances.forEach(maintenance => {
-                    $(".card-header").addClass('bg-info')
-                    $('#detailBody').text(maintenance.name);
-                    
+                    data+=`<p class="text-muted text-center bg-info">${maintenance.name}</p>`
+                    data += `<ul class="list-group list-group-unbordered bg-default mb-3">`
+                    data += `<li class="list-group-item">
+                        <b>StartDate :</b>&nbsp; <a  ">${maintenance.maintenanceStartDate}</a>
+                        </li>`
+                    data += `<li class="list-group-item">
+                        <b>EndDate :</b>&nbsp; <a  ">${maintenance.maintenanceEndDate}</a>
+                        </li>`
+                    data += `<li class="list-group-item">
+                        <b>Cost :</b>&nbsp; <a  ">${maintenance.maintenanceCost}</a>
+                        </li>`
+                    data += `</ul>`
+
+
 
                 })
+                $('#detailBody').append(data)
+                $("#card-body").css("overflow-y", "scroll");
+                $("#card-body").css("height","400px")
+                
+
             } else {
                 if (maintenances == null) {
                     toastr.error("No Maintenance!")
                     $('#fleetListColumnDiv').addClass('col-md-12');
-
                 }
             }
-           
-            $('fleetDetailsDiv').addClass('col-md-9');
-            $('#detailTitle').text(maintenances.deviceName[0]);
-            
+
+            $('#detailTitle').text(maintenances[0].deviceName);
+
         }
 
         function closeDetailSection() {
             $('#fleetListColumnDiv').removeClass('col-md-9');
             $('#fleetListColumnDiv').addClass('col-md-12');
-
-            $('fleetDetailsDiv').removeClass('col-md-3');
+            $('#fleetDetailsDiv').removeClass('col-md-3');
+            $('#fleetDetailsDiv').hide()
             $(".close").click(function() {
                 $(this).parent().hide();
             });
-
         }
         // redirecting to maintanence page on plus icon click 
         function showMaintenance(devId) {
@@ -496,44 +467,29 @@
             $(function() {
                 // Multiple images preview in browser
                 var imagesPreview = function(input, placeToInsertImagePreview) {
-
                     if (input.files) {
                         var filesAmount = input.files.length;
-
                         for (i = 0; i < filesAmount; i++) {
                             var reader = new FileReader();
-
                             reader.onload = function(event) {
                                 $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
                                 $('img').width(100);
                                 $('img').height(100);
                             }
-
                             reader.readAsDataURL(input.files[i]);
                         }
                     }
-
                 };
-
-
-
-
-
-
                 $('#gallery-photo-add').on('change', function() {
                     imagesPreview(this, 'div.gallery');
                 });
             });
-
-
             $("#maintanenceModal").modal("show")
         }
 
         function editAddDevice(deviceId) {
             var permission = <?php echo "'" . $_SESSION['permission'] . "'" ?>;
             document.getElementById('deviceId').value = deviceId;
-
-
             if (deviceId <= 0) {
                 if (permission == "ADMIN") {
                     // change customername textbox to search & select
@@ -553,7 +509,6 @@
             }
             var custName = document.getElementById("customerName")
             if (deviceId == -1) {
-
                 document.getElementById("fleetName").value = ""
                 document.getElementById("uniqueID").value = ""
                 document.getElementById("fleetWebsite").value = ""
@@ -571,7 +526,6 @@
                 // console.log(deviceData)
                 var customerData = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/customer/" + deviceData['customerId'], "GET", "", document.getElementById("session_token").value).responsedata.responseJSON;
                 // console.log(customerData)
-
                 var opt = document.createElement('option');
                 opt.value = deviceData['id'];
                 opt.innerHTML = customerData['name'];
@@ -590,15 +544,11 @@
                 document.getElementById("deviceModel").value = deviceData['devicemodel']
             }
             // all fields blank
-
-
-
             $("#addEditDeviceModal").modal("show")
         }
 
         function saveDevice() {
             var devId = document.getElementById('deviceId').value;
-
             // 1. Create MAP from all fields of addeditcustomermodal pop-up
             // 2. convert that map to JSON 
             // 3. Call POST / PUT to save data
@@ -683,9 +633,6 @@
                 // show resp.responseText in red toast
                 toastr.error("Error!")
             }
-
-
-
         }
 
         function deleteDevice(devId) {
@@ -703,19 +650,15 @@
                 toastr.error("Error!")
                 loadTableData()
             }
-
         }
     </script>
-
 </section>
-
 <!-- DataTables -->
 <link rel="stylesheet" href="assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-
 <!-- DataTables  & Plugins -->
 <script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
