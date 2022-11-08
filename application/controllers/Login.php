@@ -56,7 +56,10 @@ class Login extends CI_Controller
                 $uId = $logininfo['id'];
                 $name = $logininfo['name'];
                 $email = $logininfo['email'];
-                // $phone = $logininfo['phone'];
+                $CompanyRole=$logininfo['Company Role'];
+                $MailAddress=$logininfo['Mail Address'];
+                $PhoneNumber=$logininfo['phone'];
+                $ExternalCompany=$logininfo['External Company'];
                 $permission = $logininfo['permission'];
                 $user_api_token = $logininfo['USER_API_TOKEN'];
                 $myCustomerName = $logininfo['customerName'];
@@ -83,11 +86,10 @@ class Login extends CI_Controller
                     'uId' => $uId,
                     'name' => $name,
                     'email' => $email,
-                    // 'phone' => $phone,
-                    // 'Mail Address' => $MailAddress,
-                    // 'Phone Number' => $PhoneNumber,
-                    // 'Company Role' => $CompanyRole,
-                    // 'External Company' => $ExternalCompany,
+                    'Mail Address' => $MailAddress,
+                    'Phone Number' => $PhoneNumber,
+                    'Company Role' => $CompanyRole,
+                    'External Company' => $ExternalCompany,
                     // 'Project Connection' => $ProjectConnection,
                     'permission' => $permission,
                     'USER_API_TOKEN' => $user_api_token,

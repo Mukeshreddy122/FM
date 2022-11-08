@@ -90,9 +90,11 @@
                 <script>
                     // project details
                     function showProjectDetails(projId) {
-                        var project_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/projects/" + projId + "/maintenance", "GET", "", document.getElementById("session_token").value).responsedata;
+                        var dev_list = document.getElementById('proj-' + projId);
+                        console.log(dev_list.find("td:eq(0)").find("span").textContent);
+                        // var project_data = performAPIAJAXCall("http://vghar.ddns.net:6060/ZFMS/fleet/" + projId + "/maintenance", "GET", "", document.getElementById("session_token").value).responsedata;
                         var projects = project_data.responseJSON
-                        console.log(projects)
+                        // console.log(projects)
                         $('#projectListColumnDiv').removeClass('col-md-12');
                         $('#projectListColumnDiv').addClass('col-md-9');
                         // side view 
@@ -215,7 +217,7 @@
                         var project_json = " ";
                         <?php
 
-                        
+
                         $currency_symbol = '';
                         // print_r("currency for cost " .$_SESSION['currencyForCost']);
                         // die;
@@ -239,8 +241,8 @@
                             $project_row_data = "";
                             foreach ($projectInfo as $key => $project) {
                                 $index++;
-                                $project_row_data = $project_row_data . "<tr id='{$project['id']}'>";
-                                $project_row_data = $project_row_data . "<td class='projectId'>{$project['id']}</td>";
+                                $project_row_data = $project_row_data . "<tr id='proj-{$project['id']}'>";
+                                $project_row_data = $project_row_data . "<td class='projectId'><input type='hidden' id='deviceList' value='implode(',',{$project['devicesList']})'><span>{$project['id']}</span></td>";
                                 $project_row_data = $project_row_data . "<td class='customerName'>{$this->CustomerModel->getCustomer($project['customerId'])['name']}</td>";
                                 // echo "<td class='customerName'>{$project['customerId']}</td>";
                                 $project_row_data = $project_row_data . "<td id='projectName'>{$project['name']}";
