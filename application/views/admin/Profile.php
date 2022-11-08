@@ -154,7 +154,7 @@ $userAccess = "";
                 toastr.success("Password Updated!")
             }
             else{
-                toastr.success("Password Not updated!")
+                toastr.error("Password Not updated!")
 
             }
 
