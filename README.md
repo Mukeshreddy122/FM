@@ -15,5 +15,5 @@ PHP-  CodeIgnitor framework
 HTML,CSS, Bootstrap  ,Javascript ,AJAX calls 
 
 
-# Final Outcome of the CRM project
+# Final Outcome of the ERM project
 https://user-images.githubusercontent.com/67783264/211991069-a31cbe04-fd6c-4539-a6d7-39777a0ed9ac.mp4
