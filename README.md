@@ -7,10 +7,7 @@ Any organization that needs commercial vehicles to function engages in some form
 
 Fleet managers are in charge of fleet operations and might be tasked with responsibilities that include vehicle maintenance, overseeing fuel consumption and fuel costs, driver management, asset utilization, route planning, and the implementation of any programs that increase company productivity and decrease instances of waste.
 
-#TechStack
-Php codignitor framework ,html, css , javascript (AJAX calls)
-
-#Technology stack
+# Technology stack
 PHP-  CodeIgnitor framework
 HTML,CSS, Bootstrap  ,Javascript ,AJAX calls 
 
