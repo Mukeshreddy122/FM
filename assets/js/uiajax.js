@@ -191,7 +191,7 @@ function performAPIAJAXCall(base_url, request_type, req_body, headers) {
 		type: request_type,
 		url: base_url,
 		data: req_body,
-		dataType: "json/text",
+		dataType: "json",
 		crossDomain: true,
 		async: false
 		,

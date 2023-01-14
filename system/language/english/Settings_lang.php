@@ -1,4 +1,7 @@
 <?php
+$lang['Customer Name']='Customer Name';
+$lang['Sister Comapnies']='Sister Comapanies';
+$lang['Company Role']='Company Role';
 $lang['Save']='Save';
 $lang['Update']='Update';
 $lang['Updated']='Updated';
@@ -21,10 +24,7 @@ $lang['General Settings']='General Settings';
 $lang['Customer Settings']='Customer Settings';
 $lang['Employee Settings']='Employee Settings';
 $lang['Fleet Settings']='Fleet Settings';
-$lang['Customer Settings']='Customer Settings';
-$lang['Customer Settings']='Customer Settings';
-$lang['Customer Settings']='Customer Settings';
-$lang['Customer Name']='Customer Name';
+$lang['Project Settings']='Project Settings';
 $lang['Industry']='Industry';
 $lang['No. Of Employees']='No. Of Employees';
 $lang['Visit Address']='Visit Address';
@@ -42,4 +42,6 @@ $lang['Projects List']='Projects List';
 $lang['language']='language';
 $lang['Currency on Salary']='Currency on Salary';
 $lang['Currrency on Cost']='Currrency on Cost';
+// projects
+$lang['Project Name']='Project Name';
 ?>
