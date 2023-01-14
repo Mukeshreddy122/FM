@@ -1,3 +1,4 @@
+
 # FleetManagementSystem
 
 # Introduction
@@ -9,8 +10,10 @@ Fleet managers are in charge of fleet operations and might be tasked with respon
 #TechStack
 Php codignitor framework ,html, css , javascript (AJAX calls)
 
+#Technology stack
+PHP-  CodeIgnitor framework
+HTML,CSS, Bootstrap  ,Javascript ,AJAX calls 
+
+
 # Final Outcome of the CRM project
-https://drive.google.com/drive/my-drive-- google drive link 
-
-
 https://user-images.githubusercontent.com/67783264/211991069-a31cbe04-fd6c-4539-a6d7-39777a0ed9ac.mp4
